@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Proyecto_Lenguajes
 {
     static class Program
@@ -17,6 +18,10 @@ namespace Proyecto_Lenguajes
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+
+           
+
+
         }
     }
 }
