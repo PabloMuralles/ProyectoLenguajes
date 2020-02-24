@@ -37,24 +37,29 @@ namespace Proyecto_Lenguajes
         Dictionary<int, string> st = new Dictionary<int, string>();
         
         Dictionary<int, string> op = new Dictionary<int, string>();
-        public void CrearDiccionario()
-        { 
+
+        List<string> st = new str
+        //public void CrearDiccionario()
+        //{ 
             
-            op.Add(1, "+");
-            op.Add(3, "|");
-            op.Add(4, "?");
-            op.Add(5, "*");
+        //    op.Add(1, "+");
+        //    op.Add(3, "|");
+        //    op.Add(4, "?");
+        //    op.Add(5, "*");
           
 
-            st.Add(1, "ID");
+        //    st.Add(1, "ID");
 
-        }
+        //}
 
         public void Insertar(string token)
         {
             for (int i = 0; i < TokensExpresionSets.Length; i++)
             {
+                if (token)
+                {
 
+                }
             }
 
         }
