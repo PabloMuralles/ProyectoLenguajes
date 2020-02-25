@@ -72,19 +72,43 @@ namespace Proyecto_Lenguajes
                 {
                     if (T.Count == 0)
                     {
-                        throw new Exception("faltan operadores");
+                        throw new Exception("faltan operandos");
                     }
                     if (S.Count < 2)
                     {
-                        throw new Exception("faltan operadores");
+                        throw new Exception("faltan operadandos");
                     }
                     Nodo Temp = new Nodo(T.Pop());
                     Temp.Derecho = S.Pop();
                     Temp.Izquierdo = S.Pop();
-                    S.Push(Temp);
-                   
-
+                    S.Push(Temp); 
                 }
+                T.Pop();
+            }
+            if (Operadores.Contains(TokenExpresionRegular))
+            {
+                if (TokenExpresionRegular=="+" || TokenExpresionRegular == "." || TokenExpresionRegular == "*" || TokenExpresionRegular == "?")
+                {
+                    Nodo TokenOp = new Nodo(TokenExpresionRegular);
+                    // duda si esto es menor porque no tiene sentido
+                    if (S.Count == 0)
+                    {
+                        throw new Exception("faltan operadandos");
+                    }
+                    TokenOp.Izquierdo = S.Pop();
+                    S.Push(TokenOp);
+                    if (true)
+                    {
+
+                    }
+                   
+                }
+                else
+                {
+                    T.Push(TokenExpresionRegular);
+                        
+                }
+
             }
 
         }
