@@ -11,53 +11,78 @@ namespace Proyecto_Lenguajes
 {
     class ArbolExpreciones
     {
+
         static string ExprecionRegularSets = string.Empty;
 
-        string[] TokensExpresionSets = new string[ExprecionRegularSets.Length];
+        List<string> SimbolosTerminales = new List<string>();
+        List<string> Operadores = new List<string>();
+        List<string> TokensExpresionSets = new List<string>();
+        Stack<Nodo> S = new Stack<Nodo>();
+        Stack<string> T = new Stack<string>();
                            
         public void ConvertirExprecionaTokens(string Cadena)
         {
             for (int i = 0; i < Cadena.Length; i++)
             {
-                TokensExpresionSets[i] = ExprecionRegularSets.Substring(i, 1);
+                TokensExpresionSets.Add(ExprecionRegularSets.Substring(i, 1));
             }
         }
         
         
         public  void InsertarExprecionRegular()
         {
-            for (int i = 0; i < TokensExpresionSets.Length; i++)
+            foreach (var item in TokensExpresionSets)
             {
-                Insertar(TokensExpresionSets[i]);
+                Insertar_Arbol_Expreciones(item);
             }
+           
+             
 
+        }
+
+        public void Crear_st_op()
+        {
+            Operadores.Add("*");
+            Operadores.Add("+");
+            Operadores.Add("?");
+            Operadores.Add(".");
+            Operadores.Add("|");
+
+            SimbolosTerminales.Add("ID");
         }
        
         
-        Dictionary<int, string> st = new Dictionary<int, string>();
+
         
-        Dictionary<int, string> op = new Dictionary<int, string>();
 
-        List<string> st = new str
-        //public void CrearDiccionario()
-        //{ 
-            
-        //    op.Add(1, "+");
-        //    op.Add(3, "|");
-        //    op.Add(4, "?");
-        //    op.Add(5, "*");
-          
-
-        //    st.Add(1, "ID");
-
-        //}
-
-        public void Insertar(string token)
+        public void Insertar_Arbol_Expreciones(string TokenExpresionRegular)
         {
-            for (int i = 0; i < TokensExpresionSets.Length; i++)
+            if (SimbolosTerminales.Contains(TokenExpresionRegular))
             {
-                if (token)
+                Nodo NodoToken = new Nodo(TokenExpresionRegular);
+                S.Push(NodoToken);
+            }
+            if (TokenExpresionRegular == "(")
+            {
+                T.Push(TokenExpresionRegular);
+            }
+            if (TokenExpresionRegular == ")")
+            {
+                while (T.Count > 0 && (T.Pop() != "("))
                 {
+                    if (T.Count == 0)
+                    {
+                        throw new Exception("faltan operadores");
+                    }
+                    if (S.Count < 2)
+                    {
+                        throw new Exception("faltan operadores");
+                    }
+                    Nodo Temp = new Nodo(T.Pop());
+                    Temp.Derecho = S.Pop();
+                    Temp.Izquierdo = S.Pop();
+                    S.Push(Temp);
+                   
 
                 }
             }
