@@ -37,15 +37,6 @@ namespace Proyecto_Lenguajes
                 TokensExpresionSets.Enqueue(ExprecionRegularSets.Substring(i, 1)); 
             }
         }
-        
-        // Metodo que sirve para ir insertando los datos al metodo de creacion de arbol para irlo creando
-        //public  void InsertarExprecionRegular()
-        //{
-        //    foreach (var item in TokensExpresionSets)
-        //    {
-        //        Insertar_Arbol_Expreciones(item);
-        //    }
-        //}
 
         //Metodo para poder inicializar los operador y simbolos terminales
         public void Crear_st_op()
@@ -121,9 +112,7 @@ namespace Proyecto_Lenguajes
                             Temp.Derecho = S.Pop();
                             Temp.Izquierdo = S.Pop();
                             S.Push(Temp);
-                        }
-
-
+                        } 
                     }
 
                     if (TokenExpresionRegular.Peek() == "*" || TokenExpresionRegular.Peek() == ".")
@@ -137,7 +126,33 @@ namespace Proyecto_Lenguajes
                     throw new Exception("Token no reconocido");
                 }
             }
-             
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            while (T.Count > 0)
+            {
+
+                if (T.Peek() == "(")
+                {
+                    throw new Exception("Faltan operandos");
+                }
+                if (S.Count < 2)
+                {
+                    throw new Exception("Faltan operandos");
+                }
+
+                Nodo Temp = new Nodo(T.Pop());
+                Temp.Derecho = S.Pop();
+                Temp.Izquierdo = S.Pop();
+                S.Push(Temp);
+                
+                if (S.Count != 1)
+                {
+                    throw new Exception("Faltan operandos");
+                }
+            
+            }
+
 
         }
 #endregion
