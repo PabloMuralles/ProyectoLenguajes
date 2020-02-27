@@ -118,20 +118,20 @@ namespace Proyecto_Lenguajes
                     if (TokenExpresionRegular.Peek() == "*" || TokenExpresionRegular.Peek() == ".")
                     {
                         T.Push(TokenExpresionRegular.Dequeue());
-                    }
-
+                    } 
                 }
                 else
                 {
                     throw new Exception("Token no reconocido");
                 }
             }
+
+
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
             while (T.Count > 0)
-            {
-
+            { 
                 if (T.Peek() == "(")
                 {
                     throw new Exception("Faltan operandos");
@@ -149,11 +149,8 @@ namespace Proyecto_Lenguajes
                 if (S.Count != 1)
                 {
                     throw new Exception("Faltan operandos");
-                }
-            
-            }
-
-
+                } 
+            } 
         }
 #endregion
 
