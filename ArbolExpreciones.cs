@@ -13,15 +13,15 @@ namespace Proyecto_Lenguajes
     {
         // Variable que contiene la exprecion regular
         static string ExprecionRegularSets = string.Empty;
-
-        // Lista que contiene los simbolos terminales de la exprecion regular
+        
+        //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
 
         //Lista que contiene los operadores de las expreciones regulares
         List<string> Operadores = new List<string>();
 
-        // Lista que contiene la exprecion regular tokenizada
-        List<string> TokensExpresionSets = new List<string>();
+        //Cola que contiene la exprecion regular tokenizada
+        Queue<string> TokensExpresionSets = new Queue<string>();
 
         // Pila de nodos para poder almacenar los arboles 
         Stack<Nodo> S = new Stack<Nodo>();
@@ -34,22 +34,18 @@ namespace Proyecto_Lenguajes
         {
             for (int i = 0; i < Cadena.Length; i++)
             {
-                TokensExpresionSets.Add(ExprecionRegularSets.Substring(i, 1));
+                TokensExpresionSets.Enqueue(ExprecionRegularSets.Substring(i, 1)); 
             }
         }
         
         // Metodo que sirve para ir insertando los datos al metodo de creacion de arbol para irlo creando
-        public  void InsertarExprecionRegular()
-        {
-             
-            foreach (var item in TokensExpresionSets)
-            {
-                Insertar_Arbol_Expreciones(item);
-            }
-           
-             
-
-        }
+        //public  void InsertarExprecionRegular()
+        //{
+        //    foreach (var item in TokensExpresionSets)
+        //    {
+        //        Insertar_Arbol_Expreciones(item);
+        //    }
+        //}
 
         //Metodo para poder inicializar los operador y simbolos terminales
         public void Crear_st_op()
@@ -67,73 +63,81 @@ namespace Proyecto_Lenguajes
 
         #region ARBOL DE EXPRECIONES
         // Metodo para poder ir creando el arbol de expreciones
-        public void Insertar_Arbol_Expreciones(string TokenExpresionRegular)
+        public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
         {
-            if (SimbolosTerminales.Contains(TokenExpresionRegular))
+            while (TokenExpresionRegular.Count != 0)
             {
-                Nodo NodoToken = new Nodo(TokenExpresionRegular);
-                S.Push(NodoToken);
-            }
-            if (TokenExpresionRegular == "(")
-            {
-                T.Push(TokenExpresionRegular);
-            }
-            if (TokenExpresionRegular == ")")
-            {
-                while (T.Count > 0 && (T.Pop() != "("))
+                if (SimbolosTerminales.Contains(TokenExpresionRegular.Peek()))
                 {
-                    if (T.Count == 0)
-                    {
-                        throw new Exception("faltan operandos");
-                    }
-                    if (S.Count < 2)
-                    {
-                        throw new Exception("faltan operadandos");
-                    }
-                    Nodo Temp = new Nodo(T.Pop());
-                    Temp.Derecho = S.Pop();
-                    Temp.Izquierdo = S.Pop();
-                    S.Push(Temp); 
+                    Nodo NodoToken = new Nodo(TokenExpresionRegular.Dequeue());
+                    S.Push(NodoToken);
                 }
-                T.Pop();
-            }
-            if (Operadores.Contains(TokenExpresionRegular))
-            {
-                if (TokenExpresionRegular == "+" || TokenExpresionRegular == "?" || TokenExpresionRegular == "*" )
+                else if (TokenExpresionRegular.Peek() == "(")
                 {
-                    Nodo TokenOp = new Nodo(TokenExpresionRegular);
-                   
-                    if (S.Count < 0)
-                    {
-                        throw new Exception("faltan operadandos");
-                    }
-                    TokenOp.Izquierdo = S.Pop();
-                    S.Push(TokenOp);  
+                    T.Push(TokenExpresionRegular.Dequeue());
                 }
-                else if (T.Count != 0 && T.Peek()!="(" && (VerificarPrecedencia(TokenExpresionRegular,T.Peek()) == true))
+                else if (TokenExpresionRegular.Peek() == ")")
                 {
-                    Nodo Temp = new Nodo(T.Pop());
-                    if (S.Count < 2)
+                    while (T.Count > 0 && (T.Pop() != "("))
                     {
-                        throw new Exception("Faltan operandos");
-                    }
-                    // duda sobre este else preguntas
-                    else
-                    {
+                        if (T.Count == 0)
+                        {
+                            throw new Exception("faltan operandos");
+                        }
+                        if (S.Count < 2)
+                        {
+                            throw new Exception("faltan operadandos");
+                        }
+                        Nodo Temp = new Nodo(T.Pop());
                         Temp.Derecho = S.Pop();
                         Temp.Izquierdo = S.Pop();
                         S.Push(Temp);
                     }
-                    
-
-                }               
-
-                if (TokenExpresionRegular != "*"|| TokenExpresionRegular != ".")
-                {
-                    T.Push(TokenExpresionRegular);
+                    T.Pop();
                 }
+                else if (Operadores.Contains(TokenExpresionRegular.Peek()))
+                {
+                    if (TokenExpresionRegular.Peek() == "+" || TokenExpresionRegular.Peek() == "?" || TokenExpresionRegular.Peek() == "*")
+                    {
+                        Nodo TokenOp = new Nodo(TokenExpresionRegular.Dequeue());
 
+                        if (S.Count < 0)
+                        {
+                            throw new Exception("faltan operadandos");
+                        }
+                        TokenOp.Izquierdo = S.Pop();
+                        S.Push(TokenOp);
+                    }
+                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenExpresionRegular.Peek(), T.Peek()) == true))
+                    {
+                        Nodo Temp = new Nodo(T.Pop());
+                        if (S.Count < 2)
+                        {
+                            throw new Exception("Faltan operandos");
+                        }
+                        // duda sobre este else preguntas
+                        else
+                        {
+                            Temp.Derecho = S.Pop();
+                            Temp.Izquierdo = S.Pop();
+                            S.Push(Temp);
+                        }
+
+
+                    }
+
+                    if (TokenExpresionRegular.Peek() == "*" || TokenExpresionRegular.Peek() == ".")
+                    {
+                        T.Push(TokenExpresionRegular.Dequeue());
+                    }
+
+                }
+                else
+                {
+                    throw new Exception("Token no reconocido");
+                }
             }
+             
 
         }
 #endregion
