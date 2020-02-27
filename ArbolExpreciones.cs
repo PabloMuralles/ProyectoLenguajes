@@ -11,8 +11,9 @@ namespace Proyecto_Lenguajes
 {
     class ArbolExpreciones
     {
+
         // Variable que contiene la exprecion regular
-        static string ExprecionRegularSets = string.Empty;
+        string ExprecionRegularSets = "(a|b).c";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -29,7 +30,17 @@ namespace Proyecto_Lenguajes
         //Pila de string que almacena los tokens
         Stack<string> T = new Stack<string>();
 
-        /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/                   
+        public ArbolExpreciones()
+        {
+            ConvertirExprecionaTokens(ExprecionRegularSets);
+            Crear_st_op();
+            Insertar_Arbol_Expreciones(TokensExpresionSets);
+            
+        }
+
+     
+
+        /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/
         public void ConvertirExprecionaTokens(string Cadena)
         {
             for (int i = 0; i < Cadena.Length; i++)
@@ -48,6 +59,9 @@ namespace Proyecto_Lenguajes
             Operadores.Add("|");
 
             SimbolosTerminales.Add("ID");
+            SimbolosTerminales.Add("a");
+            SimbolosTerminales.Add("b");
+            SimbolosTerminales.Add("c");
         }
 
 
@@ -56,20 +70,22 @@ namespace Proyecto_Lenguajes
         // Metodo para poder ir creando el arbol de expreciones
         public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
         {
+            // corregir error del la variable
             while (TokenExpresionRegular.Count != 0)
             {
-                if (SimbolosTerminales.Contains(TokenExpresionRegular.Peek()))
+                string TokenEvaluar = TokensExpresionSets.Dequeue();
+                if (SimbolosTerminales.Contains(TokenEvaluar))
                 {
-                    Nodo NodoToken = new Nodo(TokenExpresionRegular.Dequeue());
+                    Nodo NodoToken = new Nodo(TokenEvaluar);
                     S.Push(NodoToken);
                 }
-                else if (TokenExpresionRegular.Peek() == "(")
+                else if (TokenEvaluar == "(")
                 {
-                    T.Push(TokenExpresionRegular.Dequeue());
+                    T.Push(TokenEvaluar);
                 }
-                else if (TokenExpresionRegular.Peek() == ")")
+                else if (TokenEvaluar == ")")
                 {
-                    while (T.Count > 0 && (T.Pop() != "("))
+                    while (T.Count > 0 && (T.Peek() != "("))
                     {
                         if (T.Count == 0)
                         {
@@ -83,14 +99,16 @@ namespace Proyecto_Lenguajes
                         Temp.Derecho = S.Pop();
                         Temp.Izquierdo = S.Pop();
                         S.Push(Temp);
+                         
                     }
                     T.Pop();
+
                 }
-                else if (Operadores.Contains(TokenExpresionRegular.Peek()))
+                else if (Operadores.Contains(TokenEvaluar))
                 {
-                    if (TokenExpresionRegular.Peek() == "+" || TokenExpresionRegular.Peek() == "?" || TokenExpresionRegular.Peek() == "*")
+                    if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*")
                     {
-                        Nodo TokenOp = new Nodo(TokenExpresionRegular.Dequeue());
+                        Nodo TokenOp = new Nodo(TokenEvaluar);
 
                         if (S.Count < 0)
                         {
@@ -99,7 +117,7 @@ namespace Proyecto_Lenguajes
                         TokenOp.Izquierdo = S.Pop();
                         S.Push(TokenOp);
                     }
-                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenExpresionRegular.Peek(), T.Peek()) == true))
+                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar, T.Peek()) == true))
                     {
                         Nodo Temp = new Nodo(T.Pop());
                         if (S.Count < 2)
@@ -115,9 +133,9 @@ namespace Proyecto_Lenguajes
                         } 
                     }
 
-                    if (TokenExpresionRegular.Peek() == "*" || TokenExpresionRegular.Peek() == ".")
+                    if (TokenEvaluar == "*" || TokenEvaluar == "." || TokenEvaluar == "|")
                     {
-                        T.Push(TokenExpresionRegular.Dequeue());
+                        T.Push(TokenEvaluar);
                     } 
                 }
                 else
@@ -150,6 +168,7 @@ namespace Proyecto_Lenguajes
                 {
                     throw new Exception("Faltan operandos");
                 } 
+
             } 
         }
 #endregion

@@ -14,11 +14,16 @@ namespace Proyecto_Lenguajes
 {
     public partial class Form1 : Form
     {
-        string Carpeta = Application.ExecutablePath + @"\Contenedor";
-        string Archivo = @"\ArchivoTexto.txt";
+        
         public Form1()
         {
             InitializeComponent();
+
+            ArbolExpreciones NuevoArbol = new ArbolExpreciones();
+            
+
+             
+
         
 
         }
@@ -30,7 +35,7 @@ namespace Proyecto_Lenguajes
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ArbolExpreciones Arbol = new ArbolExpreciones();
+          
             OpenFileDialog Abrir = new OpenFileDialog();
 
 
