@@ -13,7 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = "(a|b).c";
+        string ExprecionRegularSets = "(((a|b).c+).d).#";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -62,6 +62,8 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add("a");
             SimbolosTerminales.Add("b");
             SimbolosTerminales.Add("c");
+            SimbolosTerminales.Add("d");
+            SimbolosTerminales.Add("#");
         }
 
 

@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.boton_cargar = new System.Windows.Forms.Button();
+            this.Cargar_Archivo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // boton_cargar
+            // Cargar_Archivo
             // 
-            this.boton_cargar.Location = new System.Drawing.Point(146, 258);
-            this.boton_cargar.Name = "boton_cargar";
-            this.boton_cargar.Size = new System.Drawing.Size(75, 23);
-            this.boton_cargar.TabIndex = 0;
-            this.boton_cargar.Text = "Cargar ";
-            this.boton_cargar.UseVisualStyleBackColor = true;
-            this.boton_cargar.Click += new System.EventHandler(this.button1_Click);
+            this.Cargar_Archivo.Location = new System.Drawing.Point(160, 251);
+            this.Cargar_Archivo.Name = "Cargar_Archivo";
+            this.Cargar_Archivo.Size = new System.Drawing.Size(75, 23);
+            this.Cargar_Archivo.TabIndex = 0;
+            this.Cargar_Archivo.Text = "Cargar";
+            this.Cargar_Archivo.UseVisualStyleBackColor = true;
+            this.Cargar_Archivo.Click += new System.EventHandler(this.Cargar_Archivo_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 338);
-            this.Controls.Add(this.boton_cargar);
+            this.Controls.Add(this.Cargar_Archivo);
             this.Name = "Form1";
             this.Text = "Cargar Archivo";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -56,7 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button boton_cargar;
+        private System.Windows.Forms.Button Cargar_Archivo;
     }
 }
 

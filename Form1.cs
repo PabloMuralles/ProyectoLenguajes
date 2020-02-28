@@ -14,43 +14,40 @@ namespace Proyecto_Lenguajes
 {
     public partial class Form1 : Form
     {
-        
+
         public Form1()
         {
             InitializeComponent();
-
-            ArbolExpreciones NuevoArbol = new ArbolExpreciones();
-            
-
              
-
-        
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-             
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Cargar_Archivo_Click(object sender, EventArgs e)
         {
-          
             OpenFileDialog Abrir = new OpenFileDialog();
 
-
-            if (Abrir.ShowDialog()==DialogResult.OK)
+                 
+            if (Abrir.ShowDialog() == DialogResult.OK)
             {
-                string direccion = Abrir.FileName;
-                Process process = new Process();
-                process.StartInfo.FileName = direccion;
-                process.Start();
+                var Direccion = Abrir.FileName;
+                var Extencion = Path.GetExtension(Direccion);
+                if (Extencion == ".txt")
+                {
+                    StreamReader Archivo = new StreamReader(Direccion);
+                    var Contenido = Archivo.ReadToEnd();
 
-            }
+                }
+                else
+                { 
+                    MessageBox.Show("Archivo Ingresado no es .txt");   
+                }
 
-
-
-            
+            }                 
         }
     }
 }
