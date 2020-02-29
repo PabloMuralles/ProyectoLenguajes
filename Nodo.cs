@@ -8,6 +8,7 @@ namespace Proyecto_Lenguajes
 {
     class Nodo
     {
+        public Nodo Padre { get; set; }
         public Nodo Izquierdo { get; set; }
         public Nodo Derecho { get; set; }
         public string Data { get; set; }

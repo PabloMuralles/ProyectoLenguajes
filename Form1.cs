@@ -18,6 +18,8 @@ namespace Proyecto_Lenguajes
         public Form1()
         {
             InitializeComponent();
+            ArbolExpreciones Arbol = new ArbolExpreciones();
+
              
 
         }
@@ -29,13 +31,20 @@ namespace Proyecto_Lenguajes
 
         private void Cargar_Archivo_Click(object sender, EventArgs e)
         {
+            // variable para poder abrir el dialog
             OpenFileDialog Abrir = new OpenFileDialog();
 
-                 
+             // abre el explorador de archivos   
             if (Abrir.ShowDialog() == DialogResult.OK)
             {
+                // da la direccion del archivo que se abrio
                 var Direccion = Abrir.FileName;
+
+                // da la extecion del archivo para poder validarlo que sea txt
                 var Extencion = Path.GetExtension(Direccion);
+
+                /*valido la extencion del archivo y si es txt lo leo para posteriomente 
+                 * guardarlo y sino es un txt se muestra un messaje*/
                 if (Extencion == ".txt")
                 {
                     StreamReader Archivo = new StreamReader(Direccion);

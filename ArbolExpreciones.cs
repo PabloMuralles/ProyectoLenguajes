@@ -13,7 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = "(((a|b).c+).d).#";
+        string ExprecionRegularSets = @"(a.b).#";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -45,13 +45,25 @@ namespace Proyecto_Lenguajes
         {
             for (int i = 0; i < Cadena.Length; i++)
             {
-                TokensExpresionSets.Enqueue(ExprecionRegularSets.Substring(i, 1)); 
+                if (Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "+")
+                {
+                    TokensExpresionSets.Enqueue(Cadena.Substring(i, 2));
+                    i = i + 1;
+                }
+                else 
+                {  
+                    TokensExpresionSets.Enqueue(Cadena.Substring(i, 1));
+                }
+
+
             }
         }
 
         //Metodo para poder inicializar los operador y simbolos terminales
         public void Crear_st_op()
         {
+            
+            
             Operadores.Add("*");
             Operadores.Add("+");
             Operadores.Add("?");
@@ -59,11 +71,22 @@ namespace Proyecto_Lenguajes
             Operadores.Add("|");
 
             SimbolosTerminales.Add("ID");
-            SimbolosTerminales.Add("a");
-            SimbolosTerminales.Add("b");
-            SimbolosTerminales.Add("c");
-            SimbolosTerminales.Add("d");
-            SimbolosTerminales.Add("#");
+            SimbolosTerminales.Add(@"\+");
+
+            for (int i = 0; i < 256; i++)
+            {
+                var Simbolo = ("" + (char)i);
+                if (Simbolo == "*"  || Simbolo == "+" || Simbolo == "?" || Simbolo == "." || Simbolo == "|" || Simbolo =="(" || Simbolo == ")")
+                {
+
+
+                }
+                else
+                {
+                    SimbolosTerminales.Add(Simbolo);
+                }
+            }
+
         }
 
 
@@ -108,7 +131,7 @@ namespace Proyecto_Lenguajes
                 }
                 else if (Operadores.Contains(TokenEvaluar))
                 {
-                    if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*")
+                    if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*" )
                     {
                         Nodo TokenOp = new Nodo(TokenEvaluar);
 
