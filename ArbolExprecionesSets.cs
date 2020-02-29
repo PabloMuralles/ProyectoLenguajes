@@ -13,7 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"(a.b).#";
+        string ExprecionRegularSets = @"(t=).#";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();

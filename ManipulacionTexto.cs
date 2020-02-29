@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,8 @@ namespace Proyecto_Lenguajes
         public void DivicionTexto(string TextoEvaluar)
         {
 
-            char[] CaracteresDelimitadores = {'\t', '\r' };
+            char[] CaracteresDelimitadores = {'\t', '\r', ' ' };
+            
 
             string[] Texto_Separdo = TextoEvaluar.Split('\n');
             foreach (var item in Texto_Separdo)
@@ -30,14 +32,17 @@ namespace Proyecto_Lenguajes
                 string ItemSinCaracters = item.Trim(CaracteresDelimitadores);
                 TextoManipular_EnPila.Enqueue(ItemSinCaracters);
             }
-
-            foreach (var item in TextoManipular_EnPila)
+           
+            // validar que  en la exprecion regular este definido el apartado de token 
+            if ((TextoManipular_EnPila.Contains("SETS") && TextoManipular_EnPila.Contains("TOKENS") && TextoManipular_EnPila.Contains("ACTIONS")) ||
+                (TextoManipular_EnPila.Contains("TOKENS") && TextoManipular_EnPila.Contains("ACTIONS")))
             {
-                if (item == "SETS")
-                {
-                    SETS.Enqueue(item);
-                    TextoManipular_EnPila.Dequeue();
-                }
+
+
+            }
+            else
+            {
+                MessageBox.Show("El archivo no trae difinada la secicon de tokens o de acction");
             }
 
 
