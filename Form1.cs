@@ -18,9 +18,6 @@ namespace Proyecto_Lenguajes
         public Form1()
         {
             InitializeComponent();
-            ArbolExpreciones Arbol = new ArbolExpreciones();
-
-             
 
         }
 
@@ -49,6 +46,8 @@ namespace Proyecto_Lenguajes
                 {
                     StreamReader Archivo = new StreamReader(Direccion);
                     var Contenido = Archivo.ReadToEnd();
+                    ManipulacionTexto Evaluar = new ManipulacionTexto(Contenido);
+                   
 
                 }
                 else

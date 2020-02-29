@@ -9,7 +9,7 @@ using System.Data;
 
 namespace Proyecto_Lenguajes
 {
-    class ArbolExpreciones
+    class ArbolExprecionesSets
     {
 
         // Variable que contiene la exprecion regular
@@ -30,13 +30,21 @@ namespace Proyecto_Lenguajes
         //Pila de string que almacena los tokens
         Stack<string> T = new Stack<string>();
 
-        public ArbolExpreciones()
+        private List<string> Texto_a_Evaluar = new List<string>();
+
+
+        // constructor del arbol de expreciones
+        public ArbolExprecionesSets( )
         {
+            
             ConvertirExprecionaTokens(ExprecionRegularSets);
             Crear_st_op();
-            Insertar_Arbol_Expreciones(TokensExpresionSets);
+            Insertar_Arbol_Expreciones(TokensExpresionSets); 
+
             
         }
+
+        
 
      
 
@@ -72,7 +80,8 @@ namespace Proyecto_Lenguajes
 
             SimbolosTerminales.Add("ID");
             SimbolosTerminales.Add(@"\+");
-
+            
+            // for para agregar simbolos terminales quitando los operadores
             for (int i = 0; i < 256; i++)
             {
                 var Simbolo = ("" + (char)i);
