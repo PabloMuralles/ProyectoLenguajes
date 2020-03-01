@@ -14,7 +14,8 @@ namespace Proyecto_Lenguajes
 
         // Variable que contiene la exprecion regular
         string ExprecionRegularSets = @"(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*)).#";
-        
+         
+
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
 
@@ -30,7 +31,12 @@ namespace Proyecto_Lenguajes
         //Pila de string que almacena los tokens
         Stack<string> T = new Stack<string>();
 
+        // lista donde se va almacenar el texto a evaluar en el arbol
         private List<string> Texto_a_Evaluar = new List<string>();
+
+        private Nodo Arbol;
+
+        
 
 
      
@@ -43,7 +49,7 @@ namespace Proyecto_Lenguajes
             ConvertirExprecionaTokens(ExprecionRegularSets);
             Crear_st_op();
             Insertar_Arbol_Expreciones(TokensExpresionSets);
-            RecorridoInorden(S.Pop());
+            RecorridoInorden(Arbol);
 
 
         }
@@ -94,6 +100,10 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add("H");
             SimbolosTerminales.Add("R");
             SimbolosTerminales.Add("a");
+            SimbolosTerminales.Add("b");
+            SimbolosTerminales.Add("c");
+
+
 
 
 
@@ -129,6 +139,7 @@ namespace Proyecto_Lenguajes
                 if (SimbolosTerminales.Contains(TokenEvaluar))
                 {
                     Nodo NodoToken = new Nodo(TokenEvaluar);
+                    NodoToken.Padre = null;
                     S.Push(NodoToken);
                 }
                 else if (TokenEvaluar == "(")
@@ -148,8 +159,11 @@ namespace Proyecto_Lenguajes
                             throw new Exception("faltan operadandos");
                         }
                         Nodo Temp = new Nodo(T.Pop());
+                        Temp.Padre = null;
                         Temp.Derecho = S.Pop();
+                        Temp.Derecho.Padre = Temp.Data;
                         Temp.Izquierdo = S.Pop();
+                        Temp.Izquierdo.Padre = Temp.Data;
                         S.Push(Temp);
                          
                     }
@@ -161,17 +175,20 @@ namespace Proyecto_Lenguajes
                     if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*" )
                     {
                         Nodo TokenOp = new Nodo(TokenEvaluar);
+                        TokenOp.Padre = null;
 
                         if (S.Count < 0)
                         {
                             throw new Exception("faltan operadandos");
                         }
                         TokenOp.Izquierdo = S.Pop();
+                        TokenOp.Izquierdo.Padre = TokenOp.Data;
                         S.Push(TokenOp);
                     }
                     else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar, T.Peek()) == true))
                     {
                         Nodo Temp = new Nodo(T.Pop());
+                        Temp.Padre = null;
                         if (S.Count < 2)
                         {
                             throw new Exception("Faltan operandos");
@@ -180,7 +197,9 @@ namespace Proyecto_Lenguajes
                         else
                         {
                             Temp.Derecho = S.Pop();
+                            Temp.Derecho.Padre = Temp.Data;
                             Temp.Izquierdo = S.Pop();
+                            Temp.Izquierdo.Padre = Temp.Data;
                             S.Push(Temp);
                         } 
                     }
@@ -212,8 +231,11 @@ namespace Proyecto_Lenguajes
                 }
 
                 Nodo Temp = new Nodo(T.Pop());
+                Temp.Padre = null;
                 Temp.Derecho = S.Pop();
+                Temp.Derecho.Padre = Temp.Data;
                 Temp.Izquierdo = S.Pop();
+                Temp.Izquierdo.Padre = Temp.Data;
                 S.Push(Temp);
                 
                 if (S.Count != 1)
@@ -222,7 +244,7 @@ namespace Proyecto_Lenguajes
                 } 
 
             }
-           
+            Arbol = S.Pop();
         }
 #endregion
 
