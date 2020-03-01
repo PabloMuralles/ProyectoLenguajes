@@ -18,6 +18,7 @@ namespace Proyecto_Lenguajes
         public Form1()
         {
             InitializeComponent();
+            ArbolExprecionesSets arbolExprecionesSets = new ArbolExprecionesSets();
 
         }
 

@@ -13,7 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"((('t'|'t'..'t').(\+.('t'|'t'..'t')))*).#";
+        string ExprecionRegularSets = @"((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*).#";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -33,15 +33,19 @@ namespace Proyecto_Lenguajes
         private List<string> Texto_a_Evaluar = new List<string>();
 
 
+     
+
+
         // constructor del arbol de expreciones
         public ArbolExprecionesSets( )
         {
             
             ConvertirExprecionaTokens(ExprecionRegularSets);
             Crear_st_op();
-            Insertar_Arbol_Expreciones(TokensExpresionSets); 
+            Insertar_Arbol_Expreciones(TokensExpresionSets);
+            RecorridoInorden(S.Pop());
 
-            
+
         }
 
         
@@ -78,27 +82,27 @@ namespace Proyecto_Lenguajes
             Operadores.Add(".");
             Operadores.Add("|");
 
-            SimbolosTerminales.Add("n");
+            SimbolosTerminales.Add("..");
             SimbolosTerminales.Add("t");
             SimbolosTerminales.Add(@"\+");
-            SimbolosTerminales.Add("..");
             SimbolosTerminales.Add("'");
-            SimbolosTerminales.Add("=");
+            SimbolosTerminales.Add("#");
+
 
             // for para agregar simbolos terminales quitando los operadores
-            for (int i = 0; i < 256; i++)
-            {
-                var Simbolo = ("" + (char)i);
-                if (Simbolo == "*"  || Simbolo == "+" || Simbolo == "?" || Simbolo == "." || Simbolo == "|" || Simbolo =="(" || Simbolo == ")")
-                {
+            //for (int i = 0; i < 256; i++)
+            //{
+            //    var Simbolo = ("" + (char)i);
+            //    if (Simbolo == "*"  || Simbolo == "+" || Simbolo == "?" || Simbolo == "." || Simbolo == "|" || Simbolo =="(" || Simbolo == ")")
+            //    {
 
 
-                }
-                else
-                {
-                    SimbolosTerminales.Add(Simbolo);
-                }
-            }
+            //    }
+            //    else
+            //    {
+            //        SimbolosTerminales.Add(Simbolo);
+            //    }
+            //}
 
         }
 
@@ -171,7 +175,7 @@ namespace Proyecto_Lenguajes
                         } 
                     }
 
-                    if (TokenEvaluar == "*" || TokenEvaluar == "." || TokenEvaluar == "|")
+                    if ( TokenEvaluar == "." || TokenEvaluar == "|")
                     {
                         T.Push(TokenEvaluar);
                     } 
@@ -207,7 +211,8 @@ namespace Proyecto_Lenguajes
                     throw new Exception("Faltan operandos");
                 } 
 
-            } 
+            }
+           
         }
 #endregion
 
@@ -221,6 +226,21 @@ namespace Proyecto_Lenguajes
 
             return IndexToken >= IndexUltimo;
         }
+            List<string> ContenidoArbol = new List<string>();
+        public void RecorridoInorden(Nodo raiz)
+        {
+             
+            if (raiz != null)
+            {
+                RecorridoInorden(raiz.Izquierdo);
+                ContenidoArbol.Add(raiz.Data);
+                RecorridoInorden(raiz.Derecho);
+                
+            }
+
+        }
+
+      
 
 
     }

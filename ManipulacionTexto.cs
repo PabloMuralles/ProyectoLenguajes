@@ -75,7 +75,11 @@ namespace Proyecto_Lenguajes
                     {
                         MessageBox.Show("Los ACTIONS vinen basicios");
                     }
-                    
+
+                }
+                foreach (var item in TextoManipular_EnLista)
+                {
+
                 }
 
                   
