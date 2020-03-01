@@ -13,7 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*).#";
+        string ExprecionRegularSets = @"(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*)).#";
         
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -57,7 +57,8 @@ namespace Proyecto_Lenguajes
         {
             for (int i = 0; i < Cadena.Length; i++)
             {
-                if ((Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "+") || (Cadena.Substring(i, 1) == @"." && Cadena.Substring(i + 1, 1) == "."))
+                if ((Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "+") || (Cadena.Substring(i, 1) == @"." && Cadena.Substring(i + 1, 1) == ".") || 
+                    (Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "(") || (Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == ")"))
                 {
                     TokensExpresionSets.Enqueue(Cadena.Substring(i, 2));
                     i = i + 1;
@@ -87,6 +88,15 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add(@"\+");
             SimbolosTerminales.Add("'");
             SimbolosTerminales.Add("#");
+            SimbolosTerminales.Add(@"\(");
+            SimbolosTerminales.Add(@"\)");
+            SimbolosTerminales.Add("C");
+            SimbolosTerminales.Add("H");
+            SimbolosTerminales.Add("R");
+            SimbolosTerminales.Add("a");
+
+
+
 
 
             // for para agregar simbolos terminales quitando los operadores
