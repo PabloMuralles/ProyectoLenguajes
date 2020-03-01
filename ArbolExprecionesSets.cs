@@ -13,8 +13,9 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*)).#";
-         
+        //string ExprecionRegularSets = @"(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*)).#";
+
+        string ExprecionRegularSets = @"(t.=.(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*))).#";
 
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -102,6 +103,7 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add("a");
             SimbolosTerminales.Add("b");
             SimbolosTerminales.Add("c");
+            SimbolosTerminales.Add("=");
 
 
 
