@@ -46,14 +46,8 @@ namespace Proyecto_Lenguajes
                 if (Extencion == ".txt")
                 { 
                     StreamReader Archivo = new StreamReader(Direccion);
-                    string ContenidoLineaArchivo = Archivo.ReadLine(); 
-                    while (ContenidoLineaArchivo != null)
-                    {
-                        TextoLeido.Add(ContenidoLineaArchivo);
-                        ContenidoLineaArchivo = Archivo.ReadLine();
-
-                    }
-                    ManipulacionTexto TextoVerificadado = new ManipulacionTexto(TextoLeido);
+                    
+                    ManipulacionTexto TextoVerificadado = new ManipulacionTexto(Archivo);
                 }
                 else
                 {
