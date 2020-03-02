@@ -11,16 +11,25 @@ namespace Proyecto_Lenguajes
     {
         // lista para almacenar el texto que proviene del forms
         private List<string> TextoManipular_EnLista = new List<string>();
-
          
-
         private List<string> SETS = new List<string>();
+
+        private List<string> TOKENS = new List<string>();
+
+        private List<string> ACTIONS = new List<string>();
+
+        private int PosicionSets = 0;
+
+        private int PosicionTokens = 0;
+
+        private int PosicionActions = 0;
 
         // contructor que resibe el texto del forms en forma de lista
         public ManipulacionTexto(List<string> TextoDeForms)
         {
             TextoManipular_EnLista = TextoDeForms;
             QuitarCaracteres();
+            ConocerPocicionPartes();
         }
 
         public void QuitarCaracteres()
@@ -41,6 +50,26 @@ namespace Proyecto_Lenguajes
 
 
         }
+       
+        
+        public void ConocerPocicionPartes()
+        {
+            //ver en que posicion esta la especificacion de cada seccion
+            PosicionSets = TextoManipular_EnLista.FindIndex(x => x.Equals("SETS"));
+            PosicionTokens = TextoManipular_EnLista.FindIndex(x => x.Equals("TOKENS"));
+            PosicionActions = TextoManipular_EnLista.FindIndex(x => x.Equals("ACTIONS"));
+
+        }
+
+
+
+
+
+
+
+
+
+
         #region codigo que puede servir
         //public void DivicionTexto(string TextoEvaluar)
         //{
