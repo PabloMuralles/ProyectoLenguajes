@@ -20,5 +20,8 @@ namespace Proyecto_Lenguajes
             Izquierdo = null;
            
         }
+
+        
+
     }
 }

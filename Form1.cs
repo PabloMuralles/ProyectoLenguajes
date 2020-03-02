@@ -14,12 +14,11 @@ namespace Proyecto_Lenguajes
 {
     public partial class Form1 : Form
     {
-
+        //Lista para guardar el texto leido con readline
+        List<string> TextoLeido = new List<string>();
         public Form1()
         {
             InitializeComponent();
-            ArbolExprecionesSets arbolExprecionesSets = new ArbolExprecionesSets();
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,7 +31,7 @@ namespace Proyecto_Lenguajes
             // variable para poder abrir el dialog
             OpenFileDialog Abrir = new OpenFileDialog();
 
-             // abre el explorador de archivos   
+            // abre el explorador de archivos   
             if (Abrir.ShowDialog() == DialogResult.OK)
             {
                 // da la direccion del archivo que se abrio
@@ -43,20 +42,26 @@ namespace Proyecto_Lenguajes
 
                 /*valido la extencion del archivo y si es txt lo leo para posteriomente 
                  * guardarlo y sino es un txt se muestra un messaje*/
-                if (Extencion == ".txt")
-                {
-                    StreamReader Archivo = new StreamReader(Direccion);
-                    var Contenido = Archivo.ReadToEnd();
-                    ManipulacionTexto Evaluar = new ManipulacionTexto(Contenido);
-                   
 
+                if (Extencion == ".txt")
+                { 
+                    StreamReader Archivo = new StreamReader(Direccion);
+                    string ContenidoLineaArchivo = Archivo.ReadLine(); 
+                    while (ContenidoLineaArchivo != null)
+                    {
+                        TextoLeido.Add(ContenidoLineaArchivo);
+                        ContenidoLineaArchivo = Archivo.ReadLine();
+
+                    }
+                    ManipulacionTexto TextoVerificadado = new ManipulacionTexto(TextoLeido);
                 }
                 else
-                { 
-                    MessageBox.Show("Archivo Ingresado no es .txt");   
-                }
+                {
+                    MessageBox.Show("El documento ingesado no es un txt");
 
-            }                 
+                } 
+                    
+            }        
         }
     }
 }

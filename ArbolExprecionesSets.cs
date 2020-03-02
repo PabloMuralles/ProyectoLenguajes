@@ -13,9 +13,7 @@ namespace Proyecto_Lenguajes
     {
 
         // Variable que contiene la exprecion regular
- 
-
-        string ExprecionRegularSets = @"(a+.b*.c?).#";
+        string ExprecionRegularSets = @"(a.=.(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*))).#";
 
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -37,10 +35,14 @@ namespace Proyecto_Lenguajes
 
         private Nodo Arbol;
 
-        
+        List<Nodo> ContenidoArbol = new List<Nodo>();
+
+ 
 
 
-     
+
+
+
 
 
         // constructor del arbol de expreciones
@@ -101,16 +103,8 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add("H");
             SimbolosTerminales.Add("R");
             SimbolosTerminales.Add("a");
-            SimbolosTerminales.Add("b");
-            SimbolosTerminales.Add("c");
             SimbolosTerminales.Add("=");
-
-
-
-
-
-
-
+            
             // for para agregar simbolos terminales quitando los operadores
             //for (int i = 0; i < 256; i++)
             //{
@@ -260,19 +254,21 @@ namespace Proyecto_Lenguajes
 
             return IndexToken >= IndexUltimo;
         }
-            List<string> ContenidoArbol = new List<string>();
+             
         public void RecorridoInorden(Nodo raiz)
         {
              
             if (raiz != null)
             {
                 RecorridoInorden(raiz.Izquierdo);
-                ContenidoArbol.Add(raiz.Data);
+                ContenidoArbol.Add(raiz);
                 RecorridoInorden(raiz.Derecho);
                 
             }
 
         }
+
+         
 
       
 
