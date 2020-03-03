@@ -83,7 +83,7 @@ namespace Proyecto_Lenguajes
         }
        
 
-        private Regex ExprecionSETS = new Regex(@"^([a-zA-ZñÑ\s])+=('([0-9a-zA-ZñÑ\s]{1})'|'([0-9a-zA-ZñÑ\s]{1})'\.\.'([0-9a-zA-ZñÑ\s]{1})')$");
+        private Regex ExprecionSETS = new Regex(@"^([a-zA-ZñÑ\s])+=((('([0-9a-zA-ZñÑ\s]{1})'|'([0-9a-zA-ZñÑ\s]{1})'\.\.'([0-9a-zA-ZñÑ\s]{1})')(\+('([0-9a-zA-ZñÑ\s]{1})'|'([0-9a-zA-ZñÑ\s]{1})'\.\.'([0-9a-zA-ZñÑ\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))))$");
         public void ValidarSets()
         {
             
