@@ -118,7 +118,7 @@ namespace Proyecto_Lenguajes
 
  
 
-        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s]+)[0-9]=([\s]+)('([0-9a-zA-ZñÑ\s]{1})')$");
+        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])+=([\s])+(('([a-zA-Z0-9<>=;:(){}\.\[\],])'))$");
  
         public void ValidarTokens()
         {
