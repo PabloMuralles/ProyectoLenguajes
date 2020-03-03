@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
+using Proyecto_Lenguajes;
 
 namespace Proyecto_Lenguajes
 {
@@ -31,9 +32,7 @@ namespace Proyecto_Lenguajes
         }
 
         public void BuscarInicios()
-        {
-
-
+        { 
             Contenido = TextoEvaluar.ReadLine();
             contador = 1;
             Contenido = QuitarCaracteres(Contenido);
@@ -57,7 +56,8 @@ namespace Proyecto_Lenguajes
                     { 
                         if (Contenido == "TOKENS")
                         {
-
+                            ValidarTokens();
+                            break;
                         }
                         else
                         {
@@ -71,15 +71,6 @@ namespace Proyecto_Lenguajes
                
                
             }
-
-           
-
-             
-
-
-
-
-
         }
        
 
@@ -102,19 +93,77 @@ namespace Proyecto_Lenguajes
                 {
                     if (ExprecionSETS.IsMatch(Contenido))
                     {
+                        Contenido = TextoEvaluar.ReadLine();
+                        Contenido = QuitarCaracteres(Contenido);
+                        contador = contador + 1;
 
                     }
                     else
                     {
+                        if (Contenido == "TOKENS")
+                        {
+                            ValidarTokens();
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error en la linea: " + contador);
+                            break;
+                        } 
+                    } 
+                }  
+             }
+        }
 
+
+ 
+
+        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s]+)[0-9]=([\s]+)('([0-9a-zA-ZñÑ\s]{1})')$");
+ 
+        public void ValidarTokens()
+        {
+            Contenido = TextoEvaluar.ReadLine();
+            contador = contador + 1;
+            Contenido = QuitarEspaciosBlancoTokens(Contenido);
+            while (Contenido != null)
+            {
+                if (Contenido == "")
+                {
+                    Contenido = TextoEvaluar.ReadLine();
+                    Contenido = QuitarEspaciosBlancoTokens(Contenido);
+                    contador = contador + 1;
+                }
+                else
+                {
+                    if (ExprecionTOKENS.IsMatch(Contenido))
+                    {
+                        Contenido = TextoEvaluar.ReadLine();
+                        Contenido = QuitarEspaciosBlancoTokens(Contenido);
+                        contador = contador + 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error en la linea: " + contador);
+                        break;
                     }
 
-                }  
-                
+                }
+
             }
+
 
         }
 
+
+
+
+        public string QuitarEspaciosBlancoTokens(string LieneaQuitar)
+        {
+            char[] CaracteresDelimitadores = { '\t', '\r'};
+            string LineaNuevaTokens = LieneaQuitar.Trim(CaracteresDelimitadores);
+            LineaNuevaTokens = LineaNuevaTokens.Trim();
+            return LineaNuevaTokens;
+        }
 
 
 
