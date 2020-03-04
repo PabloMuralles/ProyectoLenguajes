@@ -161,7 +161,9 @@ namespace Proyecto_Lenguajes
             }
         }
 
-        private Regex ExprecionAction= new Regex(@"^$");
+        private Regex ExprecionActions = new Regex(@"^([a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s])+=((('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})')(\+('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))*))$");
+        private Regex ExprecionActions2 = new Regex(@"^[0-9]+=('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.]+)')$");
+
 
 
         public void ValidarActions()
@@ -175,16 +177,15 @@ namespace Proyecto_Lenguajes
                 if (Contenido == "")
                 {
                     Contenido = TextoEvaluar.ReadLine();
-                    Contenido = QuitarEspaciosBlancoTokens(Contenido);
+                    Contenido = QuitarCaracteres(Contenido);
                     contador = contador + 1;
                 }
                 else
                 {
                     if (Contenido == "RESERVADAS()")
                     {
-                        Contenido = TextoEvaluar.ReadLine();
-
-
+                        Reservadas();
+                        break;
                     }
                     else
                     {
@@ -196,7 +197,145 @@ namespace Proyecto_Lenguajes
             }
 
         }
+        //private bool ValidarSiCumpleConAction;
 
+        
+        //public void EvaluarActions2(string LineaActionEvaluar)
+        //{
+        //    if (ExprecionActions.IsMatch(LineaActionEvaluar)|| ExprecionActions2.IsMatch(LineaActionEvaluar))
+        //    {
+        //        ValidarSiCumpleConAction = true;
+        //    }
+        //    else
+        //    {
+        //        ValidarSiCumpleConAction = false;
+        //    }
+
+
+        //}
+
+
+        public void Reservadas()
+        {
+            Contenido = TextoEvaluar.ReadLine();
+            Contenido = QuitarCaracteres(Contenido);
+            contador = contador + 1;
+            while (Contenido != null)
+            {
+                if (Contenido =="")
+                {
+                    Contenido = TextoEvaluar.ReadLine();
+                    Contenido = QuitarCaracteres(Contenido);
+                    contador = contador + 1;
+                }
+                else
+                {
+                    if (Contenido=="{")
+                    {
+                        ValidarAdentroLlavesActions();
+                        break;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error en la liena: "+contador+"\n"+"Se esperaba una {");
+                        break;
+                        
+                    }
+                }
+            }
+
+        }
+
+        public void ValidarAdentroLlavesActions()
+        {
+            Contenido = TextoEvaluar.ReadLine();
+            Contenido = QuitarCaracteres(Contenido);
+            contador = contador + 1;
+            while (Contenido != null)
+            {
+                if (Contenido == "")
+                {
+                    Contenido = TextoEvaluar.ReadLine();
+                    Contenido = QuitarCaracteres(Contenido);
+                    contador = contador + 1;
+                }
+                else
+                {
+                    if (ExprecionActions.IsMatch(Contenido) || ExprecionActions2.IsMatch(Contenido))
+                    {
+                        Contenido = TextoEvaluar.ReadLine();
+                        Contenido = QuitarCaracteres(Contenido);
+                        contador = contador + 1;
+                    }
+                    else
+                    {
+                        if (Contenido == "}")
+                        {
+                            ValidarError();
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error Linea: " + contador);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private Regex ExprecionErrores = new Regex(@"^([a-zA-zñÑ]+)*ERROR=[0-9]+$");
+
+        public void ValidarError()
+        {
+            Contenido = TextoEvaluar.ReadLine();
+            Contenido = QuitarCaracteres(Contenido);
+            contador = contador + 1;
+            while (Contenido != null)
+            {
+                if (Contenido == "")
+                {
+                    Contenido = TextoEvaluar.ReadLine();
+                    if (Contenido != null)
+                    {
+                        Contenido = QuitarCaracteres(Contenido);
+                        contador = contador + 1;
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Archivo Correcto ");
+                    }
+
+
+                }
+                else
+                {
+                    if (ExprecionErrores.IsMatch(Contenido))
+                    {
+                        Contenido = TextoEvaluar.ReadLine();
+                        if (Contenido!=null)
+                        {
+                            Contenido = QuitarCaracteres(Contenido);
+                            contador = contador + 1;
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Archivo Correcto ");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error Linea: " + contador);
+                        break;
+                    }
+
+                }
+
+            }
+          
+        }
 
 
 
@@ -214,25 +353,30 @@ namespace Proyecto_Lenguajes
 
         public string QuitarCaracteres(string LineaEvaluar)
         {
-            string[] QuitrarEspacios = new string[LineaEvaluar.Length];
-            // caracteres a quitar despues de quitar los caracteres no necesario
-            char[] CaracteresDelimitadores = { '\t', '\r', ' ' };
-
-            string NuevaLinea = LineaEvaluar.Trim(CaracteresDelimitadores);
-            QuitrarEspacios = NuevaLinea.Split(' ');
-
             string LineaRetornar = string.Empty;
+           
+                string[] QuitrarEspacios = new string[LineaEvaluar.Length];
+                // caracteres a quitar despues de quitar los caracteres no necesario
+                char[] CaracteresDelimitadores = { '\t', '\r', ' ' };
 
-            for (int i = 0; i < QuitrarEspacios.Length; i++)
-            {
-                if (QuitrarEspacios[i] != " ") 
+                string NuevaLinea = LineaEvaluar.Trim(CaracteresDelimitadores);
+                QuitrarEspacios = NuevaLinea.Split(' ');
+
+                
+
+                for (int i = 0; i < QuitrarEspacios.Length; i++)
                 {
-                    LineaRetornar += QuitrarEspacios[i];
+                    if (QuitrarEspacios[i] != " ")
+                    {
+                        LineaRetornar += QuitrarEspacios[i];
+                    }
                 }
-            }
+                return LineaRetornar;
 
-            return LineaRetornar;
-         }
+            
+            
+            
+        }
        
         
          
