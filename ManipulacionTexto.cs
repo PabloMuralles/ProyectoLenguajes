@@ -116,12 +116,10 @@ namespace Proyecto_Lenguajes
         }
 
 
+ 
 
-
-        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],])')*)$");
-
-
-
+        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'])')+))$");
+        private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))*$");
 
         public void ValidarTokens()
         {
@@ -138,7 +136,7 @@ namespace Proyecto_Lenguajes
                 }
                 else
                 {
-                    if (ExprecionTOKENS.IsMatch(Contenido))
+                    if (ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido))
                     {
                         Contenido = TextoEvaluar.ReadLine();
                         Contenido = QuitarEspaciosBlancoTokens(Contenido);
