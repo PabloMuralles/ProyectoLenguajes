@@ -11,18 +11,15 @@ namespace Proyecto_Lenguajes
 {
     class ManipulacionTexto
     {
+        // variable donde se alacena el texto a evaluar
         private StreamReader TextoEvaluar;
 
+        // contador para poder mostrar en que linea se encuentra el error
         private int contador = 0;
 
+        // variable donde se va guardar cada linea del archivo
         private string Contenido = string.Empty;
-
          
-
-
-
-
-
         // contructor que resibe el texto del forms en forma de lista
         public ManipulacionTexto(StreamReader Texto)
         {
@@ -30,7 +27,7 @@ namespace Proyecto_Lenguajes
             BuscarInicios();
          
         }
-
+        //Metodo para buscar las palabras claves y merse a evaluar cada una de las secciones
         public void BuscarInicios()
         { 
             Contenido = TextoEvaluar.ReadLine();
@@ -73,8 +70,10 @@ namespace Proyecto_Lenguajes
             }
         }
 
-
+        // Definicion de exprecion regular para sets
         private Regex ExprecionSETS = new Regex(@"^([a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s])+=((('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})')(\+('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))*))$");
+        
+        // Validar el apartado de sets
         public void ValidarSets()
         {
             
@@ -117,12 +116,13 @@ namespace Proyecto_Lenguajes
 
 
  
-
+        // expreciones regulares para validar tokens
         private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))$");
         private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))*$");
         private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
         private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)?(([\s])*{([\s])*[a-zA-ZÑñ]+([\s])*\(([\s])*\)([\s])*}))$");
 
+        // Metodo para validar la seccion de tokens
         public void ValidarTokens()
         {
             Contenido = TextoEvaluar.ReadLine();
@@ -161,11 +161,13 @@ namespace Proyecto_Lenguajes
             }
         }
 
+        // Expresiones regulares para el partado de accionts
         private Regex ExprecionActions = new Regex(@"^([a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s])+=((('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})')(\+('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))*))$");
         private Regex ExprecionActions2 = new Regex(@"^[0-9]+=('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.]+)')$");
 
 
 
+        // validar la seccion de actions
         public void ValidarActions()
         {
             Contenido = TextoEvaluar.ReadLine();
@@ -196,25 +198,9 @@ namespace Proyecto_Lenguajes
 
             }
 
-        }
-        //private bool ValidarSiCumpleConAction;
+        } 
 
-        
-        //public void EvaluarActions2(string LineaActionEvaluar)
-        //{
-        //    if (ExprecionActions.IsMatch(LineaActionEvaluar)|| ExprecionActions2.IsMatch(LineaActionEvaluar))
-        //    {
-        //        ValidarSiCumpleConAction = true;
-        //    }
-        //    else
-        //    {
-        //        ValidarSiCumpleConAction = false;
-        //    }
-
-
-        //}
-
-
+        //validar el apartado de la funcion reservadas
         public void Reservadas()
         {
             Contenido = TextoEvaluar.ReadLine();
@@ -246,6 +232,7 @@ namespace Proyecto_Lenguajes
 
         }
 
+        // Validar el codigo que viene en la parte de adentro de las llaves
         public void ValidarAdentroLlavesActions()
         {
             Contenido = TextoEvaluar.ReadLine();
@@ -284,6 +271,7 @@ namespace Proyecto_Lenguajes
             }
         }
 
+        // Exprecion regular para evaluar errores 
         private Regex ExprecionErrores = new Regex(@"^([a-zA-zñÑ]+)*ERROR=[0-9]+$");
 
         public void ValidarError()
@@ -336,9 +324,8 @@ namespace Proyecto_Lenguajes
             }
           
         }
-
-
-
+         
+        // metodo para poder quitar lo espacios en blanco unicamente para el apartado de tokens
         public string QuitarEspaciosBlancoTokens(string LieneaQuitar)
         {
             char[] CaracteresDelimitadores = { '\t', '\r'};
@@ -346,10 +333,8 @@ namespace Proyecto_Lenguajes
             LineaNuevaTokens = LineaNuevaTokens.Trim();
             return LineaNuevaTokens;
         }
-
-
-
-
+         
+        // meto para quitar espacios en blanco usado en todos los apartados menos tikons
 
         public string QuitarCaracteres(string LineaEvaluar)
         {
@@ -372,9 +357,6 @@ namespace Proyecto_Lenguajes
                     }
                 }
                 return LineaRetornar;
-
-            
-            
             
         }
        
