@@ -72,9 +72,9 @@ namespace Proyecto_Lenguajes
                
             }
         }
-       
 
-        private Regex ExprecionSETS = new Regex(@"^([a-zA-ZñÑ\s])+=((('([a-zA-Z0-9ñÑ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([a-zA-Z0-9Ññ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})')(\+('([0-9a-zA-ZñÑ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>=;:(){}\.\[\],'\+\-_\*\.\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))))$");
+
+        private Regex ExprecionSETS = new Regex(@"^([a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s])+=((('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})')(\+('([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'|'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'\.\.'([0-9a-zA-ZñÑ<>="";:(){}\.\[\],'\+\-_\*\.\s]{1})'))*)|((CHR\([0-9]+\)\.\.CHR\([0-9]+\))(\+(CHR\([0-9]+\)\.\.CHR\([0-9]+\)))*))$");
         public void ValidarSets()
         {
             
@@ -118,8 +118,8 @@ namespace Proyecto_Lenguajes
 
  
 
-        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))$");
-        private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))*$");
+        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))$");
+        private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))*$");
         private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
         private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)?(([\s])*{([\s])*[a-zA-ZÑñ]+([\s])*\(([\s])*\)([\s])*}))$");
 
@@ -148,7 +148,7 @@ namespace Proyecto_Lenguajes
                     {
                         if (Contenido == "ACTIONS")
                         {
-                            ValidarSets();
+                            ValidarActions();
                             break;
                         }
                         else
@@ -161,10 +161,39 @@ namespace Proyecto_Lenguajes
             }
         }
 
+        private Regex ExprecionAction= new Regex(@"^$");
 
 
         public void ValidarActions()
         {
+            Contenido = TextoEvaluar.ReadLine();
+            contador = contador + 1;
+            Contenido = QuitarCaracteres(Contenido);
+
+            while (Contenido != null)
+            {
+                if (Contenido == "")
+                {
+                    Contenido = TextoEvaluar.ReadLine();
+                    Contenido = QuitarEspaciosBlancoTokens(Contenido);
+                    contador = contador + 1;
+                }
+                else
+                {
+                    if (Contenido == "RESERVADAS()")
+                    {
+                        Contenido = TextoEvaluar.ReadLine();
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error en la linea: " + contador + "\n"+"Se esperaba RESERVADAS()");
+                        break;
+                    }
+                }
+
+            }
 
         }
 
