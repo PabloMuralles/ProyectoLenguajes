@@ -120,7 +120,9 @@ namespace Proyecto_Lenguajes
 
         private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))$");
         private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>=;:(){}\.\[\],'\+\-_\*\.])')+))*$");
-        private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)+$");
+        private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
+        private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*(\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)$");
+
         public void ValidarTokens()
         {
             Contenido = TextoEvaluar.ReadLine();
@@ -136,7 +138,7 @@ namespace Proyecto_Lenguajes
                 }
                 else
                 {
-                    if (ExprecionTOKENS3.IsMatch(Contenido))
+                    if (ExprecionTOKENS4.IsMatch(Contenido))
                     {
                         Contenido = TextoEvaluar.ReadLine();
                         Contenido = QuitarEspaciosBlancoTokens(Contenido);
