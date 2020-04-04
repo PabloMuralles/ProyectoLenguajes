@@ -42,7 +42,7 @@ namespace Proyecto_Lenguajes
 
 
         // constructor del arbol de expreciones
-        public ArbolExprecionesSets()
+        public ArbolExprecionesActions()
         {
 
             ConvertirExprecionaTokens(ExprecionRegularSets);
