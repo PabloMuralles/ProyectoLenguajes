@@ -46,17 +46,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArbolExprecionesActions.cs" />
-    <Compile Include="ArbolExprecionesSets.cs" />
-    <Compile Include="ArbolExprecionesTokens.cs" />
+    <Compile Include="FirstLastsFollows\GenerarExpresion.cs" />
+    <Compile Include="FirstLastsFollows\Nodo.cs" />
+    <Compile Include="Validarcion\ArbolExprecionesActions.cs" />
+    <Compile Include="Validarcion\ArbolExprecionesSets.cs" />
+    <Compile Include="Validarcion\ArbolExprecionesTokens.cs" />
+    <Compile Include="FirstLastsFollows\ArbolFirstLast.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManipulacionTexto.cs" />
-    <Compile Include="Nodo.cs" />
+    <Compile Include="Validarcion\ManipulacionTexto.cs" />
+    <Compile Include="Validarcion\Nodo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

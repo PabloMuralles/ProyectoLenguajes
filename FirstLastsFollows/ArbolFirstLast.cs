@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_Lenguajes
 {
-    class ArbolExprecionesActions
+    class ArbolFirstLast
     {
         // Variable que contiene la exprecion regular
         string ExprecionRegularSets = @"(a.=.(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*))).#";
@@ -33,16 +33,8 @@ namespace Proyecto_Lenguajes
 
         List<Nodo> ContenidoArbol = new List<Nodo>();
 
-
-
-
-
-
-
-
-
         // constructor del arbol de expreciones
-        public ArbolExprecionesActions()
+        public ArbolFirstLast()
         {
 
             ConvertirExprecionaTokens(ExprecionRegularSets);
@@ -52,10 +44,6 @@ namespace Proyecto_Lenguajes
 
 
         }
-
-
-
-
 
         /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/
         public void ConvertirExprecionaTokens(string Cadena)
@@ -117,8 +105,6 @@ namespace Proyecto_Lenguajes
             //}
 
         }
-
-
 
         #region ARBOL DE EXPRECIONES
         // Metodo para poder ir creando el arbol de expreciones
@@ -263,6 +249,7 @@ namespace Proyecto_Lenguajes
             }
 
         }
+
 
 
 

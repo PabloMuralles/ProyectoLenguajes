@@ -32,15 +32,7 @@ namespace Proyecto_Lenguajes
         private Nodo Arbol;
 
         List<Nodo> ContenidoArbol = new List<Nodo>();
-
-
-
-
-
-
-
-
-
+         
         // constructor del arbol de expreciones
         public ArbolExprecionesTokens()
         {
@@ -52,11 +44,7 @@ namespace Proyecto_Lenguajes
 
 
         }
-
-
-
-
-
+         
         /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/
         public void ConvertirExprecionaTokens(string Cadena)
         {
@@ -117,9 +105,7 @@ namespace Proyecto_Lenguajes
             //}
 
         }
-
-
-
+         
         #region ARBOL DE EXPRECIONES
         // Metodo para poder ir creando el arbol de expreciones
         public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)

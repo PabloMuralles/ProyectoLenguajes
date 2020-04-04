@@ -45,9 +45,11 @@ namespace Proyecto_Lenguajes
 
                 if (Extencion == ".txt")
                 { 
-                    StreamReader Archivo = new StreamReader(Direccion);
-                    
+                    var Archivo = new StreamReader(Direccion);
+                    var Archivo2 = new StreamReader(Direccion);
+
                     ManipulacionTexto TextoVerificadado = new ManipulacionTexto(Archivo);
+                    FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
                 }
                 else
                 {
