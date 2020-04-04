@@ -11,7 +11,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
     {
         private StreamReader Texto;
 
-        private List<string> Tonkes = new List<string>();
+        private List<string> Tokens = new List<string>();
 
         private List<string> Sets = new List<string>();
         public GenerarExpresion(StreamReader Archivo)
@@ -19,6 +19,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Texto = Archivo;
             IdentificarSets();
             var idsets = IdSets();
+            var definicion = DefinicionTokens();
         }
         private void IdentificarSets()
         {
@@ -73,7 +74,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             {
                 if (Contenido != "ACTION")
                 {
-                    Tonkes.Add(QuitarCaracteres_EspaciosBlancos(Contenido));
+                    Tokens.Add(QuitarCaracteres_EspaciosBlancos(Contenido));
                 }
                 else if (Contenido == "ACTIONS")
                 {
@@ -148,7 +149,43 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
         }
 
+        
+        private List<string> DefinicionTokens()
+        {
+            var Definicion = new List<string>();
 
+            foreach (var item in Tokens)
+            {
+                Definicion.Add(ObtenerDefinicionTokens(item));
+            }
+
+            return Definicion;
+        }
+
+        private string ObtenerDefinicionTokens(string Cadena)
+        {
+            var EmpezarGuardar = false;
+
+            var CadenaDividida = Cadena.ToArray();
+
+            var CadenaNueva = string.Empty;
+
+            for (int i = 0; i < CadenaDividida.Length; i++)
+            {
+               
+                if (EmpezarGuardar == true )
+                {
+                    CadenaNueva += Convert.ToString(CadenaDividida[i]);
+                }
+                if (CadenaDividida[i] == '=')
+                {
+                    EmpezarGuardar = true;
+                }
+            }
+
+            return CadenaNueva;
+
+        }
 
 
 
