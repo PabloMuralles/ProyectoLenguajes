@@ -14,12 +14,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         private List<string> Tokens = new List<string>();
 
         private List<string> Sets = new List<string>();
+
         public GenerarExpresion(StreamReader Archivo)
         {
             Texto = Archivo;
             IdentificarSets();
             var idsets = IdSets();
             var definicion = DefinicionTokens();
+            ExpresionRegular(idsets, definicion);
+
         }
         private void IdentificarSets()
         {
@@ -49,12 +52,13 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         private void GuardarSets()
         {
             var Contenido = Texto.ReadLine();
+            Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
 
             while (Contenido != null)
             {
                 if (Contenido != "TOKENS")
                 {
-                    Sets.Add(QuitarCaracteres_EspaciosBlancos(Contenido));
+                    Sets.Add(Contenido);
                 }
                 else if (Contenido == "TOKENS")
                 {
@@ -62,26 +66,30 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     break;
                 }
                 Contenido = Texto.ReadLine();
+                Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
             }
 
         }
+
         private void GuardarTokens()
         {
             
             var Contenido = Texto.ReadLine();
+            Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
 
             while (Contenido != null)
             {
-                if (Contenido != "ACTION")
+                if (Contenido != "ACTIONS")
                 {
-                    Tokens.Add(QuitarCaracteres_EspaciosBlancos(Contenido));
+                    Tokens.Add(Contenido);
                 }
-                else if (Contenido == "ACTIONS")
+                else 
                 {
                     break;
                 }
 
                 Contenido = Texto.ReadLine();
+                Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
             }
 
             Contenido = Texto.ReadLine();
@@ -126,7 +134,6 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
-
         private string ObtenerID(string Cadena)
         {
             var CadenaDividda = Cadena.ToCharArray();
@@ -149,7 +156,6 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
         }
 
-        
         private List<string> DefinicionTokens()
         {
             var Definicion = new List<string>();
@@ -187,7 +193,40 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        private void ExpresionRegular(List<string> IDTokens_ , List<string>DefinicionTokens_)
+        {
+            var Expresion = string.Empty;
 
+            var Contador = 0;
+
+            foreach (var item in DefinicionTokens_)
+            {
+                var NuevoItem = ValidarO(item);
+
+                Expresion += NuevoItem;
+                if (Contador < DefinicionTokens_.Count - 1)
+                { 
+                    Expresion += "|";
+                    Contador++;
+                }
+ 
+                 
+            }
+
+
+
+
+        }
+
+        private string ValidarO(string Cadena)
+        {
+            if (Cadena.Contains("|"))
+            {
+                Cadena = "(" + Cadena + ")";
+                 
+            }
+            return Cadena;
+        }
 
 
 
