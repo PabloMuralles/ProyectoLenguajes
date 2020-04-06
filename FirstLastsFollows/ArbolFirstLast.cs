@@ -9,7 +9,7 @@ namespace Proyecto_Lenguajes
     class ArbolFirstLast
     {
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"(a.=.(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*))).#";
+        string ExprecionRegularSets = @"(aa*).#";
 
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
