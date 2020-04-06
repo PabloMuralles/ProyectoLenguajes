@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         private List<string> Sets = new List<string>();
 
+        bool ArchivoCorrecto = true;
+
 
 
         public GenerarExpresion(StreamReader Archivo)
@@ -24,13 +27,19 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             var idsets = IdSets();
             var definicion = DefinicionTokens();
             var Expresion = ExpresionRegular(idsets, definicion);
-            ArbolFirstLast arbol = new ArbolFirstLast();
+            if (ArchivoCorrecto == true)
+            {
+                ArbolFirstLast arbol = new ArbolFirstLast();
+            }
+          
             
 
         }
         private void IdentificarSets()
         {
             var Contenido = Texto.ReadLine();
+
+            Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
 
             while (Contenido != null)
             {
@@ -49,6 +58,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 }
 
                 Contenido = Texto.ReadLine();
+                Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
             }
 
         }
@@ -205,13 +215,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             foreach (var item in DefinicionTokens_)
             {
-
-
-
-                  ValidarConcatenacion(item, IDsets_);
-
-
-                var NuevoItem = ValidarO(item);
+                var NuevoItem = ValidarConcatenacion(item, IDsets_);
+                 
+                NuevoItem = ValidarO(NuevoItem);
 
                 Expresion += NuevoItem;
                 if (Contador < DefinicionTokens_.Count - 1)
@@ -250,16 +256,18 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             var CasoEspecialComilla = false;
 
+            var ExisteParentesis = false;
+
             for (int i = 0; i < CadenaDivida.Length; i++)
             {
-                if ( char.IsLetter(CadenaDivida[i]) == true  && ExisteComilla == false)
+                if ((char.IsLetter(CadenaDivida[i]) == true && ExisteComilla == false) || (ExisteParentesis == true && char.IsLetter(CadenaDivida[i]) == true))
                 {
                     if (TomarCaracteres == false)
                     {
                         TomarCaracteres = true;
 
                         Analizador += Convert.ToString(CadenaDivida[i]);
-                      
+
                         if (Sets_.Contains(Analizador) == true)
                         {
                             TomarCaracteres = false;
@@ -267,12 +275,12 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             if (i != CadenaDivida.Length)
                             {
                                 CadenaNueva += ".";
-                           
+
                             }
                             Analizador = string.Empty;
 
                         }
-                       
+
                     }
                     else
                     {
@@ -284,17 +292,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             if (i != CadenaDivida.Length)
                             {
                                 CadenaNueva += ".";
-                                
+
                             }
                             Analizador = string.Empty;
 
                         }
                     }
                 }
-                else if ((TomarCaracteres == false && CadenaDivida[i] == '\'') || ExisteComilla == true )     
-                {
-                    var jfjfjf = CadenaDivida[i];
-
+                else if ((TomarCaracteres == false && CadenaDivida[i] == '\'') || ExisteComilla == true)
+                { 
                     if (ExisteComilla == false)
                     {
                         CadenaNueva += Convert.ToString(CadenaDivida[i]);
@@ -305,52 +311,75 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                         }
 
                     }
-                    else 
+                    else
                     {
                         CadenaNueva += Convert.ToString(CadenaDivida[i]);
                         if (CadenaDivida[i] == '\'' && CasoEspecialComilla == false)
                         {
-                          
+
                             CadenaNueva += ".";
                             ExisteComilla = false;
                         }
-                        else if(CasoEspecialComilla == true)
+                        else if (CasoEspecialComilla == true)
                         {
                             CasoEspecialComilla = false;
-                        }
-                       
-                        
+                        }                          
                     }
 
                 }
                 else if (CadenaDivida[i] == '|' && ExisteComilla == false)
                 {
-                    
-                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
-                    {
 
-                        CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
-                        
+                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                    { 
+                        CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1); 
                     }
-                    
+
                     CadenaNueva += Convert.ToString(CadenaDivida[i]);
                 }
-                else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '+' || CadenaDivida[i] == '+') && ExisteComilla == false && TomarCaracteres == false)
+                else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '+' || CadenaDivida[i] == '+') && ((ExisteComilla == false && TomarCaracteres == false) || ExisteParentesis == true))
                 {
                     if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
                     {
-
                         CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
-
                     }
 
                     CadenaNueva += Convert.ToString(CadenaDivida[i]);
                 }
+                else if (CadenaDivida[i] == '(' || CadenaDivida[i] == ')')
+                {
+                    if (CadenaDivida[i] == '(')
+                    {
+                        ExisteParentesis = true;
+                        CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                    }
+                    else
+                    {
+                        ExisteParentesis = false;
+                        if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                        {
+                            CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
+                        }
+                        CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                    }
 
+                }
+                else if (CadenaDivida[i] == '{' && CadenaDivida[i] != '\'')
+                {
+                    break;
+                }
+                else if (char.IsLetter(CadenaDivida[i]) == false &&  TomarCaracteres == true)
+                {
+                    ArchivoCorrecto = false;
+                    MessageBox.Show("La palabra no existe en sets");
+
+                    
+                }
+                 
             }
             CadenaNueva = CadenaNueva.TrimEnd('.');
 
-            return Cadena;
+            return CadenaNueva;
         }
 
         
