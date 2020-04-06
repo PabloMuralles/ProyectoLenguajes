@@ -236,7 +236,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             return Cadena;
         }
 
-        private void ValidarConcatenacion(string Cadena, List<string> Sets_)
+        private string ValidarConcatenacion(string Cadena, List<string> Sets_)
         {
             var CadenaDivida = Cadena.ToArray();
 
@@ -335,8 +335,22 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     
                     CadenaNueva += Convert.ToString(CadenaDivida[i]);
                 }
+                else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '+' || CadenaDivida[i] == '+') && ExisteComilla == false && TomarCaracteres == false)
+                {
+                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                    {
+
+                        CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
+
+                    }
+
+                    CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                }
 
             }
+            CadenaNueva = CadenaNueva.TrimEnd('.');
+
+            return Cadena;
         }
 
         
