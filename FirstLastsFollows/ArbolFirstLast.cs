@@ -28,6 +28,8 @@ namespace Proyecto_Lenguajes
 
         List<Nodo> ContenidoArbol = new List<Nodo>();
 
+        Dictionary<string, int> Precedencia;
+
         // constructor del arbol de expreciones
         public ArbolFirstLast(string Expresion_, List<string> Terminales)
         {
@@ -36,6 +38,7 @@ namespace Proyecto_Lenguajes
             SimbolosTerminales.Add("#");
             ExpresionRegular = "(" + Expresion_ + ").#";
              
+            Precedencia = new Dictionary<string, int> { { "+", 3 }, { "?", 3 }, { "*", 3 }, { ".", 2 }, { "|", 1 } };
             ConvertirExprecionaTokens();
             Crear_st_op();
             Insertar_Arbol_Expreciones(TokensExpresion);
@@ -183,8 +186,9 @@ namespace Proyecto_Lenguajes
                         TokenOp.Izquierdo.Padre = TokenOp.Data;
                         S.Push(TokenOp);
                     }
-                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar, T.Peek()) == true))
+                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar) == true))
                     {
+                        var prueba = VerificarPrecedencia(TokenEvaluar);
                         Nodo Temp = new Nodo(T.Pop());
                         Temp.Padre = null;
                         if (S.Count < 2)
@@ -194,6 +198,7 @@ namespace Proyecto_Lenguajes
                         // duda sobre este else preguntas
                         else
                         {
+                            var prueba1 = VerificarPrecedencia(TokenEvaluar);
                             Temp.Derecho = S.Pop();
                             Temp.Derecho.Padre = Temp.Data;
                             Temp.Izquierdo = S.Pop();
@@ -249,13 +254,19 @@ namespace Proyecto_Lenguajes
 
         // Metodo para verficar el nivel de precedencia de un operador
         // Devuelve un verdadero si el token es menor o igual en precedencial al operador ingresado
-        public bool VerificarPrecedencia(string TokenPrecedencia, string UltimoOperadorLista)
+        public bool VerificarPrecedencia(string TokenEvaluar)
         {
-            int IndexToken = Operadores.FindIndex(x => x.Equals(TokenPrecedencia));
 
-            int IndexUltimo = Operadores.FindIndex(x => x.Equals(TokenPrecedencia));
-
-            return IndexToken >= IndexUltimo;
+            Precedencia.TryGetValue(TokenEvaluar, out int TokenEvaluarValor);
+            Precedencia.TryGetValue(T.Peek(), out int TokenCompararValor);
+            if (TokenEvaluarValor <= TokenCompararValor)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void RecorridoInorden(Nodo raiz)
