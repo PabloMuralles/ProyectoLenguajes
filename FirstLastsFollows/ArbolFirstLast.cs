@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Proyecto_Lenguajes
 {
     class ArbolFirstLast
     {
         // Variable que contiene la exprecion regular
-        string ExprecionRegularSets = @"(aa*).#";
+        string ExpresionRegular = string.Empty;
 
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -18,13 +19,7 @@ namespace Proyecto_Lenguajes
         List<string> Operadores = new List<string>();
 
         //Cola que contiene la exprecion regular tokenizada
-        Queue<string> TokensExpresionSets = new Queue<string>();
-
-        // Pila de nodos para poder almacenar los arboles 
-        Stack<Nodo> S = new Stack<Nodo>();
-
-        //Pila de string que almacena los tokens
-        Stack<string> T = new Stack<string>();
+        Queue<string> TokensExpresion = new Queue<string>();
 
         // lista donde se va almacenar el texto a evaluar en el arbol
         private List<string> Texto_a_Evaluar = new List<string>();
@@ -34,86 +29,111 @@ namespace Proyecto_Lenguajes
         List<Nodo> ContenidoArbol = new List<Nodo>();
 
         // constructor del arbol de expreciones
-        public ArbolFirstLast()
+        public ArbolFirstLast(string Expresion_, List<string> Terminales)
         {
-
-            ConvertirExprecionaTokens(ExprecionRegularSets);
+             
+            SimbolosTerminales = Terminales;
+            SimbolosTerminales.Add("#");
+            ExpresionRegular = "(" + Expresion_ + ").#";
+             
+            ConvertirExprecionaTokens();
             Crear_st_op();
-            Insertar_Arbol_Expreciones(TokensExpresionSets);
+            Insertar_Arbol_Expreciones(TokensExpresion);
             RecorridoInorden(Arbol);
 
 
         }
 
         /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/
-        public void ConvertirExprecionaTokens(string Cadena)
+        public void ConvertirExprecionaTokens()
         {
-            for (int i = 0; i < Cadena.Length; i++)
+            var ExpresionRegularDividada = ExpresionRegular.ToArray();
+
+            var Analizador = string.Empty;
+
+            var Nuevotoken = string.Empty;
+
+            var ExisteComilla = false;
+
+            var NuevoTokenComillas = string.Empty;
+
+            var CasoEspecialComilla = false;
+
+            for (int i = 0; i < ExpresionRegularDividada.Length; i++)
             {
-                if ((Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "+") || (Cadena.Substring(i, 1) == @"." && Cadena.Substring(i + 1, 1) == ".") ||
-                    (Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == "(") || (Cadena.Substring(i, 1) == @"\" && Cadena.Substring(i + 1, 1) == ")"))
+                if (char.IsLetter(ExpresionRegularDividada[i]) && ExisteComilla == false)
                 {
-                    TokensExpresionSets.Enqueue(Cadena.Substring(i, 2));
-                    i = i + 1;
+                    Nuevotoken += Convert.ToString(ExpresionRegularDividada[i]);
+                    if (SimbolosTerminales.Contains(Nuevotoken))
+                    {
+                        TokensExpresion.Enqueue(Nuevotoken);
+                        Nuevotoken = string.Empty;
+                    }
                 }
-                else
+                else if (ExpresionRegularDividada[i] == '\'' || ExisteComilla == true)
                 {
-                    TokensExpresionSets.Enqueue(Cadena.Substring(i, 1));
+
+                    if (ExisteComilla == false)
+                    {
+                        NuevoTokenComillas += Convert.ToString(ExpresionRegularDividada[i]);
+                        ExisteComilla = true;
+                        if (ExpresionRegularDividada[i + 1] == '\'')
+                        {
+                            CasoEspecialComilla = true;
+                        }
+
+                    }
+                    else
+                    {
+                        NuevoTokenComillas += Convert.ToString(ExpresionRegularDividada[i]);
+                        
+                        if (ExpresionRegularDividada[i] == '\'' && CasoEspecialComilla == false)
+                        { 
+                            TokensExpresion.Enqueue(NuevoTokenComillas);
+                            ExisteComilla = false;
+                            NuevoTokenComillas = string.Empty;
+                        }
+                        else if (CasoEspecialComilla == true)
+                        {
+                            CasoEspecialComilla = false;
+                        }
+                    }
+
                 }
-
-
+                else if (ExpresionRegularDividada[i] == '*' || ExpresionRegularDividada[i] == '?' || ExpresionRegularDividada[i] == '+' || ExpresionRegularDividada[i] == '|' || ExpresionRegularDividada[i] == '.' || ExpresionRegularDividada[i] == ')' || ExpresionRegularDividada[i] == '(' || ExpresionRegularDividada[i] == '#')
+                {
+                    TokensExpresion.Enqueue(Convert.ToString(ExpresionRegularDividada[i]));
+                }
+                
             }
         }
 
         //Metodo para poder inicializar los operador y simbolos terminales
         public void Crear_st_op()
-        {
-
-
+        { 
             Operadores.Add("*");
             Operadores.Add("+");
             Operadores.Add("?");
             Operadores.Add(".");
             Operadores.Add("|");
-
-            SimbolosTerminales.Add("..");
-            SimbolosTerminales.Add("t");
-            SimbolosTerminales.Add(@"\+");
-            SimbolosTerminales.Add("'");
-            SimbolosTerminales.Add("#");
-            SimbolosTerminales.Add(@"\(");
-            SimbolosTerminales.Add(@"\)");
-            SimbolosTerminales.Add("C");
-            SimbolosTerminales.Add("H");
-            SimbolosTerminales.Add("R");
-            SimbolosTerminales.Add("a");
-            SimbolosTerminales.Add("=");
-
-            // for para agregar simbolos terminales quitando los operadores
-            //for (int i = 0; i < 256; i++)
-            //{
-            //    var Simbolo = ("" + (char)i);
-            //    if (Simbolo == "*"  || Simbolo == "+" || Simbolo == "?" || Simbolo == "." || Simbolo == "|" || Simbolo =="(" || Simbolo == ")")
-            //    {
-
-
-            //    }
-            //    else
-            //    {
-            //        SimbolosTerminales.Add(Simbolo);
-            //    }
-            //}
-
         }
 
         #region ARBOL DE EXPRECIONES
+
+        // Pila de nodos para poder almacenar los arboles 
+        Stack<Nodo> S = new Stack<Nodo>();
+
+        //Pila de string que almacena los tokens
+        Stack<string> T = new Stack<string>();
+
         // Metodo para poder ir creando el arbol de expreciones
         public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
         {
+            var contador = 0;
             // corregir error del la variable
             while (TokenExpresionRegular.Count != 0)
             {
-                string TokenEvaluar = TokensExpresionSets.Dequeue();
+                string TokenEvaluar = TokensExpresion.Dequeue();
                 if (SimbolosTerminales.Contains(TokenEvaluar))
                 {
                     Nodo NodoToken = new Nodo(TokenEvaluar);
@@ -191,6 +211,7 @@ namespace Proyecto_Lenguajes
                 {
                     throw new Exception("Token no reconocido");
                 }
+                contador++;
             }
 
 
@@ -239,12 +260,28 @@ namespace Proyecto_Lenguajes
 
         public void RecorridoInorden(Nodo raiz)
         {
+            var Carpeta = Environment.CurrentDirectory;
+
+            if (!Directory.Exists(Path.Combine(Carpeta, "NodosArbol")))
+            {
+                Directory.CreateDirectory(Path.Combine(Carpeta, "NodosArbol"));
+            }
 
             if (raiz != null)
             {
                 RecorridoInorden(raiz.Izquierdo);
-                ContenidoArbol.Add(raiz);
                 RecorridoInorden(raiz.Derecho);
+                ContenidoArbol.Add(raiz);
+
+            }
+
+            using (var streamwriter = new StreamWriter(Path.Combine(Carpeta, "NodosArbol", $"contenido.txt")))
+            {
+
+                foreach (var item in ContenidoArbol)
+                {
+                    streamwriter.WriteLine(Convert.ToString(item.Data));
+                }
 
             }
 

@@ -23,14 +23,16 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         public GenerarExpresion(StreamReader Archivo)
         {
+            
             Texto = Archivo;
             IdentificarSets();
             var idsets = IdSets();
-            var definicion = DefinicionTokens();
+            var definicion = QuitarEspaciosBlancoTokens(DefinicionTokens());
             var Expresion = ExpresionRegular(idsets, definicion);
+     
             if (ArchivoCorrecto == true)
             {
-                ArbolFirstLast arbol = new ArbolFirstLast();
+                ArbolFirstLast arbol = new ArbolFirstLast(Expresion, Terminales);
             }
           
             
@@ -208,25 +210,39 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        public List<string> QuitarEspaciosBlancoTokens(List<string> DefinicionTokens)
+        {
+            var NuevaLista = new List<string>();
+            foreach (var item in DefinicionTokens)
+            {
+                if (item != "")
+                {
+                    NuevaLista.Add(item);
+                }
+            }
+            return NuevaLista;
+        }
+
         private string ExpresionRegular(List<string> IDsets_ , List<string>DefinicionTokens_)
         {
             var Expresion = string.Empty;
 
-            var Contador = 0;
+            var Contador = 1;
 
             foreach (var item in DefinicionTokens_)
-            {
+            {    
                 var NuevoItem = ValidarConcatenacion(item, IDsets_);
-                 
+
                 NuevoItem = ValidarO(NuevoItem);
 
                 Expresion += NuevoItem;
-                if (Contador < DefinicionTokens_.Count - 1)
-                { 
+                if (Contador < DefinicionTokens_.Count)
+                {
                     Expresion += "|";
-                    Contador++;
+                         
                 }
-  
+                Contador++;
+                  
             }
 
             return Expresion;
@@ -357,7 +373,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
                     CadenaNueva += Convert.ToString(CadenaDivida[i]);
                 }
-                else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '+' || CadenaDivida[i] == '+') && ((ExisteComilla == false && TomarCaracteres == false) || ExisteParentesis == true))
+                else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '?' || CadenaDivida[i] == '+') && ((ExisteComilla == false && TomarCaracteres == false) || ExisteParentesis == true))
                 {
                     if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
                     {
@@ -401,6 +417,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             return CadenaNueva;
         }
+
+       
 
         
        
