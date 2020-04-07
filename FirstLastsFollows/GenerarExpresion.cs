@@ -18,6 +18,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         bool ArchivoCorrecto = true;
 
+        private List<string> Terminales = new List<string>();
 
 
         public GenerarExpresion(StreamReader Archivo)
@@ -258,6 +259,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             var ExisteParentesis = false;
 
+            var Terminal = string.Empty;
+
             for (int i = 0; i < CadenaDivida.Length; i++)
             {
                 if ((char.IsLetter(CadenaDivida[i]) == true && ExisteComilla == false) || (ExisteParentesis == true && char.IsLetter(CadenaDivida[i]) == true))
@@ -272,6 +275,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                         {
                             TomarCaracteres = false;
                             CadenaNueva += Analizador;
+                            if (!Terminales.Contains(Analizador))
+                            {
+                                Terminales.Add(Analizador);
+
+                            }
                             if (i != CadenaDivida.Length)
                             {
                                 CadenaNueva += ".";
@@ -289,6 +297,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                         {
                             TomarCaracteres = false;
                             CadenaNueva += Analizador;
+                            if (!Terminales.Contains(Analizador))
+                            {
+                                Terminales.Add(Analizador);
+
+                            }
                             if (i != CadenaDivida.Length)
                             {
                                 CadenaNueva += ".";
@@ -301,9 +314,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 }
                 else if ((TomarCaracteres == false && CadenaDivida[i] == '\'') || ExisteComilla == true)
                 { 
+
                     if (ExisteComilla == false)
                     {
                         CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                        Terminal += Convert.ToString(CadenaDivida[i]);
                         ExisteComilla = true;
                         if (CadenaDivida[i + 1] == '\'')
                         {
@@ -314,11 +329,16 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     else
                     {
                         CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                        Terminal += Convert.ToString(CadenaDivida[i]);
                         if (CadenaDivida[i] == '\'' && CasoEspecialComilla == false)
                         {
-
+                            if (!Terminales.Contains(Terminal))
+                            {
+                              Terminales.Add(Terminal);
+                            }
                             CadenaNueva += ".";
                             ExisteComilla = false;
+                            Terminal = string.Empty;
                         }
                         else if (CasoEspecialComilla == true)
                         {
@@ -384,20 +404,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         
        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+         
 
 
     }
