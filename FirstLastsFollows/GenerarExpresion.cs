@@ -232,8 +232,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             foreach (var item in DefinicionTokens_)
             {    
                 var NuevoItem = ValidarConcatenacion(item, IDsets_);
-
-                NuevoItem = ValidarO(NuevoItem);
+ 
 
                 Expresion += NuevoItem;
                 if (Contador < DefinicionTokens_.Count)
@@ -249,15 +248,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
         }
 
-        private string ValidarO(string Cadena)
-        {
-            if (Cadena.Contains("|"))
-            {
-                Cadena = "(" + Cadena + ")";
-                 
-            }
-            return Cadena;
-        }
+     
+
 
         private string ValidarConcatenacion(string Cadena, List<string> Sets_)
         {
@@ -298,7 +290,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             }
                             if (i != CadenaDivida.Length)
                             {
-                                CadenaNueva += ".";
+                                CadenaNueva += "·";
 
                             }
                             Analizador = string.Empty;
@@ -320,7 +312,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             }
                             if (i != CadenaDivida.Length)
                             {
-                                CadenaNueva += ".";
+                                CadenaNueva += "·";
 
                             }
                             Analizador = string.Empty;
@@ -352,7 +344,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             {
                               Terminales.Add(Terminal);
                             }
-                            CadenaNueva += ".";
+                            CadenaNueva += "·";
                             ExisteComilla = false;
                             Terminal = string.Empty;
                         }
@@ -366,7 +358,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 else if (CadenaDivida[i] == '|' && ExisteComilla == false)
                 {
 
-                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == "·")
                     { 
                         CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1); 
                     }
@@ -375,7 +367,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 }
                 else if ((CadenaDivida[i] == '*' || CadenaDivida[i] == '?' || CadenaDivida[i] == '+') && ((ExisteComilla == false && TomarCaracteres == false) || ExisteParentesis == true))
                 {
-                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                    if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == "·")
                     {
                         CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
                     }
@@ -392,7 +384,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     else
                     {
                         ExisteParentesis = false;
-                        if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == ".")
+                        if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == "·")
                         {
                             CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
                         }
@@ -413,7 +405,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 }
                  
             }
-            CadenaNueva = CadenaNueva.TrimEnd('.');
+            CadenaNueva = CadenaNueva.TrimEnd('·');
 
             return CadenaNueva;
         }

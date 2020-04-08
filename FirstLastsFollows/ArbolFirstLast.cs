@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.IO;
 
 namespace Proyecto_Lenguajes.FirstLastsFollows
@@ -23,10 +24,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         // lista donde se va almacenar el texto a evaluar en el arbol
         private List<string> Texto_a_Evaluar = new List<string>();
-
-        private Nodo Arbol;
-
-        List<Nodo> ContenidoArbol = new List<Nodo>();
+  
 
         Dictionary<string, int> Precedencia;
 
@@ -36,13 +34,14 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
             SimbolosTerminales = Terminales;
             SimbolosTerminales.Add("#");
-            ExpresionRegular = "(" + Expresion_ + ").#";
+            ExpresionRegular = "(" + Expresion_ + ")·#";
              
-            Precedencia = new Dictionary<string, int> { { "+", 3 }, { "?", 3 }, { "*", 3 }, { ".", 2 }, { "|", 1 } };
+            Precedencia = new Dictionary<string, int> { { "+", 3 }, { "?", 3 }, { "*", 3 }, { "·", 2 }, { "|", 1 } };
             ConvertirExprecionaTokens();
             Crear_st_op();
-            Insertar_Arbol_Expreciones(TokensExpresion);
-            RecorridoPostorden(Arbol);
+            var Arbol = Insertar_Arbol_Expreciones(TokensExpresion);
+
+            Tablas.Instance.Proceso(Arbol);
 
 
         }
@@ -103,7 +102,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     }
 
                 }
-                else if (ExpresionRegularDividada[i] == '*' || ExpresionRegularDividada[i] == '?' || ExpresionRegularDividada[i] == '+' || ExpresionRegularDividada[i] == '|' || ExpresionRegularDividada[i] == '.' || ExpresionRegularDividada[i] == ')' || ExpresionRegularDividada[i] == '(' || ExpresionRegularDividada[i] == '#')
+                else if (ExpresionRegularDividada[i] == '*' || ExpresionRegularDividada[i] == '?' || ExpresionRegularDividada[i] == '+' || ExpresionRegularDividada[i] == '|' || ExpresionRegularDividada[i] == '·' || ExpresionRegularDividada[i] == ')' || ExpresionRegularDividada[i] == '(' || ExpresionRegularDividada[i] == '#')
                 {
                     TokensExpresion.Enqueue(Convert.ToString(ExpresionRegularDividada[i]));
                 }
@@ -117,7 +116,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Operadores.Add("*");
             Operadores.Add("+");
             Operadores.Add("?");
-            Operadores.Add(".");
+            Operadores.Add("·");
             Operadores.Add("|");
         }
 
@@ -130,9 +129,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         Stack<string> T = new Stack<string>();
 
         // Metodo para poder ir creando el arbol de expreciones
-        public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
+        public Nodo Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
         {
-            var contador = 0;
+            
             // corregir error del la variable
             while (TokenExpresionRegular.Count != 0)
             {
@@ -186,28 +185,31 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                         TokenOp.Izquierdo.Padre = TokenOp.Data;
                         S.Push(TokenOp);
                     }
-                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar) == true))
+                    else if (T.Count != 0   )
                     {
-                        var prueba = VerificarPrecedencia(TokenEvaluar);
-                        Nodo Temp = new Nodo(T.Pop());
-                        Temp.Padre = null;
-                        if (S.Count < 2)
+                        while (T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar) == true))
                         {
-                            throw new Exception("Faltan operandos");
+                            Nodo Temp = new Nodo(T.Pop());
+                            Temp.Padre = null;
+                            if (S.Count < 2)
+                            {
+                                throw new Exception("Faltan operandos");
+                            }
+                            else
+                            {
+                                var prueba1 = VerificarPrecedencia(TokenEvaluar);
+                                Temp.Derecho = S.Pop();
+                                Temp.Derecho.Padre = Temp.Data;
+                                Temp.Izquierdo = S.Pop();
+                                Temp.Izquierdo.Padre = Temp.Data;
+                                S.Push(Temp);
+                            }
+
                         }
-                        // duda sobre este else preguntas
-                        else
-                        {
-                            var prueba1 = VerificarPrecedencia(TokenEvaluar);
-                            Temp.Derecho = S.Pop();
-                            Temp.Derecho.Padre = Temp.Data;
-                            Temp.Izquierdo = S.Pop();
-                            Temp.Izquierdo.Padre = Temp.Data;
-                            S.Push(Temp);
-                        }
+                  
                     }
 
-                    if (TokenEvaluar == "." || TokenEvaluar == "|")
+                    if (TokenEvaluar == "·" || TokenEvaluar == "|")
                     {
                         T.Push(TokenEvaluar);
                     }
@@ -216,7 +218,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 {
                     throw new Exception("Token no reconocido");
                 }
-                contador++;
+               
             }
 
 
@@ -248,7 +250,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 }
 
             }
-            Arbol = S.Pop();
+            return S.Pop();
         }
         #endregion
 
@@ -268,132 +270,6 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 return false;
             }
         }
-
-        int ContadorTerminales = 1;
-        public void RecorridoPostorden(Nodo raiz)
-        {
-            var Carpeta = Environment.CurrentDirectory;
-
-            if (!Directory.Exists(Path.Combine(Carpeta, "NodosArbol")))
-            {
-                Directory.CreateDirectory(Path.Combine(Carpeta, "NodosArbol"));
-            }
-            
-
-            if (raiz != null)
-            {
-                RecorridoPostorden(raiz.Izquierdo);
-                RecorridoPostorden(raiz.Derecho);
-                ContenidoArbol.Add(raiz);
-
-                if (raiz.Eshoja == true)
-                {
-                    raiz.Numero = ContadorTerminales;
-                    raiz.First.Add(ContadorTerminales);
-                    raiz.Last.Add(ContadorTerminales);
-                    ContadorTerminales++;
-                }
-                else if(raiz.Data == "*")
-                {
-                    raiz.Nulable = true;
-                    raiz.First = raiz.Izquierdo.First;
-                    raiz.Last = raiz.Izquierdo.Last;
-                }
-                else if (raiz.Data == "+")
-                {
-                    raiz.First = raiz.Izquierdo.First;
-                    raiz.Last = raiz.Izquierdo.Last;
-                }
-                else if (raiz.Data == "?")
-                {
-                    raiz.Nulable = true;
-                    raiz.First = raiz.Izquierdo.First;
-                    raiz.Last = raiz.Izquierdo.Last;
-                }
-                else if (raiz.Data == "|")
-                {
-                    if (raiz.Izquierdo.Nulable == true || raiz.Derecho.Nulable == true )
-                    {
-                        raiz.Nulable = true;
-                    }
-
-                    foreach (var item in raiz.Izquierdo.First)
-                    {
-                        raiz.First.Add(item);
-                    }
-                    foreach (var item in raiz.Derecho.First)
-                    {
-                        raiz.First.Add(item);
-                    }
-
-                    foreach (var item in raiz.Izquierdo.Last)
-                    {
-                        raiz.Last.Add(item);
-                    }
-                    foreach (var item in raiz.Derecho.Last)
-                    {
-                        raiz.Last.Add(item);
-                    }
-
-                }
-                else if (raiz.Data == ".")
-                {
-                    if (raiz.Izquierdo.Nulable == true && raiz.Derecho.Nulable == true)
-                    {
-                        raiz.Nulable = true;
-                    }
-                    if (raiz.Izquierdo.Nulable == true)
-                    {
-                        foreach (var item in raiz.Izquierdo.First)
-                        {
-                            raiz.First.Add(item);
-                        }
-                        foreach (var item in raiz.Derecho.First)
-                        {
-                            raiz.First.Add(item);
-                        }
-                    }
-                    else
-                    {
-                        foreach (var item in raiz.Izquierdo.First)
-                        {
-                            raiz.First.Add(item);
-                        }
-                    }
-                    if (raiz.Derecho.Nulable == true)
-                    {
-                        foreach (var item in raiz.Izquierdo.Last)
-                        {
-                            raiz.Last.Add(item);
-                        }
-                        foreach (var item in raiz.Derecho.Last)
-                        {
-                            raiz.Last.Add(item);
-                        }
-                    }
-                    else
-                    {
-                        foreach (var item in raiz.Derecho.Last)
-                        {
-                            raiz.Last.Add(item);
-                        }
-                    }
-                }
-            }
-
-            using (var streamwriter = new StreamWriter(Path.Combine(Carpeta, "NodosArbol", $"contenido.txt")))
-            {
-
-                foreach (var item in ContenidoArbol)
-                {
-                    streamwriter.WriteLine(Convert.ToString(item.Data));
-                }
-
-            }
-
-        }
-
-
 
 
     }
