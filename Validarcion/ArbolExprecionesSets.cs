@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Data;
 
 
-namespace Proyecto_Lenguajes
+namespace Proyecto_Lenguajes.Validacion
 {
     class ArbolExprecionesSets
     {

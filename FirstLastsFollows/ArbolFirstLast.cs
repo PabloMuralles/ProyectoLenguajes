@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Proyecto_Lenguajes
+namespace Proyecto_Lenguajes.FirstLastsFollows
 {
     class ArbolFirstLast
     {
@@ -42,7 +42,7 @@ namespace Proyecto_Lenguajes
             ConvertirExprecionaTokens();
             Crear_st_op();
             Insertar_Arbol_Expreciones(TokensExpresion);
-            RecorridoInorden(Arbol);
+            RecorridoPostorden(Arbol);
 
 
         }
@@ -269,7 +269,8 @@ namespace Proyecto_Lenguajes
             }
         }
 
-        public void RecorridoInorden(Nodo raiz)
+        int ContadorTerminales = 1;
+        public void RecorridoPostorden(Nodo raiz)
         {
             var Carpeta = Environment.CurrentDirectory;
 
@@ -277,13 +278,107 @@ namespace Proyecto_Lenguajes
             {
                 Directory.CreateDirectory(Path.Combine(Carpeta, "NodosArbol"));
             }
+            
 
             if (raiz != null)
             {
-                RecorridoInorden(raiz.Izquierdo);
-                RecorridoInorden(raiz.Derecho);
+                RecorridoPostorden(raiz.Izquierdo);
+                RecorridoPostorden(raiz.Derecho);
                 ContenidoArbol.Add(raiz);
 
+                if (raiz.Eshoja == true)
+                {
+                    raiz.Numero = ContadorTerminales;
+                    raiz.First.Add(ContadorTerminales);
+                    raiz.Last.Add(ContadorTerminales);
+                    ContadorTerminales++;
+                }
+                else if(raiz.Data == "*")
+                {
+                    raiz.Nulable = true;
+                    raiz.First = raiz.Izquierdo.First;
+                    raiz.Last = raiz.Izquierdo.Last;
+                }
+                else if (raiz.Data == "+")
+                {
+                    raiz.First = raiz.Izquierdo.First;
+                    raiz.Last = raiz.Izquierdo.Last;
+                }
+                else if (raiz.Data == "?")
+                {
+                    raiz.Nulable = true;
+                    raiz.First = raiz.Izquierdo.First;
+                    raiz.Last = raiz.Izquierdo.Last;
+                }
+                else if (raiz.Data == "|")
+                {
+                    if (raiz.Izquierdo.Nulable == true || raiz.Derecho.Nulable == true )
+                    {
+                        raiz.Nulable = true;
+                    }
+
+                    foreach (var item in raiz.Izquierdo.First)
+                    {
+                        raiz.First.Add(item);
+                    }
+                    foreach (var item in raiz.Derecho.First)
+                    {
+                        raiz.First.Add(item);
+                    }
+
+                    foreach (var item in raiz.Izquierdo.Last)
+                    {
+                        raiz.Last.Add(item);
+                    }
+                    foreach (var item in raiz.Derecho.Last)
+                    {
+                        raiz.Last.Add(item);
+                    }
+
+                }
+                else if (raiz.Data == ".")
+                {
+                    if (raiz.Izquierdo.Nulable == true && raiz.Derecho.Nulable == true)
+                    {
+                        raiz.Nulable = true;
+                    }
+                    if (raiz.Izquierdo.Nulable == true)
+                    {
+                        foreach (var item in raiz.Izquierdo.First)
+                        {
+                            raiz.First.Add(item);
+                        }
+                        foreach (var item in raiz.Derecho.First)
+                        {
+                            raiz.First.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in raiz.Izquierdo.First)
+                        {
+                            raiz.First.Add(item);
+                        }
+                    }
+                    if (raiz.Derecho.Nulable == true)
+                    {
+                        foreach (var item in raiz.Izquierdo.Last)
+                        {
+                            raiz.Last.Add(item);
+                        }
+                        foreach (var item in raiz.Derecho.Last)
+                        {
+                            raiz.Last.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in raiz.Derecho.Last)
+                        {
+                            raiz.Last.Add(item);
+                        }
+                    }
+                }
             }
 
             using (var streamwriter = new StreamWriter(Path.Combine(Carpeta, "NodosArbol", $"contenido.txt")))

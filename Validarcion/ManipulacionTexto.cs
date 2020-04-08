@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Proyecto_Lenguajes;
 
-namespace Proyecto_Lenguajes
+namespace Proyecto_Lenguajes.Validacion
 {
     class ManipulacionTexto
     {

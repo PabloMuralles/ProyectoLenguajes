@@ -48,7 +48,7 @@ namespace Proyecto_Lenguajes
                     var Archivo = new StreamReader(Direccion);
                     var Archivo2 = new StreamReader(Direccion);
 
-                    ManipulacionTexto TextoVerificadado = new ManipulacionTexto(Archivo);
+                    Validacion.ManipulacionTexto TextoVerificadado = new Validacion.ManipulacionTexto(Archivo);
                     FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
                 }
                 else

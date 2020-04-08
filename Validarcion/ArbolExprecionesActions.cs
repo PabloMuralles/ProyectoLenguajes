@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proyecto_Lenguajes
+namespace Proyecto_Lenguajes.Validacion
 {
     class ArbolExprecionesActions
     {
@@ -237,7 +237,7 @@ namespace Proyecto_Lenguajes
             return IndexToken >= IndexUltimo;
         }
 
-        public void RecorridoInorden(Nodo raiz)
+        public void RecorridoInorden( Nodo raiz)
         {
 
             if (raiz != null)
