@@ -33,13 +33,14 @@ namespace Proyecto_Lenguajes
         { 
             var Lista = Tablas.Instance.RecorridoFirstLast;
 
+            var Diccionario = Tablas.Instance.Follows;
+
             int Contador = 0;
 
             TablaFirstLast.Rows.Add(Lista.Count);
 
             foreach (var Nodo in Lista)
-            {
-               
+            { 
                 TablaFirstLast.Rows[Contador].Cells[0].Value = $"{Nodo.Data}";
                 var First = string.Empty;
                 foreach (var item in Nodo.First)
@@ -58,6 +59,25 @@ namespace Proyecto_Lenguajes
                 TablaFirstLast.Rows[Contador].Cells[2].Value = $"{Last}";
                 TablaFirstLast.Rows[Contador].Cells[3].Value = $"{Nodo.Nulable}";
                 Contador++;
+            }
+
+            TablaFollows.Rows.Add(Diccionario.Keys.Count);
+
+            int Contador2 = 0;
+
+            foreach (var valor in Diccionario)
+            {
+                TablaFollows.Rows[Contador2].Cells[0].Value = $"{valor.Key}";
+
+                var Follows = string.Empty;
+                foreach (var item in valor.Value)
+                {
+                    Follows += item;
+                    Follows += ",";
+
+                }
+                TablaFollows.Rows[Contador2].Cells[1].Value = $"{Follows}";
+                Contador2++;
             }
 
         }

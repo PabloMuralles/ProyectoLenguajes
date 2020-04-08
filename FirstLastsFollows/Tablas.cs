@@ -28,20 +28,22 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         {
             Arbol = Raiz;
             RecorridoFirstLast.Clear();
-            RecorridoPostordenFirstLast(Arbol);
+            Follows.Clear();
+            RecorridoPostorden(Arbol);
             Form2 Form2 = new Form2();
             Form2.Show();
 
         }
 
+        public Dictionary<int, List<int>> Follows = new Dictionary<int, List<int>>();
 
         int ContadorTerminales = 1;
-        private void RecorridoPostordenFirstLast(Nodo raiz)
+        private void RecorridoPostorden(Nodo raiz)
         {
             if (raiz != null)
             {
-                RecorridoPostordenFirstLast(raiz.Izquierdo);
-                RecorridoPostordenFirstLast(raiz.Derecho);
+                RecorridoPostorden(raiz.Izquierdo);
+                RecorridoPostorden(raiz.Derecho);
                 RecorridoFirstLast.Add(raiz);
 
 
@@ -50,6 +52,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     raiz.Numero = ContadorTerminales;
                     raiz.First.Add(ContadorTerminales);
                     raiz.Last.Add(ContadorTerminales);
+                    Follows.Add(ContadorTerminales, new List<int>());
                     ContadorTerminales++;
                 }
                 else if (raiz.Data == "*")
@@ -57,11 +60,27 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     raiz.Nulable = true;
                     raiz.First = raiz.Izquierdo.First;
                     raiz.Last = raiz.Izquierdo.Last;
+                    foreach (var LastC1 in raiz.Izquierdo.Last)
+                    {
+                        foreach (var firstC2 in raiz.Izquierdo.First)
+                        {
+                            Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC2);
+                        }
+
+                    }
                 }
                 else if (raiz.Data == "+")
                 {
                     raiz.First = raiz.Izquierdo.First;
                     raiz.Last = raiz.Izquierdo.Last;
+                    foreach (var LastC1 in raiz.Izquierdo.Last)
+                    {
+                        foreach (var firstC2 in raiz.Izquierdo.First)
+                        {
+                            Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC2);
+                        }
+
+                    }
                 }
                 else if (raiz.Data == "?")
                 {
@@ -137,33 +156,20 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                             raiz.Last.Add(item);
                         }
                     }
+                    foreach (var LastC1 in raiz.Izquierdo.Last)
+                    {
+                        foreach (var firstC2 in raiz.Derecho.First)
+                        {
+                            Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC2);
+                        }
+
+                    }
+
                 }
             }
-
         }
 
-
-        public void RecorridoPostordenFollows(Nodo raiz)
-        {
-            if (raiz != null)
-            {
-                RecorridoPostordenFirstLast(raiz.Izquierdo);
-                RecorridoPostordenFirstLast(raiz.Derecho);
-                RecorridoFirstLast.Add(raiz);
-
-               
-
-
-            }
-        }
-
-
-
-
-
-
-
-
+      
 
     }
 }
