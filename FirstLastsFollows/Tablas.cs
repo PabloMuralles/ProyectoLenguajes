@@ -44,7 +44,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Form2.Show();
 
         }
-        private Dictionary<List<int>, Dictionary<string, List<int>>>  EstadosT = new Dictionary<List<int>, Dictionary<string, List<int>>>();
+        public Dictionary<List<int>, Dictionary<string, List<int>>>  EstadosT = new Dictionary<List<int>, Dictionary<string, List<int>>>();
 
         public Dictionary<int, List<int>> Follows = new Dictionary<int, List<int>>();
 

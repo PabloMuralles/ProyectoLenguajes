@@ -16,7 +16,8 @@ namespace Proyecto_Lenguajes
         public Form2( )
         {
             InitializeComponent();
-            LLenarTabla();
+            LLenarTablaFirst();
+            LlenarTablaEstados();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -29,8 +30,53 @@ namespace Proyecto_Lenguajes
 
         }
 
-        public void LLenarTabla()
-        { 
+        public void LlenarTablaEstados()
+        {
+            var Tabla = new DataTable();
+
+            var diccestados = Tablas.Instance.EstadosT;
+             
+            var primerelemnto = diccestados.First();
+
+            Tabla.Columns.Add("Estados");
+
+            foreach (var item in primerelemnto.Value)
+            {
+                Tabla.Columns.Add($"{item.Key}");
+
+            }
+            var columnas = Tabla.Columns.Count;
+            var ContadorColumnas = 0;
+            Tabla.Rows.Add( );
+            var ContadorFilas = 0;
+
+            foreach (var item in diccestados)
+            {
+                Tabla.Rows.Add();
+                Tabla.Rows[ContadorFilas][ContadorColumnas] = string.Join(",", item.Key);
+                ContadorColumnas++;
+                foreach (var item2 in item.Value)
+                {
+                    if (item2.Value.Count != 0)
+                    {
+                        Tabla.Rows[ContadorFilas][ContadorColumnas] = string.Join(",", item2.Value);
+                        ContadorColumnas++;
+                    }
+                    else
+                    {
+                        Tabla.Rows[ContadorFilas][ContadorColumnas] = "----";
+                        ContadorColumnas++;
+                    }
+                     
+                }
+                ContadorFilas++;
+                ContadorColumnas = 0;
+            }
+
+            EstadosDg.DataSource = Tabla;
+        }
+        public void LLenarTablaFirst()
+        {
             var Lista = Tablas.Instance.RecorridoFirstLast;
 
             var Diccionario = Tablas.Instance.Follows;
@@ -40,7 +86,7 @@ namespace Proyecto_Lenguajes
             TablaFirstLast.Rows.Add(Lista.Count);
 
             foreach (var Nodo in Lista)
-            { 
+            {
                 TablaFirstLast.Rows[Contador].Cells[0].Value = $"{Nodo.Data}";
                 var First = string.Empty;
                 foreach (var item in Nodo.First)
@@ -80,7 +126,7 @@ namespace Proyecto_Lenguajes
                 Contador2++;
             }
 
-            EstadosDg.DataSource = Tablas.Instance.Estado;
+
         }
 
         private void Form2_Load(object sender, EventArgs e)
