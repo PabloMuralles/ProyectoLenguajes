@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FirstLastsFollows\DictionaryExtensions.cs" />
+    <Compile Include="FirstLastsFollows\Estados.cs" />
     <Compile Include="FirstLastsFollows\GenerarExpresion.cs" />
     <Compile Include="FirstLastsFollows\Nodo.cs" />
     <Compile Include="FirstLastsFollows\Tablas.cs" />

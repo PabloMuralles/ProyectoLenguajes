@@ -80,6 +80,17 @@ namespace Proyecto_Lenguajes
                 Contador2++;
             }
 
+            EstadosDg.DataSource = Tablas.Instance.Estado;
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
