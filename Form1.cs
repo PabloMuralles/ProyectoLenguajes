@@ -27,6 +27,11 @@ namespace Proyecto_Lenguajes
 
         }
 
+        /// <summary>
+        /// action del boton para cargar archivo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cargar_Archivo_Click(object sender, EventArgs e)
         {
             // variable para poder abrir el dialog
@@ -48,10 +53,18 @@ namespace Proyecto_Lenguajes
                 {
                     if (Extencion == ".txt")
                     {
-                        ExtencionValidar = true;
                         var ArchivoEnseñar = new StreamReader(Direccion);
-                        path.Text = Direccion;
-                        textomostrar.Text = ArchivoEnseñar.ReadToEnd();
+                        if (ArchivoEnseñar.BaseStream.Length != 0)
+                        {
+                            ExtencionValidar = true; 
+                            path.Text = Direccion;
+                            textomostrar.Text = ArchivoEnseñar.ReadToEnd();
+                        }
+                        else
+                        {
+                            throw new Exception("Archivo vacio");
+                        }
+             
 
 
                     }
@@ -69,6 +82,11 @@ namespace Proyecto_Lenguajes
             }        
         }
 
+        /// <summary>
+        /// acction del boton para analizar texto
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (ExtencionValidar == true)
