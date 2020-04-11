@@ -14,19 +14,21 @@ namespace Proyecto_Lenguajes
 {
     public partial class Form2 : Form
     {
-    
+        /// <summary>
+        /// variables globales de la clase
+        /// </summary>
         private static  Bitmap bitmap = new Bitmap(9999, 9999);
         private  Graphics graphics = Graphics.FromImage(bitmap);
 
        
+        /// <summary>
+        /// se uso el metodo ya creado para llamar a los distintos metos y crear las tablas 
+        /// </summary>
         public Form2()
         {
             InitializeComponent();
             LLenarTablaFirst();
             LlenarTablaEstados();
-             
-
-             
             DibujarArbol(Tablas.Instance.Arbol, this.Width/2, 100, 250);
             pictureBox1.Image = bitmap;
         }
@@ -41,6 +43,14 @@ namespace Proyecto_Lenguajes
         {
 
         }
+
+        /// <summary>
+        /// Metodo para dibujar el arbol creado con la expresion regular de tokens
+        /// </summary>
+        /// <param name="arbol"> recibe el arbol para poder dibujarlo</param>
+        /// <param name="posX">la posicion en x para poder dibujar el nodo</param>
+        /// <param name="posY">la posicion en y para poder dibujar el nodo</param>
+        /// <param name="separacion"> la cantidad de separacion entre cada uno</param>
         private void DibujarArbol(Nodo arbol, int posX, int posY, int separacion)
         {
             if (arbol != null)
@@ -66,7 +76,9 @@ namespace Proyecto_Lenguajes
         }
 
 
-
+        /// <summary>
+        /// Llena la tabla de los estados por medio de un data table que despues se inserta en el data grid por medio de las propiedades publicas de la clase tabla 
+        /// </summary>
         private void LlenarTablaEstados()
         {
             textBox1.Text = Tablas.Instance.Expresion_;
@@ -114,6 +126,11 @@ namespace Proyecto_Lenguajes
 
             EstadosDg.DataSource = Tabla;
         }
+         
+        /// <summary>
+        /// Metodo que crea la tabla de los first las y follows por medio de las propiedades publicas de la clase tabla e insertar 
+        /// los datos en un data grid 
+        /// </summary>
         private void LLenarTablaFirst()
         {
             var Lista = Tablas.Instance.RecorridoFirstLast;
@@ -177,20 +194,8 @@ namespace Proyecto_Lenguajes
         {
 
         }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void picturebox_Click(object sender, EventArgs e)
-        {
-
-        }
+ 
+ 
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -202,14 +207,17 @@ namespace Proyecto_Lenguajes
 
         }
 
+        /// <summary>
+        /// Boton para poder regresar a la pagina de cargar archivo 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
             Form1 PantallaCarga = new Form1();
             PantallaCarga.Show();
-
-
-           
+             
         }
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
