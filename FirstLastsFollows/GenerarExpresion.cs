@@ -10,6 +10,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 {
     class GenerarExpresion
     {
+
+        /// <summary>
+        /// varibles globales de la clase
+        /// </summary>
+        
         private StreamReader Texto;
 
         private List<string> Tokens = new List<string>();
@@ -20,7 +25,10 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         private List<string> Terminales = new List<string>();
 
-
+        /// <summary>
+        /// constructor de la clase
+        /// </summary>
+        /// <param name="Archivo">recibe el archivo para poder relizar los calculos</param>
         public GenerarExpresion(StreamReader Archivo)
         {
             
@@ -34,10 +42,12 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             {
                 ArbolFirstLast arbol = new ArbolFirstLast(Expresion, Terminales);
             }
-          
-            
-
+           
         }
+
+        /// <summary>
+        /// metodo para identificar los sets
+        /// </summary>
         private void IdentificarSets()
         {
             var Contenido = Texto.ReadLine();
@@ -66,6 +76,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        /// <summary>
+        /// metodo para guardar los sets y posteriormente guardar los ids
+        /// </summary>
         private void GuardarSets()
         {
             var Contenido = Texto.ReadLine();
@@ -88,6 +101,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        /// <summary>
+        /// Metodo que guardar los tokens 
+        /// </summary>
         private void GuardarTokens()
         {
             
@@ -113,6 +129,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
         }
  
+        /// <summary>
+        /// metodo que quita los caracteres especiale y espacios en blanco
+        /// </summary>
+        /// <param name="LineaEvaluar">recibe una linea de codigo para poder relizar el poceso</param>
+        /// <returns>devuelve la cade o lines sin esos caracteres </returns>
         public string QuitarCaracteres_EspaciosBlancos(string LineaEvaluar)
         {
             
@@ -138,6 +159,10 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        /// <summary>
+        /// guarda unicamente los id de los sets
+        /// </summary>
+        /// <returns>Retorna una lista solo con los ids</returns>
         private List<string> IdSets()
         {
             var IdSets = new List<string>();
@@ -151,6 +176,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        /// <summary>
+        /// Metodo que quita todo lo que esta despues del igual 
+        /// </summary>
+        /// <param name="Cadena"> recibe una linea de los sets</param>
+        /// <returns>retorna el id de los sets para poder guardarlos</returns>
         private string ObtenerID(string Cadena)
         {
             var CadenaDividda = Cadena.ToCharArray();
@@ -173,6 +203,10 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
              
         }
 
+        /// <summary>
+        /// Metido que guarda la definicion de los tokens
+        /// </summary>
+        /// <returns>retorna una lista con la definicion de los tokens</returns>
         private List<string> DefinicionTokens()
         {
             var Definicion = new List<string>();
@@ -185,6 +219,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             return Definicion;
         }
 
+        /// <summary>
+        /// Metodo para quitar todo lo que esta despues del igual de los tokens
+        /// </summary>
+        /// <param name="Cadena">recibe una linea de los tokens</param>
+        /// <returns>devuelve la definicion de los tokens </returns>
         private string ObtenerDefinicionTokens(string Cadena)
         {
             var EmpezarGuardar = false;
@@ -210,6 +249,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
+        /// <summary>
+        /// Metodo para quitar los espacions en blanco es decir posicion de la lsita en blanco de la decinicion de los tokens
+        /// </summary>
+        /// <param name="DefinicionTokens">recibe una lista con la decinicion de los tokens</param>
+        /// <returns>retorna esa lista solo que son esas posiciones en blanco</returns>
         public List<string> QuitarEspaciosBlancoTokens(List<string> DefinicionTokens)
         {
             var NuevaLista = new List<string>();
@@ -223,6 +267,12 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             return NuevaLista;
         }
 
+        /// <summary>
+        /// Metodo que construye la expresion regular en base a los tokens
+        /// </summary>
+        /// <param name="IDsets_">recibe una lista de los ids de sets</param>
+        /// <param name="DefinicionTokens_">Recibe una lista con la decinicion de los tokens</param>
+        /// <returns></returns>
         private string ExpresionRegular(List<string> IDsets_ , List<string>DefinicionTokens_)
         {
             var Expresion = string.Empty;
@@ -247,10 +297,13 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             return Expresion;
              
         }
-
-     
-
-
+         
+        /// <summary>
+        /// Metodo para ver cuando se debe de poner concatenacion en la expresion regular
+        /// </summary>
+        /// <param name="Cadena">linea de la definicion de los tokens</param>
+        /// <param name="Sets_">lista de los ids </param>
+        /// <returns>retorna la linea de la definicion concatenada</returns>
         private string ValidarConcatenacion(string Cadena, List<string> Sets_)
         {
             var CadenaDivida = Cadena.ToArray();

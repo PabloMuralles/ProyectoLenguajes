@@ -14,8 +14,9 @@ namespace Proyecto_Lenguajes
 {
     public partial class Form1 : Form
     {
-        //Lista para guardar el texto leido con readline
-        List<string> TextoLeido = new List<string>();
+        private string Direccion = string.Empty;
+
+        private bool ExtencionValidar = true;
         public Form1()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace Proyecto_Lenguajes
             if (Abrir.ShowDialog() == DialogResult.OK)
             {
                 // da la direccion del archivo que se abrio
-                var Direccion = Abrir.FileName;
+                Direccion = Abrir.FileName;
 
                 // da la extecion del archivo para poder validarlo que sea txt
                 var Extencion = Path.GetExtension(Direccion);
@@ -43,21 +44,42 @@ namespace Proyecto_Lenguajes
                 /*valido la extencion del archivo y si es txt lo leo para posteriomente 
                  * guardarlo y sino es un txt se muestra un messaje*/
 
-                if (Extencion == ".txt")
-                { 
-                    var Archivo = new StreamReader(Direccion);
-                    var Archivo2 = new StreamReader(Direccion);
-
-                    Validacion.ManipulacionTexto TextoVerificadado = new Validacion.ManipulacionTexto(Archivo);
-                    FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
-                }
-                else
+                try
                 {
-                    MessageBox.Show("El documento ingesado no es un txt");
+                    if (Extencion == ".txt")
+                    {
+                        ExtencionValidar = true;
+                        var ArchivoEnseñar = new StreamReader(Direccion);
+                        path.Text = Direccion;
+                        textomostrar.Text = ArchivoEnseñar.ReadToEnd();
 
-                } 
-                    
+
+                    }
+                    else
+                    {
+                        ExtencionValidar = false;
+                        throw new Exception("El documento ingesado no es un txt");
+                    }
+
+                }
+                catch (Exception p)
+                { 
+                    MessageBox.Show(p.Message);
+                }     
             }        
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (ExtencionValidar == true)
+            { 
+                var Archivo = new StreamReader(Direccion);
+                var Archivo2 = new StreamReader(Direccion);
+
+                Validacion.ManipulacionTexto TextoVerificadado = new Validacion.ManipulacionTexto(Archivo);
+                FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
+                this.Hide();
+            }
         }
     }
 }

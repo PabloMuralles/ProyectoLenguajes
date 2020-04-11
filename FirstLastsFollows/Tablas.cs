@@ -11,6 +11,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 {
     class Tablas
     {
+        /// <summary>
+        /// metodo para poder implementar singleton
+        /// </summary>
         private static Tablas _instance = null;
         public static Tablas Instance
         {
@@ -26,6 +29,13 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         public List<Nodo> RecorridoFirstLast = new List<Nodo>();
 
         public string Expresion_ = string.Empty;
+
+        /// <summary>
+        /// Metodo simila al constructor 
+        /// </summary>
+        /// <param name="Raiz"> recibe el arbol generado pr la clase arbilfirstlast para realzar los calculos</param>
+        /// <param name="Terminales_">Recibe los terminales en una lista para realizar calculos</param>
+        /// <param name="Expresion">recibe la expresion regular para poder mostrarla en el forms2</param>
         public void Proceso(Nodo Raiz,List<string> Terminales_,string Expresion)
         {
             Arbol = Raiz;
@@ -45,6 +55,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Form2.Show();
 
         }
+
         public Dictionary<List<int>, Dictionary<string, List<int>>>  EstadosT = new Dictionary<List<int>, Dictionary<string, List<int>>>();
 
         public Dictionary<int, List<int>> Follows = new Dictionary<int, List<int>>();
@@ -54,6 +65,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         private List<string> TerminalesArbol = new List<string>();
          
         int ContadorTerminales = 1;
+
+        /// <summary>
+        /// Metodo de recorridopost orden donde se calculan los first, last y follow
+        /// </summary>
+        /// <param name="raiz">recibe el arbol para poder realizar los calculos</param>
         private void RecorridoPostorden(Nodo raiz)
         {
             if (raiz != null)

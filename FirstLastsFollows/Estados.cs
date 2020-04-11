@@ -9,6 +9,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 {
     class Estados
     {
+        /// <summary>
+        /// variables globales de la clase
+        /// </summary>
 
         private Dictionary<int, List<int>> Follows;
 
@@ -17,6 +20,14 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         private List<string> TerminalesArbol = new List<string>();
 
         private Nodo Arbol;
+
+        /// <summary>
+        /// Constructor de la clase que resive de la clase tablas
+        /// </summary>
+        /// <param name="follows"> resive los follows de la clase donde se calculan</param>
+        /// <param name="terminales">se pasan los terminales para poder calcualar los estados</param>
+        /// <param name="arbol">se manda el arbol para poder obtener el first</param>
+        /// <param name="terminalesArbol"> se pasan todas las hojas del arbol es decir los simbolos</param>
         public Estados(Dictionary<int, List<int>> follows, List<string> terminales, Nodo arbol, List<string> terminalesArbol)
         {
             Follows = new Dictionary<int, List<int>>(follows);
@@ -35,7 +46,10 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         private Dictionary<List<int>, Dictionary<string, List<int>>> TablaEstados = new Dictionary<List<int>, Dictionary<string, List<int>>>();
          
-
+        /// <summary>
+        /// Metodo para crear los estados utiliza diccinarios de diccinarios para poder crearlos
+        /// </summary>
+        /// <returns>retorna un diccionaro de diccionarios que serian los estados creados</returns>
         public Dictionary<List<int>, Dictionary<string, List<int>>> CrearEstados()
         { 
             Queue<List<int>> EstadosAprobar = new Queue<List<int>>();

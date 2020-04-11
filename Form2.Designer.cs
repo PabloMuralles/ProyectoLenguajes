@@ -39,13 +39,19 @@
             this.Follow = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EstadosDg = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel = new System.Windows.Forms.Panel();
-            this.picturebox = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.TablaFirstLast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablaFollows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EstadosDg)).BeginInit();
-            this.panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // TablaFirstLast
@@ -57,7 +63,7 @@
             this.First,
             this.Last,
             this.Nulable});
-            this.TablaFirstLast.Location = new System.Drawing.Point(12, 459);
+            this.TablaFirstLast.Location = new System.Drawing.Point(12, 526);
             this.TablaFirstLast.Name = "TablaFirstLast";
             this.TablaFirstLast.Size = new System.Drawing.Size(445, 208);
             this.TablaFirstLast.TabIndex = 0;
@@ -94,9 +100,9 @@
             this.TablaFollows.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Simbolo1,
             this.Follow});
-            this.TablaFollows.Location = new System.Drawing.Point(463, 459);
+            this.TablaFollows.Location = new System.Drawing.Point(463, 526);
             this.TablaFollows.Name = "TablaFollows";
-            this.TablaFollows.Size = new System.Drawing.Size(240, 208);
+            this.TablaFollows.Size = new System.Drawing.Size(244, 208);
             this.TablaFollows.TabIndex = 1;
             // 
             // Simbolo1
@@ -115,58 +121,132 @@
             // 
             this.EstadosDg.BackgroundColor = System.Drawing.Color.White;
             this.EstadosDg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.EstadosDg.Location = new System.Drawing.Point(709, 459);
+            this.EstadosDg.Location = new System.Drawing.Point(713, 526);
             this.EstadosDg.Name = "EstadosDg";
-            this.EstadosDg.Size = new System.Drawing.Size(438, 208);
+            this.EstadosDg.Size = new System.Drawing.Size(539, 208);
             this.EstadosDg.TabIndex = 2;
             this.EstadosDg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(168, 12);
+            this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1135, 20);
-            this.textBox1.TabIndex = 0;
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox1.Size = new System.Drawing.Size(1084, 50);
+            this.textBox1.TabIndex = 10;
+            this.textBox1.WordWrap = false;
             // 
-            // panel
+            // label1
             // 
-            this.panel.AutoScroll = true;
-            this.panel.Controls.Add(this.picturebox);
-            this.panel.Location = new System.Drawing.Point(12, 38);
-            this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(1135, 415);
-            this.panel.TabIndex = 13;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(28, 501);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "First y Last:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // picturebox
+            // label6
             // 
-            this.picturebox.Location = new System.Drawing.Point(3, 21);
-            this.picturebox.Name = "picturebox";
-            this.picturebox.Size = new System.Drawing.Size(1129, 374);
-            this.picturebox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.picturebox.TabIndex = 0;
-            this.picturebox.TabStop = false;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(470, 503);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(66, 20);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Follows:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(749, 501);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(72, 20);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Estados:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(28, 81);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 20);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Árbol:";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(8, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(143, 20);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Expresión Regular:";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(12, 104);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1240, 394);
+            this.panel1.TabIndex = 16;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 35);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1237, 312);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 750);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Atras";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1159, 679);
-            this.Controls.Add(this.panel);
+            this.ClientSize = new System.Drawing.Size(1264, 785);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.EstadosDg);
             this.Controls.Add(this.TablaFollows);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.TablaFirstLast);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Tablas";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TablaFirstLast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablaFollows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EstadosDg)).EndInit();
-            this.panel.ResumeLayout(false);
-            this.panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,7 +264,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Nulable;
         private System.Windows.Forms.DataGridView EstadosDg;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Panel panel;
-        private System.Windows.Forms.PictureBox picturebox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -17,6 +17,8 @@ namespace Proyecto_Lenguajes
     
         private static  Bitmap bitmap = new Bitmap(9999, 9999);
         private  Graphics graphics = Graphics.FromImage(bitmap);
+
+       
         public Form2()
         {
             InitializeComponent();
@@ -26,8 +28,10 @@ namespace Proyecto_Lenguajes
 
              
             DibujarArbol(Tablas.Instance.Arbol, this.Width/2, 100, 250);
-            picturebox.Image = bitmap;
+            pictureBox1.Image = bitmap;
         }
+
+    
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -179,6 +183,36 @@ namespace Proyecto_Lenguajes
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picturebox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 PantallaCarga = new Form1();
+            PantallaCarga.Show();
+
+
+           
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
         {
 
         }
