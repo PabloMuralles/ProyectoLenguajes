@@ -21,10 +21,12 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             }
         }
 
-        private Nodo Arbol;
+        public Nodo Arbol;
 
         public List<Nodo> RecorridoFirstLast = new List<Nodo>();
-        public void Proceso(Nodo Raiz,List<string> Terminales_)
+
+        public string Expresion_ = string.Empty;
+        public void Proceso(Nodo Raiz,List<string> Terminales_,string Expresion)
         {
             Arbol = Raiz;
             
@@ -37,9 +39,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Estados NuevoEstados = new Estados(Follows, Terminales_, Arbol, TerminalesArbol);
 
             EstadosT = NuevoEstados.CrearEstados();
+            Expresion_ = Expresion;
 
-        
-                 
             Form2 Form2 = new Form2();
             Form2.Show();
 

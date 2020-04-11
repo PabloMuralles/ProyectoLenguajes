@@ -41,7 +41,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Crear_st_op();
             var Arbol = Insertar_Arbol_Expreciones(TokensExpresion);
 
-            Tablas.Instance.Proceso(Arbol,Terminales);
+            Tablas.Instance.Proceso(Arbol,Terminales,Expresion_);
 
 
         }
