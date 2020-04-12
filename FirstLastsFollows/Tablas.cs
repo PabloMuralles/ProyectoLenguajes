@@ -24,7 +24,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             }
         }
 
-        public Nodo Arbol;
+        public Nodo Arbol; 
 
         public List<Nodo> RecorridoFirstLast = new List<Nodo>();
 
@@ -43,13 +43,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             RecorridoFirstLast.Clear();
             Follows.Clear();
             EstadosT.Clear();
+            TerminalesArbol.Clear();
  
             RecorridoPostorden(Arbol);
 
             Estados NuevoEstados = new Estados(Follows, Terminales_, Arbol, TerminalesArbol);
 
-            EstadosT = NuevoEstados.CrearEstados();
+            EstadosT = NuevoEstados.CrearEstados(Arbol);
             Expresion_ = Expresion;
+            ContadorTerminales = 1;
 
             Form2 Form2 = new Form2();
             Form2.Show();

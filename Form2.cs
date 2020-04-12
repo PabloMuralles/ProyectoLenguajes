@@ -29,7 +29,7 @@ namespace Proyecto_Lenguajes
             InitializeComponent();
             LLenarTablaFirst();
             LlenarTablaEstados();
-            DibujarArbol(Tablas.Instance.Arbol, this.Width/2, 100, 250);
+            DibujarArbol(Tablas.Instance.Arbol, this.Width / 2, 100, 250);
             pictureBox1.Image = bitmap;
         }
 
@@ -55,21 +55,21 @@ namespace Proyecto_Lenguajes
         {
             if (arbol != null)
             {
-                graphics.FillEllipse(new SolidBrush(Color.Blue), new RectangleF(posX, posY, 50, 25));
-                graphics.DrawString(arbol.Data, new Font("Arial", 8, FontStyle.Regular), new SolidBrush(Color.Green), posX + 5, posY + 5);
+                graphics.FillEllipse(new SolidBrush(Color.GreenYellow), new RectangleF(posX, posY, 50, 25));
+                graphics.DrawString(arbol.Data, new Font("Arial", 8, FontStyle.Regular), new SolidBrush(Color.Black), posX + 5, posY + 5);
 
            
 
                 if (arbol.Derecho != null)
                 {
                     
-                    graphics.DrawLine(new Pen(Color.Black), posX + 15, posY + 15, posX + separacion + 15, posY + 65);
+                    graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX + separacion + 15, posY + 65);
                     DibujarArbol(arbol.Derecho, (posX + separacion), (posY + 50), separacion/2);
                 }
 
                 if (arbol.Izquierdo != null)
                 {
-                    graphics.DrawLine(new Pen(Color.Black), posX + 15, posY + 15, posX - separacion + 15, posY + 65);
+                    graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX - separacion + 15, posY + 65);
                     DibujarArbol(arbol.Izquierdo, (posX - separacion), (posY + 50), separacion/2);
                 }
             }
@@ -214,7 +214,7 @@ namespace Proyecto_Lenguajes
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form1 PantallaCarga = new Form1();
             PantallaCarga.Show();
              

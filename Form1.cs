@@ -16,7 +16,7 @@ namespace Proyecto_Lenguajes
     {
         private string Direccion = string.Empty;
 
-        private bool ExtencionValidar = true;
+        private bool ExtencionValidar = false;
         public Form1()
         {
             InitializeComponent();
@@ -97,6 +97,10 @@ namespace Proyecto_Lenguajes
                 Validacion.ManipulacionTexto TextoVerificadado = new Validacion.ManipulacionTexto(Archivo);
                 FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
                 this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("No se a cargado archivo");
             }
         }
     }

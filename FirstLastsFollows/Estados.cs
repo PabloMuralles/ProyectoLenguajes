@@ -19,7 +19,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         private List<string> TerminalesArbol = new List<string>();
 
-        private Nodo Arbol;
+
 
         /// <summary>
         /// Constructor de la clase que resive de la clase tablas
@@ -40,7 +40,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             TerminalesArbol = terminalesArbol;
 
-            Arbol = arbol;
+             
   
         }
 
@@ -50,7 +50,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         /// Metodo para crear los estados utiliza diccinarios de diccinarios para poder crearlos
         /// </summary>
         /// <returns>retorna un diccionaro de diccionarios que serian los estados creados</returns>
-        public Dictionary<List<int>, Dictionary<string, List<int>>> CrearEstados()
+        public Dictionary<List<int>, Dictionary<string, List<int>>> CrearEstados(Nodo Arbol)
         { 
             Queue<List<int>> EstadosAprobar = new Queue<List<int>>();
 
