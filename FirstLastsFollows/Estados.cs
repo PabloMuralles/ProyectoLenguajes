@@ -125,7 +125,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
                     }
                     diccModificarNoInicial.Add(Simbolo, ListaFollows);
-                    if (!EstadosAprobar.Any(c => c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)))
+                    if (!EstadosAprobar.Any(c => c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)) && ListaFollows.Count != 0)
                     {
                         EstadosAprobar.Enqueue(ListaFollows);
                     }

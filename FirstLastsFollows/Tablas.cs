@@ -81,12 +81,12 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 RecorridoPostorden(raiz.Derecho);
                 RecorridoFirstLast.Add(raiz);
 
-
                 if (raiz.Eshoja == true)
                 {
                     raiz.Numero = ContadorTerminales;
                     raiz.First.Add(ContadorTerminales);
                     raiz.Last.Add(ContadorTerminales);
+                    // inicializo el diccionario con los simbolos de los terminales y las listas las inicializo
                     Follows.Add(ContadorTerminales, new List<int>());
                     TerminalesArbol.Add(raiz.Data);
                     ContadorTerminales++;
@@ -99,8 +99,13 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     foreach (var LastC1 in raiz.Izquierdo.Last)
                     {
                         foreach (var firstC1 in raiz.Izquierdo.First)
-                        {   // validar si ya esta el follow a agregar pero si esta en 0 solo agregar
-                            Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC1);
+                        {
+                            Follows.TryGetValue(LastC1, out var followexistentes);
+
+                            if (!followexistentes.Contains(firstC1))
+                            {
+                                Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC1);
+                            }
                         }
 
                     }
@@ -113,7 +118,13 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         foreach (var firstC1 in raiz.Izquierdo.First)
                         {
-                            Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC1);
+                            Follows.TryGetValue(LastC1, out var followsexistentes);
+
+                            if (!followsexistentes.Contains(firstC1))
+                            {
+                                Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC1);
+
+                            }
                         }
 
                     }
@@ -195,8 +206,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         foreach (var firstC2 in raiz.Derecho.First)
                         {
-                            // validar que si el valor viene 0
+                            
                             Follows.TryGetValue(LastC1 , out var valor);
+                            // se valido que si el count es 0 no da error al verificar si lo contine
                             if (!valor.Contains(firstC2))
                             {
                                 Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC2);
