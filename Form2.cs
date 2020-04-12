@@ -29,7 +29,7 @@ namespace Proyecto_Lenguajes
             InitializeComponent();
             LLenarTablaFirst();
             LlenarTablaEstados();
-            DibujarArbol(Tablas.Instance.Arbol, this.Width * 2, 100, 500);
+            DibujarArbol(Tablas.Instance.Arbol, this.Width * 6, 80, 2000);
             pictureBox1.Image = bitmap;
         }
 
@@ -59,15 +59,22 @@ namespace Proyecto_Lenguajes
                 graphics.DrawString(arbol.Data, new Font("Arial", 8, FontStyle.Regular), new SolidBrush(Color.Black), posX + 5, posY + 5);
                  
                 if (arbol.Derecho != null)
-                {  
+                {
+                    separacion = separacion + 20;
                     graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX + separacion + 15, posY + 65);
-                    DibujarArbol(arbol.Derecho, (posX + separacion), (posY + 50), separacion / 2);
+                    DibujarArbol(arbol.Derecho, (posX + separacion), (posY + 50), (separacion/2));
+                     
+                     
                 }
 
                 if (arbol.Izquierdo != null)
                 {
+
+                    separacion = separacion + 20;
                     graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX - separacion + 15, posY + 65);
-                    DibujarArbol(arbol.Izquierdo, (posX - separacion), (posY + 50), separacion / 2);
+                    DibujarArbol(arbol.Izquierdo, (posX - separacion), (posY + 50), (separacion / 2));
+                    
+                     
                 }
             }
         }
