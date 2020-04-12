@@ -29,7 +29,7 @@ namespace Proyecto_Lenguajes
             InitializeComponent();
             LLenarTablaFirst();
             LlenarTablaEstados();
-            DibujarArbol(Tablas.Instance.Arbol, this.Width / 2, 100, 250);
+            DibujarArbol(Tablas.Instance.Arbol, this.Width * 2, 100, 500);
             pictureBox1.Image = bitmap;
         }
 

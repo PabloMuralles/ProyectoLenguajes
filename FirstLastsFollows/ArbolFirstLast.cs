@@ -25,7 +25,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         // lista donde se va almacenar el texto a evaluar en el arbol
         private List<string> Texto_a_Evaluar = new List<string>();
   
-
+        // diccionario para poder evaluar la precedencia
         Dictionary<string, int> Precedencia;
 
         // constructor del arbol de expreciones
@@ -267,8 +267,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         // Metodo para verficar el nivel de precedencia de un operador
         // Devuelve un verdadero si el token es menor o igual en precedencial al operador ingresado
         public bool VerificarPrecedencia(string TokenEvaluar)
-        {
-
+        { 
             Precedencia.TryGetValue(TokenEvaluar, out int TokenEvaluarValor);
             Precedencia.TryGetValue(T.Peek(), out int TokenCompararValor);
             if (TokenEvaluarValor <= TokenCompararValor)

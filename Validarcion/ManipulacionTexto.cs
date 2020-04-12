@@ -28,6 +28,7 @@ namespace Proyecto_Lenguajes.Validacion
         {
             TextoEvaluar = Texto;
             BuscarInicios();
+       
          
         }
         //Metodo para buscar las palabras claves y merse a evaluar cada una de las secciones

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Proyecto_Lenguajes.Validacion
 {
@@ -10,6 +12,9 @@ namespace Proyecto_Lenguajes.Validacion
     {
         // Variable que contiene la exprecion regular
         string ExprecionRegularSets = @"(a.=.(((('.t.'|'.t.'.(..).'.t.').(\+.('.t.'|'.t.'.(..).'.t.')))*)|((C.H.R.\(.a.\).(..).C.H.R.\(.a.\)).(\+.((C.H.R.\(.a.\).(..).C.H.R.\(.a.\))))*))).#";
+
+        // diccionario para poder evaluar la precedencia
+        Dictionary<string, int> Precedencia;
 
         //Lista que contiene los simbolos terminales de la exprecion regular
         List<string> SimbolosTerminales = new List<string>();
@@ -36,13 +41,12 @@ namespace Proyecto_Lenguajes.Validacion
         // constructor del arbol de expreciones
         public ArbolExprecionesActions()
         {
-
+            Precedencia = new Dictionary<string, int> { { "+", 3 }, { "?", 3 }, { "*", 3 }, { ".", 2 }, { "|", 1 } };
             ConvertirExprecionaTokens(ExprecionRegularSets);
             Crear_st_op();
             Insertar_Arbol_Expreciones(TokensExpresionSets);
             RecorridoInorden(Arbol);
-
-
+             
         }
          
         /*Metodo para poder tokenizar la exprecion regular es decir separar por caracteres la exprecion regular*/
@@ -67,15 +71,7 @@ namespace Proyecto_Lenguajes.Validacion
 
         //Metodo para poder inicializar los operador y simbolos terminales
         public void Crear_st_op()
-        {
-
-
-            Operadores.Add("*");
-            Operadores.Add("+");
-            Operadores.Add("?");
-            Operadores.Add(".");
-            Operadores.Add("|");
-
+        { 
             SimbolosTerminales.Add("..");
             SimbolosTerminales.Add("t");
             SimbolosTerminales.Add(@"\+");
@@ -95,131 +91,148 @@ namespace Proyecto_Lenguajes.Validacion
         // Metodo para poder ir creando el arbol de expreciones
         public void Insertar_Arbol_Expreciones(Queue<string> TokenExpresionRegular)
         {
-            // corregir error del la variable
-            while (TokenExpresionRegular.Count != 0)
+            try
             {
-                string TokenEvaluar = TokensExpresionSets.Dequeue();
-                if (SimbolosTerminales.Contains(TokenEvaluar))
+                // corregir error del la variable
+                while (TokenExpresionRegular.Count != 0)
                 {
-                    Nodo NodoToken = new Nodo(TokenEvaluar);
-                    NodoToken.Padre = null;
-                    S.Push(NodoToken);
-                }
-                else if (TokenEvaluar == "(")
-                {
-                    T.Push(TokenEvaluar);
-                }
-                else if (TokenEvaluar == ")")
-                {
-                    while (T.Count > 0 && (T.Peek() != "("))
+                    string TokenEvaluar = TokensExpresionSets.Dequeue();
+                    if (SimbolosTerminales.Contains(TokenEvaluar))
                     {
-                        if (T.Count == 0)
-                        {
-                            throw new Exception("faltan operandos");
-                        }
-                        if (S.Count < 2)
-                        {
-                            throw new Exception("faltan operadandos");
-                        }
-                        Nodo Temp = new Nodo(T.Pop());
-                        Temp.Padre = null;
-                        Temp.Derecho = S.Pop();
-                        Temp.Derecho.Padre = Temp.Data;
-                        Temp.Izquierdo = S.Pop();
-                        Temp.Izquierdo.Padre = Temp.Data;
-                        S.Push(Temp);
-
+                        Nodo NodoToken = new Nodo(TokenEvaluar);
+                        NodoToken.Padre = null;
+                        S.Push(NodoToken);
                     }
-                    T.Pop();
-
-                }
-                else if (Operadores.Contains(TokenEvaluar))
-                {
-                    if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*")
+                    else if (TokenEvaluar == "(")
                     {
-                        Nodo TokenOp = new Nodo(TokenEvaluar);
-                        TokenOp.Padre = null;
-
-                        if (S.Count < 0)
-                        {
-                            throw new Exception("faltan operadandos");
-                        }
-                        TokenOp.Izquierdo = S.Pop();
-                        TokenOp.Izquierdo.Padre = TokenOp.Data;
-                        S.Push(TokenOp);
+                        T.Push(TokenEvaluar);
                     }
-                    else if (T.Count != 0 && T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar, T.Peek()) == true))
+                    else if (TokenEvaluar == ")")
                     {
-                        Nodo Temp = new Nodo(T.Pop());
-                        Temp.Padre = null;
-                        if (S.Count < 2)
+                        while (T.Count > 0 && (T.Peek() != "("))
                         {
-                            throw new Exception("Faltan operandos");
-                        }
-                        // duda sobre este else preguntas
-                        else
-                        {
+                            if (T.Count == 0)
+                            {
+                                throw new Exception("faltan operandos");
+                            }
+                            if (S.Count < 2)
+                            {
+                                throw new Exception("faltan operadandos");
+                            }
+                            Nodo Temp = new Nodo(T.Pop());
+                            Temp.Padre = null;
                             Temp.Derecho = S.Pop();
                             Temp.Derecho.Padre = Temp.Data;
                             Temp.Izquierdo = S.Pop();
                             Temp.Izquierdo.Padre = Temp.Data;
                             S.Push(Temp);
+
+                        }
+                        T.Pop();
+
+                    }
+                    else if (Operadores.Contains(TokenEvaluar))
+                    {
+                        if (TokenEvaluar == "+" || TokenEvaluar == "?" || TokenEvaluar == "*")
+                        {
+                            Nodo TokenOp = new Nodo(TokenEvaluar);
+                            TokenOp.Padre = null;
+
+                            if (S.Count < 0)
+                            {
+                                throw new Exception("faltan operadandos");
+                            }
+                            TokenOp.Izquierdo = S.Pop();
+                            TokenOp.Izquierdo.Padre = TokenOp.Data;
+                            S.Push(TokenOp);
+                        }
+                        else if (T.Count != 0)
+                        {
+                            while (T.Peek() != "(" && (VerificarPrecedencia(TokenEvaluar) == true))
+                            {
+                                Nodo Temp = new Nodo(T.Pop());
+                                Temp.Padre = null;
+                                if (S.Count < 2)
+                                {
+                                    throw new Exception("Faltan operandos");
+                                }
+                                else
+                                {
+                                    var prueba1 = VerificarPrecedencia(TokenEvaluar);
+                                    Temp.Derecho = S.Pop();
+                                    Temp.Derecho.Padre = Temp.Data;
+                                    Temp.Izquierdo = S.Pop();
+                                    Temp.Izquierdo.Padre = Temp.Data;
+                                    S.Push(Temp);
+                                }
+
+                            }
+                        }
+
+                        if (TokenEvaluar == "." || TokenEvaluar == "|")
+                        {
+                            T.Push(TokenEvaluar);
                         }
                     }
-
-                    if (TokenEvaluar == "." || TokenEvaluar == "|")
+                    else
                     {
-                        T.Push(TokenEvaluar);
+                        throw new Exception("Token no reconocido");
                     }
                 }
-                else
+
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+                while (T.Count > 0)
                 {
-                    throw new Exception("Token no reconocido");
+                    if (T.Peek() == "(")
+                    {
+                        throw new Exception("Faltan operandos");
+                    }
+                    if (S.Count < 2)
+                    {
+                        throw new Exception("Faltan operandos");
+                    }
+
+                    Nodo Temp = new Nodo(T.Pop());
+                    Temp.Padre = null;
+                    Temp.Derecho = S.Pop();
+                    Temp.Derecho.Padre = Temp.Data;
+                    Temp.Izquierdo = S.Pop();
+                    Temp.Izquierdo.Padre = Temp.Data;
+                    S.Push(Temp);
+
+                    if (S.Count != 1)
+                    {
+                        throw new Exception("Faltan operandos");
+                    }
+
                 }
+                Arbol = S.Pop();
             }
-
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            while (T.Count > 0)
-            {
-                if (T.Peek() == "(")
-                {
-                    throw new Exception("Faltan operandos");
-                }
-                if (S.Count < 2)
-                {
-                    throw new Exception("Faltan operandos");
-                }
-
-                Nodo Temp = new Nodo(T.Pop());
-                Temp.Padre = null;
-                Temp.Derecho = S.Pop();
-                Temp.Derecho.Padre = Temp.Data;
-                Temp.Izquierdo = S.Pop();
-                Temp.Izquierdo.Padre = Temp.Data;
-                S.Push(Temp);
-
-                if (S.Count != 1)
-                {
-                    throw new Exception("Faltan operandos");
-                }
-
+            catch (Exception p )
+            { 
+                MessageBox.Show(p.Message);
             }
-            Arbol = S.Pop();
+            
         }
         #endregion
 
         // Metodo para verficar el nivel de precedencia de un operador
         // Devuelve un verdadero si el token es menor o igual en precedencial al operador ingresado
-        public bool VerificarPrecedencia(string TokenPrecedencia, string UltimoOperadorLista)
+        public bool VerificarPrecedencia(string TokenEvaluar)
         {
-            int IndexToken = Operadores.FindIndex(x => x.Equals(TokenPrecedencia));
-
-            int IndexUltimo = Operadores.FindIndex(x => x.Equals(TokenPrecedencia));
-
-            return IndexToken >= IndexUltimo;
+            Precedencia.TryGetValue(TokenEvaluar, out int TokenEvaluarValor);
+            Precedencia.TryGetValue(T.Peek(), out int TokenCompararValor);
+            if (TokenEvaluarValor <= TokenCompararValor)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void RecorridoInorden( Nodo raiz)
