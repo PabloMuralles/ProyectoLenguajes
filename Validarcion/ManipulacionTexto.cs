@@ -11,6 +11,9 @@ namespace Proyecto_Lenguajes.Validacion
 {
     class ManipulacionTexto
     {
+        // variable para saber si el archivo esta correcto y pasar a la otra fase
+        private bool EstadoArchivo = true;
+
         // variable donde se alacena el texto a evaluar
         private StreamReader TextoEvaluar;
 
@@ -59,6 +62,7 @@ namespace Proyecto_Lenguajes.Validacion
                         else
                         {
                             MessageBox.Show("Error en la linea:   " + contador + "\n" + "Se esperaba un TOKEN");
+                            EstadoArchivo = false;
                             break;
                         }
 
@@ -107,6 +111,7 @@ namespace Proyecto_Lenguajes.Validacion
                         else
                         {
                             MessageBox.Show("Error en la linea: " + contador);
+                            EstadoArchivo = false;
                             break;
                         } 
                     } 
@@ -121,6 +126,8 @@ namespace Proyecto_Lenguajes.Validacion
         private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))*$");
         private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
         private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)?(([\s])*{([\s])*[a-zA-ZÑñ]+([\s])*\(([\s])*\)([\s])*}))$");
+        // Esta ultima expresion no es muy eficiente solo es para arreglar el error rapido
+        private Regex ExprecionTOKENS5 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)?)?)$");
 
         // Metodo para validar la seccion de tokens
         public void ValidarTokens()
@@ -138,7 +145,7 @@ namespace Proyecto_Lenguajes.Validacion
                 }
                 else
                 {
-                    if (ExprecionTOKENS4.IsMatch(Contenido) || ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS3.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido))
+                    if (ExprecionTOKENS4.IsMatch(Contenido) || ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS3.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido)|| ExprecionTOKENS5.IsMatch(Contenido))
                     {
                         Contenido = TextoEvaluar.ReadLine();
                         Contenido = QuitarEspaciosBlancoTokens(Contenido);
@@ -154,6 +161,7 @@ namespace Proyecto_Lenguajes.Validacion
                         else
                         {
                             MessageBox.Show("Error en la linea: " + contador);
+                            EstadoArchivo = false;
                             break;
                         }    
                     }
@@ -192,6 +200,7 @@ namespace Proyecto_Lenguajes.Validacion
                     else
                     {
                         MessageBox.Show("Error en la linea: " + contador + "\n"+"Se esperaba RESERVADAS()");
+                        EstadoArchivo = false;
                         break;
                     }
                 }
@@ -224,6 +233,7 @@ namespace Proyecto_Lenguajes.Validacion
                     else
                     {
                         MessageBox.Show("Error en la liena: "+contador+"\n"+"Se esperaba una {");
+                        EstadoArchivo = false;
                         break;
                         
                     }
@@ -264,6 +274,7 @@ namespace Proyecto_Lenguajes.Validacion
                         else
                         {
                             MessageBox.Show("Error Linea: " + contador);
+                            EstadoArchivo = false;
                             break;
                         }
                     }
@@ -316,6 +327,7 @@ namespace Proyecto_Lenguajes.Validacion
                     else
                     {
                         MessageBox.Show("Error Linea: " + contador);
+                        EstadoArchivo = false;
                         break;
                     }
 
@@ -360,8 +372,14 @@ namespace Proyecto_Lenguajes.Validacion
             
         }
        
-        
-         
+        /// <summary>
+        /// Metodo para poder verificar si se pasa a la fase 2 o no 
+        /// </summary>
+        /// <returns>un bool para poder pasar a la otra fase</returns>
+        public bool AceptacionArchivo()
+        {
+            return EstadoArchivo;
+        }
 
 
 

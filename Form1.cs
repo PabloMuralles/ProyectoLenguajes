@@ -95,8 +95,14 @@ namespace Proyecto_Lenguajes
                 var Archivo2 = new StreamReader(Direccion);
 
                 Validacion.ManipulacionTexto TextoVerificadado = new Validacion.ManipulacionTexto(Archivo);
-                FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
-                this.Hide();
+                var Aceptacion = TextoVerificadado.AceptacionArchivo();
+                if (Aceptacion == true)
+                {
+                    FirstLastsFollows.GenerarExpresion LecturaTokens = new FirstLastsFollows.GenerarExpresion(Archivo2);
+                    this.Hide();
+                }
+
+                
             }
             else
             {

@@ -26,6 +26,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         public Nodo Arbol; 
 
+        /// <summary>
+        /// esta lista se utiliza para poder crear la tabla de los firts y last en el forms
+        /// </summary>
         public List<Nodo> RecorridoFirstLast = new List<Nodo>();
 
         public string Expresion_ = string.Empty;
@@ -61,9 +64,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         public Dictionary<List<int>, Dictionary<string, List<int>>>  EstadosT = new Dictionary<List<int>, Dictionary<string, List<int>>>();
 
         public Dictionary<int, List<int>> Follows = new Dictionary<int, List<int>>();
-
-      
-
+         
         private List<string> TerminalesArbol = new List<string>();
          
         int ContadorTerminales = 1;
@@ -98,7 +99,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     foreach (var LastC1 in raiz.Izquierdo.Last)
                     {
                         foreach (var firstC1 in raiz.Izquierdo.First)
-                        {
+                        {   // validar si ya esta el follow a agregar pero si esta en 0 solo agregar
                             Follows.FirstOrDefault(x => x.Key == LastC1).Value.Add(firstC1);
                         }
 
@@ -129,7 +130,6 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         raiz.Nulable = true;
                     }
-
                     foreach (var item in raiz.Izquierdo.First)
                     {
                         raiz.First.Add(item);
@@ -195,6 +195,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         foreach (var firstC2 in raiz.Derecho.First)
                         {
+                            // validar que si el valor viene 0
                             Follows.TryGetValue(LastC1 , out var valor);
                             if (!valor.Contains(firstC2))
                             {

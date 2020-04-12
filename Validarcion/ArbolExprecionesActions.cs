@@ -88,22 +88,7 @@ namespace Proyecto_Lenguajes.Validacion
             SimbolosTerminales.Add("R");
             SimbolosTerminales.Add("a");
             SimbolosTerminales.Add("=");
-
-            // for para agregar simbolos terminales quitando los operadores
-            //for (int i = 0; i < 256; i++)
-            //{
-            //    var Simbolo = ("" + (char)i);
-            //    if (Simbolo == "*"  || Simbolo == "+" || Simbolo == "?" || Simbolo == "." || Simbolo == "|" || Simbolo =="(" || Simbolo == ")")
-            //    {
-
-
-            //    }
-            //    else
-            //    {
-            //        SimbolosTerminales.Add(Simbolo);
-            //    }
-            //}
-
+ 
         }
          
         #region ARBOL DE EXPRECIONES

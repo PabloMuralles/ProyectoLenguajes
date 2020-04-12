@@ -57,20 +57,17 @@ namespace Proyecto_Lenguajes
             {
                 graphics.FillEllipse(new SolidBrush(Color.GreenYellow), new RectangleF(posX, posY, 50, 25));
                 graphics.DrawString(arbol.Data, new Font("Arial", 8, FontStyle.Regular), new SolidBrush(Color.Black), posX + 5, posY + 5);
-
-           
-
+                 
                 if (arbol.Derecho != null)
-                {
-                    
+                {  
                     graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX + separacion + 15, posY + 65);
-                    DibujarArbol(arbol.Derecho, (posX + separacion), (posY + 50), separacion/2);
+                    DibujarArbol(arbol.Derecho, (posX + separacion), (posY + 50), separacion / 2);
                 }
 
                 if (arbol.Izquierdo != null)
                 {
                     graphics.DrawLine(new Pen(Color.BlueViolet), posX + 15, posY + 15, posX - separacion + 15, posY + 65);
-                    DibujarArbol(arbol.Izquierdo, (posX - separacion), (posY + 50), separacion/2);
+                    DibujarArbol(arbol.Izquierdo, (posX - separacion), (posY + 50), separacion / 2);
                 }
             }
         }
