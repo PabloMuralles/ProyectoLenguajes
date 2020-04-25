@@ -128,7 +128,7 @@ namespace Proyecto_Lenguajes.Validacion
         private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
         private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)?(([\s])*{([\s])*[a-zA-ZÑñ]+([\s])*\(([\s])*\)([\s])*}))$");
         // Esta ultima expresion no es muy eficiente solo es para arreglar el error rapido
-        private Regex ExprecionTOKENS5 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)?)?)$");
+        private Regex ExprecionTOKENS5 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(((\()?([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*(\))?(\+|\*|\?|\|)?)*))$");
 
         // Metodo para validar la seccion de tokens
         public void ValidarTokens()
@@ -146,7 +146,7 @@ namespace Proyecto_Lenguajes.Validacion
                 }
                 else
                 {
-                    if (ExprecionTOKENS4.IsMatch(Contenido) || ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS3.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido)|| ExprecionTOKENS5.IsMatch(Contenido))
+                    if (ExprecionTOKENS4.IsMatch(Contenido) || ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS3.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido) || ExprecionTOKENS5.IsMatch(Contenido))
                     {
                         Contenido = TextoEvaluar.ReadLine();
                         Contenido = QuitarEspaciosBlancoTokens(Contenido);
