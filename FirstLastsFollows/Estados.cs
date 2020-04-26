@@ -85,6 +85,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     ListaFollows.AddRange(follows);
                      
                 }
+                ListaFollows = ListaFollows.OrderBy(x => x).ToList();
                 diccModificar.Add(Simbolo, ListaFollows);
                 if (!EstadosAprobar.Any(c=>c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)) && ListaFollows.Count != 0)
                 {
@@ -124,6 +125,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                         ListaFollows.AddRange(follows);
 
                     }
+                    ListaFollows = ListaFollows.OrderBy(x => x).ToList();
                     diccModificarNoInicial.Add(Simbolo, ListaFollows);
                     if (!EstadosAprobar.Any(c => c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)) && ListaFollows.Count != 0)
                     {
