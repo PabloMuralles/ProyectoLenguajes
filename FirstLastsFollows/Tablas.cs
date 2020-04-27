@@ -59,6 +59,25 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Form2 Form2 = new Form2();
             Form2.Show();
 
+            var CaracterAceptacion = CalcularCaracterAceptacion(Follows);
+
+            GeneradorPrograma.Codigo Generador = new GeneradorPrograma.Codigo(EstadosT,Terminales_,CaracterAceptacion);
+
+        }
+
+        private int CalcularCaracterAceptacion(Dictionary<int, List<int>> Follows)
+        { 
+            foreach (var item in Follows)
+            {
+                if (item.Value.Count == 0)
+                {
+                    return item.Key;
+                }
+
+            }
+
+            return default;
+ 
         }
 
         public Dictionary<List<int>, Dictionary<string, List<int>>>  EstadosT = new Dictionary<List<int>, Dictionary<string, List<int>>>();
