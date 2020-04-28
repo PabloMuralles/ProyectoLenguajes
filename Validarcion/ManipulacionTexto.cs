@@ -123,12 +123,8 @@ namespace Proyecto_Lenguajes.Validacion
 
  
         // expreciones regulares para validar tokens
-        private Regex ExprecionTOKENS = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))$");
-        private Regex ExprecionTOKENS2 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*((('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))(([\s])*\|([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+)([\s])*([a-zA-ZñÑ]+)([\s])*(('([a-zA-Z0-9<>="";:(){}\.\[\],'\+\-_\*\.])')+))*$");
-        private Regex ExprecionTOKENS3 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)+$");
-        private Regex ExprecionTOKENS4 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(\+|\*|\?)?)*(([\s])*((\(([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*\)(\+|\*|\?|\|)?)*)?(([\s])*{([\s])*[a-zA-ZÑñ]+([\s])*\(([\s])*\)([\s])*}))$");
-        // Esta ultima expresion no es muy eficiente solo es para arreglar el error rapido
-        private Regex ExprecionTOKENS5 = new Regex(@"^TOKEN([\s])+[0-9]+([\s])*=([\s])*([a-zA-ZÑñ]+([\s])*(((\()?([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?)((([\s])*[a-zA-ZÑñ]+([\s])*(\+|\*|\?|\|)?([\s])*)*(\))?(\+|\*|\?|\|)?)*))$");
+        private Regex ExprecionTOKENS = new Regex(@"^(TOKEN)(\t|\s)*[0-9]+(\t|\s)*=(\t|\s)*(\s|\*|\+|\?|\(|\)|\||'.'|[A-Z]+|{|})+(\t|\s)*$");
+         
 
         // Metodo para validar la seccion de tokens
         public void ValidarTokens()
@@ -146,7 +142,7 @@ namespace Proyecto_Lenguajes.Validacion
                 }
                 else
                 {
-                    if (ExprecionTOKENS4.IsMatch(Contenido) || ExprecionTOKENS2.IsMatch(Contenido) || ExprecionTOKENS3.IsMatch(Contenido) || ExprecionTOKENS.IsMatch(Contenido) || ExprecionTOKENS5.IsMatch(Contenido))
+                    if (ExprecionTOKENS.IsMatch(Contenido))
                     {
                         Contenido = TextoEvaluar.ReadLine();
                         Contenido = QuitarEspaciosBlancoTokens(Contenido);

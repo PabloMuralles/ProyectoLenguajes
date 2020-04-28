@@ -423,9 +423,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     if (CadenaNueva.Substring(CadenaNueva.Length - 1, 1) == "·")
                     {
                         CadenaNueva = CadenaNueva.Remove(CadenaNueva.Length - 1, 1);
+                        CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                    }
+                    else
+                    {
+                        CadenaNueva += Convert.ToString(CadenaDivida[i]);
+                        CadenaNueva += "·";
+
                     }
 
-                    CadenaNueva += Convert.ToString(CadenaDivida[i]);
                 }
                 else if (CadenaDivida[i] == '(' || CadenaDivida[i] == ')')
                 {

@@ -82,7 +82,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 {
                     Follows.TryGetValue(SimblosItem, out var follows);
 
-                    ListaFollows.AddRange(follows);
+                    ListaFollows.AddRange(follows.Except(ListaFollows));
                      
                 }
                 ListaFollows = ListaFollows.OrderBy(x => x).ToList();
@@ -122,7 +122,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         Follows.TryGetValue(SimblosItem, out var follows);
 
-                        ListaFollows.AddRange(follows);
+                        ListaFollows.AddRange(follows.Except(ListaFollows));
 
                     }
                     ListaFollows = ListaFollows.OrderBy(x => x).ToList();
