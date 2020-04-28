@@ -42,6 +42,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             {
                 ArbolFirstLast arbol = new ArbolFirstLast(Expresion, Terminales);
             }
+            else
+            {
+                Form1 form = new Form1();
+                form.Show();
+            }
            
         }
 
