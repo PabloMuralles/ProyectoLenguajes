@@ -15,7 +15,9 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
 
-            var Matriz = new int[ListaEstados.Count, Terminales_.Count];
+            var Matriz = CrearMatriz(ListaEstados, Estados_, Terminales_);
+
+
 
             
         }
@@ -48,21 +50,38 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
         }
 
-        //public int[,] CrearMatriz(List<string> ListaEstados, List<string> ListaEstadosAceptacion, Dictionary<List<int>, Dictionary<string, List<int>>> Estados, List<string> Terminales)
-        //{
-        //    var Matriz = new int[ListaEstados.Count, Terminales.Count];
+        public int[,] CrearMatriz(List<string> ListaEstados,  Dictionary<List<int>, Dictionary<string, List<int>>> Estados, List<string> Terminales)
+        {
+            var Matriz = new int[Estados.Count, Terminales.Count + 1];
 
-        //    for (int i = 0; i < ListaEstados.Count; i++)
-        //    {
-        //        for (int j = 0; j < Terminales.Count; j++)
-        //        {
-        //            Matriz[]
-        //        }
+            int fila = 0;
 
-        //    }
+            foreach (var Estado in Estados)
+            {
+                int columan = 0;
+
+                Matriz[fila, columan] = ListaEstados.IndexOf(string.Join(",", Estado.Key));
+
+                columan++;
+
+                foreach (var DefinicionEstado in Estado.Value.Values)
+                {
+                    if (DefinicionEstado.Count != 0)
+                    {
+                        Matriz[fila, columan] = ListaEstados.IndexOf(string.Join(",", DefinicionEstado));
+                    }
+                    columan++;
+ 
+
+                }
+                fila++;
+            }
+
+            return Matriz;
+
+        }
 
 
-        //}
 
 
     }
