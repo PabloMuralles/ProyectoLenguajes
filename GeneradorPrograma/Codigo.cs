@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Proyecto_Lenguajes.GeneradorPrograma
 {
@@ -16,6 +17,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             //var Matriz = CrearMatriz(ListaEstados, Estados_, Terminales_);
 
+            #region Escribir Ifs Case
             var DiccSet = Data.Instance.DiccionarioSets;
 
             var Idset = Data.Instance.IdsSets;
@@ -48,7 +50,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
                                     SentenciaIF += $"if(x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))} ) \n ";
                                     SentenciaIF += "{\n";
-                                    SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))} \n";
+                                    SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))}  ;\n";
                                     SentenciaIF += "}";
                                     ListaIfCase.Add(SentenciaIF);
                                     SentenciaIF = string.Empty;
@@ -62,7 +64,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     }
                                     SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ) \n ";
                                     SentenciaIF += "{\n";
-                                    SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}\n ";
+                                    SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ;\n ";
                                     SentenciaIF += "}";
                                     ListaIfCase.Add(SentenciaIF);
                                     SentenciaIF = string.Empty;
@@ -118,7 +120,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     if (i == DividirDefinicion.Length - 1)
                                     {
                                         SentenciaIF += "{\n";
-                                        SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} \n ";
+                                        SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                                         SentenciaIF += "}";
 
                                         ListaIfCase.Add(SentenciaIF);
@@ -144,7 +146,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
                             SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
                             SentenciaIF += "{\n";
-                            SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}\n ";
+                            SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                             SentenciaIF += "}";
                             ListaIfCase.Add(SentenciaIF);
                             SentenciaIF = string.Empty;
@@ -153,6 +155,8 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     }
 
                 }
+                 
+
                 if (ListaIfCase.Count != 0)
                 {
                     DiccCase.Add(contador, ListaIfCase);
@@ -161,8 +165,57 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                 contador++;
 
             }
-                 
+            #endregion
+
+            #region Escribir Case
+
+            var CaseEstados = string.Empty;
+
+            CaseEstados += "switch (Estado) \n";
+
+            CaseEstados += "{ \n";
+
+             
+
+            foreach (var IfCase in DiccCase)
+            {
+                CaseEstados += $"case {IfCase.Key} : \n ";
+
+                foreach (var SentenciasdelCase in IfCase.Value)
+                {
+                    CaseEstados += $"{SentenciasdelCase}";
+                }
+
+                CaseEstados += "\n break; \n ";
+
+
+            }
+             
+            #endregion
+
+
+            #region EstructuraProgram
+            var EstructuraProgramInicial = string.Empty;
+
+            EstructuraProgramInicial += "using System; \n using System.Collections.Generic; \n  using System.Linq; \n  using System.Text;\n using System.Threading.Tasks; \n ";
+
+            EstructuraProgramInicial += "namespace Analizador \n  { \n";
+
+            EstructuraProgramInicial += "  class Program \n { \n ";
+
+            EstructuraProgramInicial += "static void Main(string[] args) \n { \n ";
+
+
+            var EstructuraProgramFinal = string.Empty;
+
+            EstructuraProgramFinal += "  \n } \n }\n }\n";
+
+
+            #endregion
+
         }
+
+
 
         /// <summary>
         /// Metodo para recorrer los estados y calcular cuales son de acetacion
