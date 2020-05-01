@@ -59,6 +59,7 @@
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
     <Compile Include="GeneradorPrograma\Codigo.cs" />
+    <Compile Include="GeneradorPrograma\Data.cs" />
     <Compile Include="Validarcion\ArbolExprecionesActions.cs" />
     <Compile Include="Validarcion\ArbolExprecionesSets.cs" />
     <Compile Include="Validarcion\ArbolExprecionesTokens.cs" />

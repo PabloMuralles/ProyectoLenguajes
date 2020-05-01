@@ -21,6 +21,8 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         private List<string> Sets = new List<string>();
 
+        private List<string> Actions = new List<string>();
+
         bool ArchivoCorrecto = true;
 
         private List<string> Terminales = new List<string>();
@@ -34,6 +36,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             
             Texto = Archivo;
             IdentificarSets();
+            GeneradorPrograma.Data.Instance.GuardarInformacion(Sets, Tokens,Actions);
             var idsets = IdSets();
             var definicion = QuitarEspaciosBlancoTokens(DefinicionTokens());
             var Expresion = ExpresionRegular(idsets, definicion);
@@ -121,9 +124,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 {
                     Tokens.Add(Contenido);
                 }
-                else 
+                else if (Contenido == "ACTIONS")
                 {
+                    GuardarActions();
                     break;
+                    
                 }
 
                 Contenido = Texto.ReadLine();
@@ -132,6 +137,42 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
             Contenido = Texto.ReadLine();
              
+        }
+
+        public void GuardarActions()
+        {
+            var Contenido = Texto.ReadLine();
+            Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
+
+            while (Contenido != null)
+            {
+                if (Contenido != "}")
+                {
+                    if (Contenido != "RESERVADAS()" && Contenido != "{")
+                    {
+                        Actions.Add(Contenido);
+
+                    }
+                }
+                else if (Contenido == "}")
+                {
+               
+                    break;
+
+                }
+                if (Texto.EndOfStream == false)
+                {
+                    Contenido = Texto.ReadLine();
+                    Contenido = QuitarCaracteres_EspaciosBlancos(Contenido);
+
+                }
+                else
+                {
+                    Contenido = null;
+                }
+            }
+
+         
         }
  
         /// <summary>

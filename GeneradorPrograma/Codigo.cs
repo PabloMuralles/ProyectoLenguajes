@@ -11,15 +11,157 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
 
         public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion)
-        {
-
+        { 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
 
-            var Matriz = CrearMatriz(ListaEstados, Estados_, Terminales_);
+            //var Matriz = CrearMatriz(ListaEstados, Estados_, Terminales_);
+
+            var DiccSet = Data.Instance.DiccionarioSets;
+
+            var Idset = Data.Instance.IdsSets;
+
+            var DiccCase = new Dictionary<int, List<string>>();
+
+            int contador = 0;
+            foreach ( var Estados  in Estados_)
+            {
+                var ListaIfCase = new List<string>();
+                var SentenciaIF = string.Empty;
+                foreach (var Transiciones in Estados.Value)
+                {
+                    if (Transiciones.Value.Count != 0 )
+                    {
+                        if (Idset.Contains(Transiciones.Key))
+                        {
+                            DiccSet.TryGetValue(Transiciones.Key, out var Definicion);
+                            var DividirDefinicion = Definicion.Split('|');
+
+                            if (DividirDefinicion.Length == 1)
+                            {
+                                if (DividirDefinicion[0].Contains("~"))
+                                {
+                                    var Rango = DividirDefinicion[0].Split('~');
+                                    if (ListaIfCase.Count != 0)
+                                    {
+                                        SentenciaIF += "else \n";
+                                    }
+
+                                    SentenciaIF += $"if(x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))} ) \n ";
+                                    SentenciaIF += "{\n";
+                                    SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))} \n";
+                                    SentenciaIF += "}";
+                                    ListaIfCase.Add(SentenciaIF);
+                                    SentenciaIF = string.Empty;
+
+                                }
+                                else
+                                {
+                                    if (ListaIfCase.Count != 0)
+                                    {
+                                        SentenciaIF += "else \n";
+                                    }
+                                    SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ) \n ";
+                                    SentenciaIF += "{\n";
+                                    SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}\n ";
+                                    SentenciaIF += "}";
+                                    ListaIfCase.Add(SentenciaIF);
+                                    SentenciaIF = string.Empty;
+
+                                }
+
+                            }
+                            else
+                            {
+                                if (ListaIfCase.Count != 0)
+                                {
+                                    SentenciaIF += "else \n";
+                                }
+
+                                for (int i = 0; i < DividirDefinicion.Length; i++)
+                                {
+
+                                    if (DividirDefinicion[i].Contains("~"))
+                                    {
+                                        var Rango = DividirDefinicion[i].Split('~');
+                                        if (i == 0)
+                                        {
+                                             
+                                            SentenciaIF += $"if(x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))} ";
+                                             
+                                        }
+                                        else
+                                        {
+                                            var joa = (Convert.ToChar(Rango[0]));
+                                            SentenciaIF += $"|| x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))}  ";
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (i == 0)
+                                        {
+                                             
+
+                                            SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ";
+
+                                        }
+                                        else
+                                        {
+                                            var Rango = DividirDefinicion[0].Split('~');
+
+                                            SentenciaIF += $"|| x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[i]))}";
+
+                                        }
+
+
+                                    }
+                                    if (i == DividirDefinicion.Length - 1)
+                                    {
+                                        SentenciaIF += "{\n";
+                                        SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} \n ";
+                                        SentenciaIF += "}";
+
+                                        ListaIfCase.Add(SentenciaIF);
+                                        SentenciaIF = string.Empty;
+                                    }
+
+
+                                }
 
 
 
-            
+                            }
+
+                        }
+                        else
+                        {
+                            if (ListaIfCase.Count != 0)
+                            {
+                                SentenciaIF += "else \n";
+                            }
+                            var NewKey = Transiciones.Key.TrimStart('\'');
+                            NewKey = NewKey.TrimEnd('\'');
+
+                            SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
+                            SentenciaIF += "{\n";
+                            SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}\n ";
+                            SentenciaIF += "}";
+                            ListaIfCase.Add(SentenciaIF);
+                            SentenciaIF = string.Empty;
+
+                        }
+                    }
+
+                }
+                if (ListaIfCase.Count != 0)
+                {
+                    DiccCase.Add(contador, ListaIfCase);
+
+                }
+                contador++;
+
+            }
+                 
         }
 
         /// <summary>
