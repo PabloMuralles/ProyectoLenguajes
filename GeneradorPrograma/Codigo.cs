@@ -45,10 +45,10 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     var Rango = DividirDefinicion[0].Split('~');
                                     if (ListaIfCase.Count != 0)
                                     {
-                                        SentenciaIF += "else \n";
+                                        SentenciaIF += "else ";
                                     }
 
-                                    SentenciaIF += $"if(x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))} ) \n ";
+                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))} ) \n ";
                                     SentenciaIF += "{\n";
                                     SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))}  ;\n";
                                     SentenciaIF += "}";
@@ -60,9 +60,9 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                 {
                                     if (ListaIfCase.Count != 0)
                                     {
-                                        SentenciaIF += "else \n";
+                                        SentenciaIF += "else  ";
                                     }
-                                    SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ) \n ";
+                                    SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ) \n ";
                                     SentenciaIF += "{\n";
                                     SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ;\n ";
                                     SentenciaIF += "}";
@@ -76,7 +76,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 if (ListaIfCase.Count != 0)
                                 {
-                                    SentenciaIF += "else \n";
+                                    SentenciaIF += "else  " ;
                                 }
 
                                 for (int i = 0; i < DividirDefinicion.Length; i++)
@@ -88,13 +88,13 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                         if (i == 0)
                                         {
                                              
-                                            SentenciaIF += $"if(x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))} ";
+                                            SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))} ";
                                              
                                         }
                                         else
                                         {
                                             var joa = (Convert.ToChar(Rango[0]));
-                                            SentenciaIF += $"|| x>={Convert.ToInt32(Convert.ToChar(Rango[0]))} && x<={Convert.ToInt32(Convert.ToChar(Rango[1]))}  ";
+                                            SentenciaIF += $"|| NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))}  ";
                                         }
 
                                     }
@@ -104,14 +104,14 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                         {
                                              
 
-                                            SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ";
+                                            SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ";
 
                                         }
                                         else
                                         {
                                             var Rango = DividirDefinicion[0].Split('~');
 
-                                            SentenciaIF += $"|| x={Convert.ToInt32(Convert.ToChar(DividirDefinicion[i]))}";
+                                            SentenciaIF += $"|| NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[i]))}";
 
                                         }
 
@@ -119,6 +119,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     }
                                     if (i == DividirDefinicion.Length - 1)
                                     {
+                                        SentenciaIF += ")\n";
                                         SentenciaIF += "{\n";
                                         SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                                         SentenciaIF += "}";
@@ -139,12 +140,12 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                         {
                             if (ListaIfCase.Count != 0)
                             {
-                                SentenciaIF += "else \n";
+                                SentenciaIF += "else ";
                             }
                             var NewKey = Transiciones.Key.TrimStart('\'');
                             NewKey = NewKey.TrimEnd('\'');
 
-                            SentenciaIF += $"if(x={Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
+                            SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
                             SentenciaIF += "{\n";
                             SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                             SentenciaIF += "}";
@@ -155,13 +156,28 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     }
 
                 }
-                 
 
                 if (ListaIfCase.Count != 0)
                 {
+                    SentenciaIF += " \n else \n { \n  ";
+
+                    if (ListaEstadosAceptacion.Contains(string.Join(",",Estados.Key)))
+                    {
+                        SentenciaIF += "Contador--;\n Estado = 0 ; \n";
+
+                    }
+                    else
+                    {
+                        SentenciaIF += "Error=true; \n  ";
+                    }
+                    SentenciaIF += "}\n";
+
+                    ListaIfCase.Add(SentenciaIF);
+                 
                     DiccCase.Add(contador, ListaIfCase);
 
                 }
+                SentenciaIF = string.Empty;
                 contador++;
 
             }
@@ -190,14 +206,15 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
 
             }
-             
+            CaseEstados += "} \n";
+
+
             #endregion
-
-
+             
             #region EstructuraProgram
             var EstructuraProgramInicial = string.Empty;
 
-            EstructuraProgramInicial += "using System; \n using System.Collections.Generic; \n  using System.Linq; \n  using System.Text;\n using System.Threading.Tasks; \n ";
+            EstructuraProgramInicial += "using System; \nusing System.Collections.Generic; \nusing System.Linq; \nusing System.Text;\nusing System.Threading.Tasks; \n";
 
             EstructuraProgramInicial += "namespace Analizador \n  { \n";
 
@@ -213,6 +230,38 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             #endregion
 
+           
+
+            #region CicloWhile y lectura
+            var Lectura = string.Empty;
+            Lectura += "Console.WriteLine(\"Ingrese la cadena a validar\"); \n";
+            Lectura += "var cadena = Console.ReadLine();\n";
+            Lectura += "var CadenaSinEspacios = cadena.Replace(\" \", \"\");\n";
+            Lectura += "var NuevaCadena = Encoding.ASCII.GetBytes(CadenaSinEspacios);\n";
+            Lectura += "int Estado = 0;\nint Contador = 0;\n bool Error = false;\n";
+            Lectura += "while(Contador < NuevaCadena.Length && Error == false)\n { \n";
+            var LecturaFinal = string.Empty;
+            LecturaFinal += "Contador++;\n}\n";
+            LecturaFinal += "if (Error == true) \n { \n Console.WriteLine(\"No aceptada\");\n }\n else \n { \n Console.WriteLine(\" aceptada\");\n }\n Console.ReadKey();\n ";
+
+            
+
+            #endregion
+
+            string PathDebug = AppDomain.CurrentDomain.BaseDirectory;
+
+            using (var File = new FileStream(Path.Combine(PathDebug, "Analizador", "Program.cs"), FileMode.Create))
+            {
+                using (var write = new StreamWriter(File))
+                {
+                    write.Write(EstructuraProgramInicial);
+                    write.Write(Lectura);
+                    write.Write(CaseEstados);
+                    write.Write(LecturaFinal);
+                    write.Write(EstructuraProgramFinal);
+                }
+
+            }
         }
 
 
