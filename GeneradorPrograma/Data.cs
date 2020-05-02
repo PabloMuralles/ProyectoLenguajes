@@ -25,8 +25,8 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
         //List<string> tokens = new List<string>();
         //List<string> actions = new List<string>();
         public Dictionary<string, string> DiccionarioSets = new Dictionary<string, string>();
-        public List<string> IdsSets = new List<string>(); 
-
+        public List<string> IdsSets = new List<string>();
+        public Dictionary<int, string> DiccionarioTokensReservadas = new Dictionary<int, string>();
 
         public void GuardarInformacion(List<string> sets, List<string> tokens, List<string> actions)
         {
@@ -39,8 +39,10 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             //this.actions = actions;
             IdsSets.Clear();
             DiccionarioSets.Clear();
+            DiccionarioTokensReservadas.Clear();
 
             ObtenerDiccionarioSets(sets);
+            //ListaLexemas(ti);
  
         }
 
@@ -93,6 +95,37 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
              
         }
 
+        private void ListaLexemas(List<string> tokens, List<string> actions)
+        {
+            //    foreach (var token in tokens)
+            //    {
+            //        var NuevoToken = token.Replace("TOKEN", "");
+            //        foreach (var caracter in token)
+            //        {
+            //            var TomarCaracteres = false;
+            //            var Definicion = string.Empty;
+            //            var NuvoCaracter = Convert.ToString(caracter);
+            //            var id = string.Empty;
+
+            //            if (NuvoCaracter != "=")
+            //            {
+            //                id += NuvoCaracter;
+            //            }
+            //            else if(NuvoCaracter == "=")
+            //            {
+            //                TomarCaracteres = true;
+
+            //            }
+            //            else if (TomarCaracteres == true)
+            //            {
+            //                Definicion += NuvoCaracter;
+            //            }
+
+            //            DiccionarioTokensReservadas.Add(id, Definicion);
+            //        }
+            //    }
+
+        }
 
     }
 }

@@ -4,13 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Diagnostics;
-using Microsoft.VisualBasic;
-using System.Globalization;
-using System.CodeDom.Compiler;
-
+ 
 
 
 namespace Proyecto_Lenguajes.GeneradorPrograma
@@ -21,8 +15,6 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
         public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion)
         { 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
-
-            //var Matriz = CrearMatriz(ListaEstados, Estados_, Terminales_);
 
             #region Escribir Ifs Case
             var DiccSet = Data.Instance.DiccionarioSets;
@@ -54,8 +46,9 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     {
                                         SentenciaIF += "else ";
                                     }
-
-                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(int.Parse(Rango[0])))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(int.Parse(Rango[1])))} ) \n ";
+                                    var Uno = Encoding.ASCII.GetBytes(Rango[0]);
+                                    var Dos = Encoding.ASCII.GetBytes(Rango[1]);
+                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Uno[0]} && NuevaCadena[Contador] <= {Dos[0]} ) \n ";
 
                                     SentenciaIF += "{\n";
                                     SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))}  ;\n";
@@ -70,7 +63,8 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     {
                                         SentenciaIF += "else  ";
                                     }
-                                    SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ) \n ";
+                                    var Uno = Encoding.ASCII.GetBytes(DividirDefinicion[0]);
+                                    SentenciaIF += $"if(NuevaCadena[Contador] == {Uno[0]} ) \n ";
                                     SentenciaIF += "{\n";
                                     SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ;\n ";
                                     SentenciaIF += "}";
@@ -95,14 +89,16 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                         var Rango = DividirDefinicion[i].Split('~');
                                         if (i == 0)
                                         {
-                                             
-                                            SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))} ";
+                                            var Uno = Encoding.ASCII.GetBytes(Rango[0]);
+                                            var Dos = Encoding.ASCII.GetBytes(Rango[1]);
+                                            SentenciaIF += $"if(NuevaCadena[Contador] >= {Uno[0]} && NuevaCadena[Contador] <= {Dos[0]} ";
                                              
                                         }
                                         else
                                         {
-                                            var joa = (Convert.ToChar(Rango[0]));
-                                            SentenciaIF += $"|| NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))}  ";
+                                            var Uno = Encoding.ASCII.GetBytes(Rango[0]);
+                                            var Dos = Encoding.ASCII.GetBytes(Rango[1]);
+                                            SentenciaIF += $"|| NuevaCadena[Contador] >= {Uno[0]} && NuevaCadena[Contador] <= {Dos[0]}  ";
                                         }
 
                                     }
@@ -110,17 +106,14 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     {
                                         if (i == 0)
                                         {
-                                             
-
-                                            SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[0]))} ";
+                                            var Uno = Encoding.ASCII.GetBytes(DividirDefinicion[0]);
+                                            SentenciaIF += $"if(NuevaCadena[Contador] == {Uno[0]} ";
 
                                         }
                                         else
                                         {
-                                            var Rango = DividirDefinicion[0].Split('~');
-
-                                            SentenciaIF += $"|| NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(DividirDefinicion[i]))}";
-
+                                            var Uno = Encoding.ASCII.GetBytes(DividirDefinicion[0]); 
+                                            SentenciaIF += $"|| NuevaCadena[Contador] == {Uno[0]}"; 
                                         }
 
 
@@ -151,10 +144,11 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                 SentenciaIF += "else ";
                             }
                             var Key = Transiciones.Key.ToCharArray();
-                            var NewKey = Key[1];
-                         
+                            var NewKey = Convert.ToString(Key[1]);
 
-                            SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
+                            var KeyAcii = Encoding.ASCII.GetBytes(NewKey);
+
+                            SentenciaIF += $"if(NuevaCadena[Contador] == {KeyAcii[0]} ) \n ";
                             SentenciaIF += "{\n";
                             SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                             SentenciaIF += "}";
@@ -225,16 +219,16 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             EstructuraProgramInicial += "using System; \nusing System.Collections.Generic; \nusing System.Linq; \nusing System.Text;\nusing System.Threading.Tasks; \n";
 
-            EstructuraProgramInicial += "namespace Analizador \n  { \n";
+            EstructuraProgramInicial += "namespace Analizador \n \t { \n";
 
-            EstructuraProgramInicial += "  class Program \n { \n ";
+            EstructuraProgramInicial += " \t\t class Program \n \t\t\t{ \n ";
 
-            EstructuraProgramInicial += "static void Main(string[] args) \n { \n ";
+            EstructuraProgramInicial += "\t\t\t\tstatic void Main(string[] args) \n \t\t\t\t\t{ \n ";
 
 
             var EstructuraProgramFinal = string.Empty;
 
-            EstructuraProgramFinal += "  \n } \n }\n }\n";
+            EstructuraProgramFinal += "  \n \t\t\t\t} \n \t\t\t}\n }\n";
 
 
             #endregion
