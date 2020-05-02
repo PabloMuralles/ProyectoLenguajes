@@ -4,13 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using Microsoft.VisualBasic;
+using System.Globalization;
+using System.CodeDom.Compiler;
+
+
 
 namespace Proyecto_Lenguajes.GeneradorPrograma
 {
     class Codigo
     {
-
-
+      
         public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion)
         { 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
@@ -48,13 +55,14 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                         SentenciaIF += "else ";
                                     }
 
-                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(Rango[0]))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(Rango[1]))} ) \n ";
+                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Convert.ToInt32(Convert.ToChar(int.Parse(Rango[0])))} && NuevaCadena[Contador] <= {Convert.ToInt32(Convert.ToChar(int.Parse(Rango[1])))} ) \n ";
+
                                     SentenciaIF += "{\n";
                                     SentenciaIF+=$"Estado = {ListaEstados.IndexOf(string.Join(",",Transiciones.Value))}  ;\n";
                                     SentenciaIF += "}";
                                     ListaIfCase.Add(SentenciaIF);
                                     SentenciaIF = string.Empty;
-
+                                    
                                 }
                                 else
                                 {
@@ -142,8 +150,9 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 SentenciaIF += "else ";
                             }
-                            var NewKey = Transiciones.Key.TrimStart('\'');
-                            NewKey = NewKey.TrimEnd('\'');
+                            var Key = Transiciones.Key.ToCharArray();
+                            var NewKey = Key[1];
+                         
 
                             SentenciaIF += $"if(NuevaCadena[Contador] == {Convert.ToInt32(Convert.ToChar(NewKey))} ) \n ";
                             SentenciaIF += "{\n";
@@ -262,7 +271,24 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                 }
 
             }
+
+
+               
+
+               
+
+            
         }
+
+
+
+
+
+
+
+
+
+    
 
 
 
@@ -330,3 +356,4 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
     }
 }
+

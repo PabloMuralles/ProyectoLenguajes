@@ -73,14 +73,18 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                         if (TomarDefinicion == true)
                         {
                             Definicion += CaracteresString;
-                        }
-                        
-
+                        } 
                     }
                 }
 
                 Definicion = Definicion.Replace("..", "~");
                 Definicion = Definicion.Replace("+", "|");
+                if (Definicion.Contains("CHR")) 
+                {
+                    Definicion = Definicion.Replace("CHR", "");
+                    Definicion = Definicion.Replace("(", "");
+                    Definicion = Definicion.Replace(")", "");
+                }
                 IdsSets.Add(id);
                 DiccionarioSets.Add(id,Definicion);
                  
