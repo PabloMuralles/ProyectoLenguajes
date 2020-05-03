@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-using System.Data;
+ 
 
 
 namespace Proyecto_Lenguajes.FirstLastsFollows
@@ -33,6 +33,9 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         public string Expresion_ = string.Empty;
 
+
+        List<string> Terminales = new List<string>();
+
         /// <summary>
         /// Metodo simila al constructor 
         /// </summary>
@@ -42,13 +45,16 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         public void Proceso(Nodo Raiz,List<string> Terminales_,string Expresion)
         {
             Arbol = Raiz;
-            
+
+            Terminales.Clear();
             RecorridoFirstLast.Clear();
             Follows.Clear();
             EstadosT.Clear();
             TerminalesArbol.Clear();
  
             RecorridoPostorden(Arbol);
+
+            Terminales = Terminales_;
 
             Estados NuevoEstados = new Estados(Follows, Terminales_, Arbol, TerminalesArbol);
 
@@ -59,10 +65,19 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             Form2 Form2 = new Form2();
             Form2.Show();
 
+             
+
+            GeneradorPrograma.Data.Instance.ObtenerTerminales(Terminales_);
+
+             
+
+        }
+
+        public void GenerarCodigo()
+        {
             var CaracterAceptacion = CalcularCaracterAceptacion(Follows);
 
-            GeneradorPrograma.Codigo Generador = new GeneradorPrograma.Codigo(EstadosT,Terminales_,CaracterAceptacion);
-
+            GeneradorPrograma.Codigo Generador = new GeneradorPrograma.Codigo(EstadosT, Terminales, CaracterAceptacion);
         }
 
         private int CalcularCaracterAceptacion(Dictionary<int, List<int>> Follows)

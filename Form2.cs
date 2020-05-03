@@ -228,5 +228,18 @@ namespace Proyecto_Lenguajes
         {
 
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Generador_Click(object sender, EventArgs e)
+        {
+            GeneradorDeCodigo Mostrar = new GeneradorDeCodigo();
+            this.Close();
+            Mostrar.Show();
+             
+        }
     }
 }
