@@ -38,7 +38,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 SentenciaIF += "else";
                             }
-
+                             
                             SentenciaIF += $"  if({Transiciones.Key}.Contains(Caracter)) \n ";
                             SentenciaIF += "{\n";
                             SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
@@ -58,9 +58,16 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 SentenciaIF += "else";
                             }
-                            
+                            var NuevoCaracter = Transiciones.Key.Replace("'", "");
 
-                            SentenciaIF += $"  if(String.Equals(Caracter,@\"{Transiciones.Key}\")) \n ";
+                            if (string.IsNullOrEmpty(NuevoCaracter))
+                            {
+                                NuevoCaracter = "'";
+                            }
+
+
+
+                            SentenciaIF += $"  if(String.Equals(Caracter,@\"{NuevoCaracter}\")) \n ";
                             SentenciaIF += "{\n";
                             SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                             SentenciaIF += "}";
@@ -184,11 +191,13 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             Lectura += "int Estado = 0;\nint Contador = 0;\n bool Error = false;\n";
            
-
+            // forech y while
             Lectura += "while( ColaTokens.Count != 0 && Error == false)\n { \n";
             Lectura += " var TokenEvaluar = ColaTokens.Dequeue(); \n";
-            Lectura += "  foreach (string Caracter in TokenEvaluar) \n";
+            Lectura += "  foreach (var Caracteres in TokenEvaluar) \n";
             Lectura += "  { \n";
+            Lectura += " var Caracter = Convert.ToString(Caracteres);\n";
+
 
             var LecturaFinal = string.Empty;
             LecturaFinal += "}\n";
