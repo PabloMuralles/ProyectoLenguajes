@@ -67,7 +67,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
 
 
-                            SentenciaIF += $"  if(String.Equals(Caracter,@\"{NuevoCaracter}\")) \n ";
+                            SentenciaIF += $"  if(Caracter.Equals(@\" {Transiciones.Key}\")) \n ";
                             SentenciaIF += "{\n";
                             SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))} ; \n ";
                             SentenciaIF += "}";
