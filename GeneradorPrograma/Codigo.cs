@@ -317,6 +317,24 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
 
         }
+        private static void BorrarDirectorio(string path)
+        { 
+            var files = Directory.GetFiles(path);
+            var dirs = Directory.GetDirectories(path);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                BorrarDirectorio(dir);
+            }
+
+            Directory.Delete(path, false);
+        }
 
         private void CopiarSolucion(string DireccionActual, string DireccionNueva)
         {
@@ -327,7 +345,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             }
             else
             {
-                Directory.Delete(Directorio);
+                BorrarDirectorio(Directorio);
                 Directory.CreateDirectory(Directorio);
             }
             foreach (string dir in Directory.GetDirectories(DireccionActual, "*", SearchOption.AllDirectories))
