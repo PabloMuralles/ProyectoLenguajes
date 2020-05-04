@@ -65,10 +65,8 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             {
                 var Encontrado = IdsSets.Find(y => Caracteres.Value.Contains(y));
                 if (Encontrado == null )
-                {
-                    var NuevoElemento = Caracteres.Value;
-                    var ElementoSinComillas = NuevoElemento.Replace("'", "");
-                    TokensReservada.Add(ElementoSinComillas);
+                { 
+                    TokensReservada.Add(Caracteres.Value);
 
                 }
           
@@ -233,7 +231,11 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             Definicion += DefinicionArreglo[i];
 
                         }
-                        Definicion.Replace("", " ");
+                        Definicion = Definicion.Replace(" ", "");
+                    }
+                    if (Definicion.Contains("RESERVADAS"))
+                    {
+                        Definicion = Definicion.Replace("{RESERVADAS()}", " ");
                     }
 
 
@@ -279,7 +281,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             {
                 MessageBox.Show("Existe tokens o actions con el mismo id");
             }
-        }    
+        }
 
     }
 }

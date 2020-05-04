@@ -269,9 +269,15 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             Lectura += "var ColaTokens = TokensCadenaEntrada.Tokenizar(cadena,ListaParaTokenizar);\n";
 
+            var Tokens = GeneradorPrograma.Data.Instance.DiccionarioTokensReservadas;
 
+            Lectura += " var Tokens = new Dictionary<string, string>(); \n";
 
-
+            foreach (var item in Tokens)
+            {
+                Lectura += $"Tokens.Add(\"{item.Key}\",\"{item.Value}\");  \n";
+            }
+             
 
             Lectura += "var CadenaSinEspacios = cadena.Replace(\" \", \"\");\n";
             Lectura += "var NuevaCadena = Encoding.ASCII.GetBytes(CadenaSinEspacios);\n";
