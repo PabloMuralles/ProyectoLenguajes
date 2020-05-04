@@ -195,9 +195,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     var NuevoToken = token.Replace("TOKEN", "");
                     var TomarCaracteres = false;
                     foreach (var caracter in NuevoToken)
-                    {
-
-
+                    { 
                         var NuvoCaracter = Convert.ToString(caracter);
 
 
@@ -225,7 +223,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 DefinicionArreglo[i] = ' ';
                                 DefinicionArreglo[i + 2] = ' ';
-                                i = i + 2;
+                                i += 2;
 
                             }
                         }
@@ -235,8 +233,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             Definicion += DefinicionArreglo[i];
 
                         }
-                     
-
+                        Definicion.Replace("", " ");
                     }
 
 
