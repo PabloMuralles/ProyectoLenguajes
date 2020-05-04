@@ -12,6 +12,13 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
     class Codigo
     {
       
+        /// <summary>
+        /// Construcctor de la clase donde se realiza todo el proceso de escirtura del proyecto generico
+        /// </summary>
+        /// <param name="Estados_">Estados calculados un diccionario</param>
+        /// <param name="Terminales_">Una lista con los terminales </param>
+        /// <param name="SimboloAceptacion">El id del simbolo de aceptacion</param>
+        /// <param name="NewPath">El lugar donde se quiere guardar el analizador</param>
         public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion, string NewPath)
         { 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
@@ -317,6 +324,10 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
 
         }
+        /// <summary>
+        /// Metodo para poder borrar una carpeta
+        /// </summary>
+        /// <param name="path">Recibe la direccion de donde se quiere borrar la cadena</param>
         private static void BorrarDirectorio(string path)
         { 
             var files = Directory.GetFiles(path);
@@ -336,6 +347,11 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             Directory.Delete(path, false);
         }
 
+        /// <summary>
+        /// Metodo para poder copiar la solucion generica en la sulucion que desee el usuario
+        /// </summary>
+        /// <param name="DireccionActual">Direccion de donde se cuencuenta la solucion generica</param>
+        /// <param name="DireccionNueva">La nueva direccion donde se va copiar la solucion</param>
         private void CopiarSolucion(string DireccionActual, string DireccionNueva)
         {
             var Directorio = Path.Combine(DireccionNueva, "AnalizerProgram");
