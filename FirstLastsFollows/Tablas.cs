@@ -73,11 +73,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
 
         }
 
-        public void GenerarCodigo()
+        public void GenerarCodigo(string Newpath)
         {
             var CaracterAceptacion = CalcularCaracterAceptacion(Follows);
 
-            GeneradorPrograma.Codigo Generador = new GeneradorPrograma.Codigo(EstadosT, Terminales, CaracterAceptacion);
+            GeneradorPrograma.Codigo Generador = new GeneradorPrograma.Codigo(EstadosT, Terminales, CaracterAceptacion, Newpath);
         }
 
         private int CalcularCaracterAceptacion(Dictionary<int, List<int>> Follows)

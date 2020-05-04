@@ -199,14 +199,15 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(13, 82);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1044, 326);
+            this.panel1.Size = new System.Drawing.Size(1044, 339);
             this.panel1.TabIndex = 16;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 14);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1034, 312);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
@@ -257,6 +258,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TablaFollows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EstadosDg)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

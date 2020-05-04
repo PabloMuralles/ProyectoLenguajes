@@ -12,7 +12,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
     class Codigo
     {
       
-        public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion)
+        public Codigo(Dictionary<List<int>, Dictionary<string, List<int>>> Estados_ , List<string> Terminales_, int SimboloAceptacion, string NewPath)
         { 
             (List<string> ListaEstados, List<string> ListaEstadosAceptacion) = RecorrerEstados(Estados_, SimboloAceptacion);
 
@@ -307,26 +307,41 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             }
 
+            var DireccionActual = Path.Combine(Environment.CurrentDirectory, "Analizador");
+
+            CopiarSolucion(DireccionActual,NewPath);
+ 
 
 
 
-               
 
-               
 
-            
         }
 
+        private void CopiarSolucion(string DireccionActual, string DireccionNueva)
+        {
+            var Directorio = Path.Combine(DireccionNueva, "AnalizerProgram");
+            if (!Directory.Exists(Directorio))
+            {
+                Directory.CreateDirectory(Directorio);
+            }
+            else
+            {
+                Directory.Delete(Directorio);
+                Directory.CreateDirectory(Directorio);
+            }
+            foreach (string dir in Directory.GetDirectories(DireccionActual, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory (Path.Combine(Directorio, dir.Substring(DireccionActual.Length + 1)));
+               
+            }
+            foreach (string file_name in System.IO.Directory.GetFiles(DireccionActual, "*", System.IO.SearchOption.AllDirectories))
+            {
+                System.IO.File.Copy(file_name, System.IO.Path.Combine(Directorio, file_name.Substring(DireccionActual.Length + 1)));
+            }
 
-
-
-        
-
-
-
-    
-
-
+        }
+         
 
         /// <summary>
         /// Metodo para recorrer los estados y calcular cuales son de acetacion
