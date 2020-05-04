@@ -248,9 +248,11 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             
             var diccSetsListas = GeneradorPrograma.Data.Instance.DiccionarioSetsConsusListas;
 
+            
 
             if (diccSetsListas.Count != 0)
             {
+                Lectura += $"var diccSets =new Dictionary<string, List<string>>();  \n";
                 foreach (var Sets in diccSetsListas)
                 {
                     Lectura += $"var {Sets.Key}  = new List <string>();  \n";
@@ -258,7 +260,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     {
                         Lectura += $"{Sets.Key}.Add(\"{valores}\");\n";
                     }
-
+                    Lectura += $"diccSets.Add(\"{Sets.Key}\",{Sets.Key} );  \n";
                 }
             }
             var ListaTokenReservadas = Data.Instance.TokensReservada;
@@ -293,9 +295,13 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             var LecturaFinal = string.Empty;
             LecturaFinal += "Contador++;\n}\n";
-            LecturaFinal += "if (Error == true) \n { \n Console.WriteLine(\"No aceptada\");\n }\n else \n { \n Console.WriteLine(\" aceptada\");\n }\n Console.ReadKey();\n ";
+            LecturaFinal += "if (Error == true) \n { \n Console.WriteLine(\"Cadena No Aceptada\");\n }\n else \n { \n Console.WriteLine(\" Cadena Aceptada\");\n";
+            LecturaFinal += " var Mostrar = TokensCadenaEntrada.MostrarTokens(ColaTokens,Tokens,diccSets);\n ";
 
-            
+            LecturaFinal += " foreach (var item in Mostrar)\n {\n";
+
+            LecturaFinal += "Console.WriteLine(item);\n }\n} \n Console.ReadKey();";
+
 
             #endregion
 
