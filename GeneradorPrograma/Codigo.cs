@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
  
 
 
@@ -239,11 +240,14 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             #endregion
 
+            
 
             #region CicloWhile y lectura
             var Lectura = string.Empty;
+            Lectura += "var cadena = string.Empty;\n";
+            Lectura += " while (!cadena.Equals(\"\\n\"))\n {\n";
             Lectura += "Console.WriteLine(\"Ingrese la cadena a validar\"); \n";
-            Lectura += "var cadena = Console.ReadLine();\n";
+            Lectura += "cadena = Console.ReadLine();\n";
             Lectura += "MetodosEstaticos TokensCadenaEntrada = new MetodosEstaticos();\n";
             
             var diccSetsListas = GeneradorPrograma.Data.Instance.DiccionarioSetsConsusListas;
@@ -300,7 +304,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             LecturaFinal += " foreach (var item in Mostrar)\n {\n";
 
-            LecturaFinal += "Console.WriteLine(item);\n }\n} \n Console.ReadKey();";
+            LecturaFinal += "Console.WriteLine(item);\n }\n} \n Console.ReadKey();\n} ";
 
 
             #endregion
@@ -335,22 +339,31 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
         /// </summary>
         /// <param name="path">Recibe la direccion de donde se quiere borrar la cadena</param>
         private static void BorrarDirectorio(string path)
-        { 
-            var files = Directory.GetFiles(path);
-            var dirs = Directory.GetDirectories(path);
-
-            foreach (string file in files)
+        {
+            try
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
+                var files = Directory.GetFiles(path);
+                var dirs = Directory.GetDirectories(path);
 
-            foreach (string dir in dirs)
+                foreach (string file in files)
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    File.Delete(file);
+                }
+
+                foreach (string dir in dirs)
+                {
+                    BorrarDirectorio(dir);
+                }
+
+                Directory.Delete(path, false);
+
+            }
+            catch (Exception)
             {
-                BorrarDirectorio(dir);
+              
+                
             }
-
-            Directory.Delete(path, false);
         }
 
         /// <summary>
@@ -370,14 +383,22 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                 BorrarDirectorio(Directorio);
                 Directory.CreateDirectory(Directorio);
             }
-            foreach (string dir in Directory.GetDirectories(DireccionActual, "*", SearchOption.AllDirectories))
+            try
             {
-                Directory.CreateDirectory (Path.Combine(Directorio, dir.Substring(DireccionActual.Length + 1)));
+                foreach (string dir in Directory.GetDirectories(DireccionActual, "*", SearchOption.AllDirectories))
+                {
+                    Directory.CreateDirectory (Path.Combine(Directorio, dir.Substring(DireccionActual.Length + 1)));
                
+                }
+                foreach (string file_name in System.IO.Directory.GetFiles(DireccionActual, "*", System.IO.SearchOption.AllDirectories))
+                {
+                    System.IO.File.Copy(file_name, System.IO.Path.Combine(Directorio, file_name.Substring(DireccionActual.Length + 1)));
+                }
+
             }
-            foreach (string file_name in System.IO.Directory.GetFiles(DireccionActual, "*", System.IO.SearchOption.AllDirectories))
+            catch (Exception)
             {
-                System.IO.File.Copy(file_name, System.IO.Path.Combine(Directorio, file_name.Substring(DireccionActual.Length + 1)));
+ 
             }
 
         }

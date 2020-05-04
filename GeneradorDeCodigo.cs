@@ -24,8 +24,19 @@ namespace Proyecto_Lenguajes
 
         private void Generador_Click(object sender, EventArgs e)
         {
+
             var Direccion = ubicacion.Text;
-            FirstLastsFollows.Tablas.Instance.GenerarCodigo(Direccion);
+            if (Direccion.Length != 0)
+            {
+                 FirstLastsFollows.Tablas.Instance.GenerarCodigo(Direccion);
+                MessageBox.Show("Se a generado correctamente");
+
+
+            }
+            else
+            {
+                MessageBox.Show("No se a seleccionado ninguna dirreccion");
+            }
         }
 
         private void Retorno_Click(object sender, EventArgs e)

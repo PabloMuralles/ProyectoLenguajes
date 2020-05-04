@@ -228,7 +228,16 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                         Definicion = string.Empty;
                         for (int i = 0; i < DefinicionArreglo.Length; i++)
                         {
-                            Definicion += DefinicionArreglo[i];
+                            if (DefinicionArreglo[i].ToString() == "\"")
+                            {
+                                Definicion += "\\";
+                                Definicion += "\"";
+                                 
+                            }
+                            else
+                            {
+                                Definicion += DefinicionArreglo[i];
+                            }
 
                         }
                         Definicion = Definicion.Replace(" ", "");
