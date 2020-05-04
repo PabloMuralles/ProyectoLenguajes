@@ -27,6 +27,8 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
         public List<string> IdsSets = new List<string>();
         public Dictionary<int, string> DiccionarioTokensReservadas = new Dictionary<int, string>();
         public Dictionary<string, List<string>> DiccionarioSetsConsusListas = new Dictionary<string, List<string>>();
+
+        public List<string> TokensExpresionesRegulares = new List<string>();
       
 
         private List<string> Terminales = new List<string>();
@@ -67,8 +69,9 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     var NuevoElemento = Caracteres.Value;
                     var ElementoSinComillas = NuevoElemento.Replace("'", "");
                     TokensReservada.Add(ElementoSinComillas);
-                   
-                } 
+
+                }
+          
             }
 
         }
@@ -213,6 +216,30 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                         }
 
                     }
+                    if (Definicion.Contains("'"))
+                    {
+                        var DefinicionArreglo = Definicion.ToCharArray();
+                        for (int i = 0; i < DefinicionArreglo.Length; i++)
+                        {
+                            if (DefinicionArreglo[i] == '\'')
+                            {
+                                DefinicionArreglo[i] = ' ';
+                                DefinicionArreglo[i + 2] = ' ';
+                                i = i + 2;
+
+                            }
+                        }
+                        Definicion = string.Empty;
+                        for (int i = 0; i < DefinicionArreglo.Length; i++)
+                        {
+                            Definicion += DefinicionArreglo[i];
+
+                        }
+                     
+
+                    }
+
+
                     DiccionarioTokensReservadas.Add(Convert.ToInt32(id), Convert.ToString(Definicion));
                 }
 
