@@ -51,11 +51,11 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
         /// </summary>
         /// <returns>retorna un diccionaro de diccionarios que serian los estados creados</returns>
         public Dictionary<List<int>, Dictionary<string, List<int>>> CrearEstados(Nodo Arbol)
-        { 
+        {
             Queue<List<int>> EstadosAprobar = new Queue<List<int>>();
 
             List<List<int>> EstadosHistorial = new List<List<int>>();
-             
+
 
             var diccModificar = new Dictionary<string, List<int>>();
 
@@ -72,7 +72,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                 foreach (var item in EstadoInicial)
                 {
                     var SimbolosArbol = TerminalesArbol[item - 1];
-                    if (Simbolo==SimbolosArbol)
+                    if (Simbolo == SimbolosArbol)
                     {
                         ListaConcordancia.Add(item);
                     }
@@ -83,15 +83,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     Follows.TryGetValue(SimblosItem, out var follows);
 
                     ListaFollows.AddRange(follows.Except(ListaFollows));
-                     
+
                 }
                 ListaFollows = ListaFollows.OrderBy(x => x).ToList();
                 diccModificar.Add(Simbolo, ListaFollows);
-                if (!EstadosAprobar.Any(c=>c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)) && ListaFollows.Count != 0)
+                if (!EstadosAprobar.Any(c => c.SequenceEqual(ListaFollows)) && !EstadosHistorial.Any(c => c.SequenceEqual(ListaFollows)) && ListaFollows.Count != 0)
                 {
                     EstadosAprobar.Enqueue(ListaFollows);
                 }
-                 
+
             }
             TablaEstados.Add(EstadoInicial, diccModificar);
 
@@ -131,21 +131,15 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
                     {
                         EstadosAprobar.Enqueue(ListaFollows);
                     }
-                    
+
 
                 }
                 TablaEstados.Add(Estado, diccModificarNoInicial);
-                 
+
             }
 
             return TablaEstados;
-
- 
-          
-
-
-
-
+             
         }
 
     }
