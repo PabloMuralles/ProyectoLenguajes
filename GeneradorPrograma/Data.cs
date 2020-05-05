@@ -143,26 +143,61 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                     {
                         var Rango2 = Rango.Split('~');
 
-                        var Representacion1 = Encoding.ASCII.GetBytes(Rango2[0]);
-                        var Representacion2 = Encoding.ASCII.GetBytes(Rango2[1]);
-
-                        if (Convert.ToInt32(Representacion1[0]) > Convert.ToInt32(Representacion2[0]))
+                        if (set.Key != "CHARSET")
                         {
-                            var Fin = Convert.ToInt32(Representacion2[0]);
-                            var Comienzo = Convert.ToInt32(Representacion1[0]);
-                            for (int i = Comienzo; i > Fin; i--)
+                            var Representacion1 = Encoding.ASCII.GetBytes(Rango2[0]);
+                            var Representacion2 = Encoding.ASCII.GetBytes(Rango2[1]);
+
+                            if (Convert.ToInt32(Representacion1[0]) > Convert.ToInt32(Representacion2[0]))
                             {
-                                ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+                                var Fin = Convert.ToInt32(Representacion2[0]);
+                                var Comienzo = Convert.ToInt32(Representacion1[0]);
+                                for (int i = Comienzo; i > Fin; i--)
+                                {
+                                    ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+                                }
                             }
+                            else
+                            {
+                                var Fin = Convert.ToInt32(Representacion2[0]);
+                                var Comienzo = Convert.ToInt32(Representacion1[0]);
+                                for (int i = Comienzo; i < Fin; i++)
+                                {
+                                    ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+                                }
+                            }
+
                         }
                         else
                         {
-                            var Fin = Convert.ToInt32(Representacion2[0]);
-                            var Comienzo = Convert.ToInt32(Representacion1[0]);
-                            for (int i = Comienzo; i < Fin; i++)
+                            if (Convert.ToInt32(Rango2[0]) > Convert.ToInt32(Rango2[1]))
                             {
-                                ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+                                var Comienzo = Convert.ToInt32(Rango2[0]);
+                                var Fin  = Convert.ToInt32(Rango2[1]);
+                                for (int i = Comienzo; i > Fin; i--)
+                                {
+                                    if (i != 34 && i != 133  && i != 92)
+                                    {
+                                         ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+
+                                    }
+                                }
                             }
+                            else
+                            {
+                                var Comienzo = Convert.ToInt32(Rango2[0]);
+                                var Fin = Convert.ToInt32(Rango2[1]);
+                                for (int i = Comienzo; i < Fin; i++)
+                                {
+                                    if (i != 34 && i != 133 && i != 92)
+                                    {
+                               
+                                        ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
+                                    }
+                                }
+
+                            }
+
                         }
                     }
                     else

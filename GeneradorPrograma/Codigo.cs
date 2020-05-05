@@ -54,16 +54,29 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                                     {
                                         SentenciaIF += "else ";
                                     }
-                                    var Uno = Encoding.ASCII.GetBytes(Rango[0]);
-                                    var Dos = Encoding.ASCII.GetBytes(Rango[1]);
-                                    SentenciaIF += $"if(NuevaCadena[Contador] >= {Uno[0]} && NuevaCadena[Contador] <= {Dos[0]} ) \n ";
+                                    if (Transiciones.Key != "CHARSET")
+                                    {
+                                        var Uno = Encoding.ASCII.GetBytes(Rango[0]);
+                                        var Dos = Encoding.ASCII.GetBytes(Rango[1]);
+                                        SentenciaIF += $"if(NuevaCadena[Contador] >= {Uno[0]} && NuevaCadena[Contador] <= {Dos[0]} ) \n ";
 
-                                    SentenciaIF += "{\n";
-                                    SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}  ;\n";
-                                    SentenciaIF += "}";
-                                    ListaIfCase.Add(SentenciaIF);
-                                    SentenciaIF = string.Empty;
+                                        SentenciaIF += "{\n";
+                                        SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}  ;\n";
+                                        SentenciaIF += "}";
+                                        ListaIfCase.Add(SentenciaIF);
+                                        SentenciaIF = string.Empty;
 
+                                    }
+                                    else
+                                    {
+                                        SentenciaIF += $"if(NuevaCadena[Contador] >= {Rango[0]} && NuevaCadena[Contador] <= {Rango[1]}) \n ";
+
+                                        SentenciaIF += "{\n";
+                                        SentenciaIF += $"Estado = {ListaEstados.IndexOf(string.Join(",", Transiciones.Value))}  ;\n";
+                                        SentenciaIF += "}";
+                                        ListaIfCase.Add(SentenciaIF);
+                                        SentenciaIF = string.Empty;
+                                    }
                                 }
                                 else
                                 {
