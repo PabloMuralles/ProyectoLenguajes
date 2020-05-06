@@ -187,7 +187,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
                     if (ListaEstadosAceptacion.Contains(string.Join(",", Estados.Key)))
                     {
-                        SentenciaIF += "Contador--;\n Estado = 0 ; \n";
+                        SentenciaIF += "if (Contador != 0 )\n{\nContador--;\n}\n Estado = 0 ; \n";
 
                     }
                     else
