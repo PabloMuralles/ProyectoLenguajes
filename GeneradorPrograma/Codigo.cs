@@ -324,6 +324,13 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             string PathDebug = AppDomain.CurrentDomain.BaseDirectory;
 
+            if (File.Exists(Path.Combine(PathDebug, "Analizador", "Program.cs")))
+            {
+                File.Delete(Path.Combine(PathDebug, "Analizador", "Program.cs"));
+            }
+
+            
+
             using (var File = new FileStream(Path.Combine(PathDebug, "Analizador", "Program.cs"), FileMode.Create))
             {
                 using (var write = new StreamWriter(File))
