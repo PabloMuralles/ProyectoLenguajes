@@ -150,7 +150,8 @@ namespace Proyecto_Lenguajes.Validacion
                     }
                     else
                     {
-                        if (Contenido == "ACTIONS")
+                        /////////////////////////////////////////////////////////////////
+                        if (Contenido == "ACTIONS" || Contenido == "VALUES")
                         {
                             ValidarActions();
                             break;
@@ -189,7 +190,8 @@ namespace Proyecto_Lenguajes.Validacion
                 }
                 else
                 {
-                    if (Contenido == "RESERVADAS()")
+                    //////////////////////////////////////////
+                    if (Contenido == "RESERVADAS()" || Contenido == "VALUES()")
                     {
                         Reservadas();
                         break;

@@ -152,7 +152,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 var Fin = Convert.ToInt32(Representacion2[0]);
                                 var Comienzo = Convert.ToInt32(Representacion1[0]);
-                                for (int i = Comienzo; i > Fin; i--)
+                                for (int i = Comienzo; i >= Fin; i--)
                                 {
                                     ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
                                 }
@@ -161,7 +161,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                             {
                                 var Fin = Convert.ToInt32(Representacion2[0]);
                                 var Comienzo = Convert.ToInt32(Representacion1[0]);
-                                for (int i = Comienzo; i < Fin; i++)
+                                for (int i = Comienzo; i <= Fin; i++)
                                 {
                                     ListaDefinicion.Add(Convert.ToString(Convert.ToChar(i)));
                                 }

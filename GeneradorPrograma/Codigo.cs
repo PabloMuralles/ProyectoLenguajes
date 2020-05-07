@@ -187,7 +187,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
                     if (ListaEstadosAceptacion.Contains(string.Join(",", Estados.Key)))
                     {
-                        SentenciaIF += "if (Contador != 0 )\n{\nContador--;\n}\n Estado = 0 ; \n";
+                        SentenciaIF += "if (Contador != 0 )\n{\nContador--;\n}\n  if(Estado == 0)\n { \n Error = true; \n} \n else \n { \n  Estado = 0 ; \n }\n";
 
                     }
                     else
@@ -249,7 +249,7 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             var EstructuraProgramFinal = string.Empty;
 
-            EstructuraProgramFinal += "  \n \t\t\t\t} \n \t\t\t}\n }\n";
+            EstructuraProgramFinal += "  \n \t\t\t\t} \n \t\t\t}\n }\n  }\n";
 
             #endregion
 
@@ -257,12 +257,6 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
 
             #region CicloWhile y lectura
             var Lectura = string.Empty;
-            Lectura += "var cadena = string.Empty;\n";
-            Lectura += " while (!cadena.Equals(\"\\n\"))\n {\n";
-            Lectura += "Console.WriteLine(\"Ingrese la cadena a validar\"); \n";
-            Lectura += "cadena = Console.ReadLine();\n";
-            Lectura += "MetodosEstaticos TokensCadenaEntrada = new MetodosEstaticos();\n";
-            
             var diccSetsListas = GeneradorPrograma.Data.Instance.DiccionarioSetsConsusListas;
 
             
@@ -293,7 +287,6 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
                 }
             }
 
-            Lectura += "var ColaTokens = TokensCadenaEntrada.Tokenizar(cadena,ListaParaTokenizar);\n";
 
             var Tokens = GeneradorPrograma.Data.Instance.DiccionarioTokensReservadas;
 
@@ -303,21 +296,90 @@ namespace Proyecto_Lenguajes.GeneradorPrograma
             {
                 Lectura += $"Tokens.Add(\"{item.Key}\",\"{item.Value}\");  \n";
             }
-             
+ 
+            Lectura += "var cadena = string.Empty;\n";
+            Lectura += " while (!cadena.Equals(\"\\n\"))\n {\n";
+            Lectura += "Console.WriteLine(\"Ingrese la cadena a validar\"); \n";
+            Lectura += "cadena = Console.ReadLine();\n";
+           
+            Lectura += "bool Error = false;\n";
+            Lectura += "MetodosEstaticos TokensCadenaEntrada = new MetodosEstaticos();\n";
+
+            Lectura += "List<string> Similares = Tokens.Values.ToList().FindAll(x => cadena.Contains(x));\n";
+
+            Lectura += "if(Similares.Count  != 0 ) \n {   \n";
+            Lectura += "   foreach (var item in Similares)\n {\n cadena = cadena.Replace(item, \"\"); \n     } \n";
+            Lectura += "\n}  Queue<string> Reconocidos = new Queue<string>(Similares);  \n";
+
+            Lectura += " if(cadena.Length != 0){\n";
 
             Lectura += "var CadenaSinEspacios = cadena.Replace(\" \", \"\");\n";
             Lectura += "var NuevaCadena = Encoding.ASCII.GetBytes(CadenaSinEspacios);\n";
-            Lectura += "int Estado = 0;\nint Contador = 0;\n bool Error = false;\n";
+            Lectura += "int Estado = 0;\n int Contador = 0;\n  ";
             Lectura += "while(Contador < NuevaCadena.Length && Error == false)\n { \n";
 
             var LecturaFinal = string.Empty;
             LecturaFinal += "Contador++;\n}\n";
-            LecturaFinal += "if (Error == true) \n { \n Console.WriteLine(\"Cadena No Aceptada\");\n }\n else \n { \n Console.WriteLine(\" Cadena Aceptada\");\n";
-            LecturaFinal += " var Mostrar = TokensCadenaEntrada.MostrarTokens(ColaTokens,Tokens,diccSets);\n ";
+     
+           // LecturaFinal += "if (Error == true) \n { \n Console.WriteLine(\"Cadena No Aceptada\");\n }\n else \n { \n Console.WriteLine(\" Cadena Aceptada\");\n";
+            LecturaFinal += "if (Error == false) \n { \n";
+
+            LecturaFinal += "Console.WriteLine(\"aceptada \");\n  ";
+            LecturaFinal += " var ColaTokens = TokensCadenaEntrada.Tokenizar(cadena, ListaParaTokenizar);\n";
+            LecturaFinal += " var Mostrar2 = TokensCadenaEntrada.MostrarTokens(ColaTokens, Tokens, diccSets);\n ";
+            LecturaFinal += " foreach (var item in Mostrar2) \n  ";
+            LecturaFinal += " {\n ";
+
+            LecturaFinal += "Console.WriteLine(item);";
+
+
+            LecturaFinal += " }\n ";
+
+            LecturaFinal += " if(Reconocidos.Count > 0)\n";
+            LecturaFinal += " {\n ";
+            LecturaFinal += " var Mostrar3 = TokensCadenaEntrada.MostrarTokens(Reconocidos, Tokens, diccSets);\n ";
+
+
+            LecturaFinal += "foreach (var item in Mostrar3)\n ";
+
+            LecturaFinal += " {\n ";
+
+            LecturaFinal += "Console.WriteLine(item);";
+
+
+            LecturaFinal += " }\n }\n ";
+
+            LecturaFinal += "\n}  ";
+            LecturaFinal += "\nelse {\n ";
+
+            LecturaFinal += "Console.WriteLine(\" No aceptada \");\n  ";
+
+            LecturaFinal += " }\n ";
+
+
+
+
+
+            //LecturaFinal += "}\n";
+            LecturaFinal += "}\n";
+
+
+            LecturaFinal += "else";
+
+            LecturaFinal += "{\n";
+
+            LecturaFinal += " if(Similares.Count != 0)\n{\n";
+            LecturaFinal += " var Mostrar = TokensCadenaEntrada.MostrarTokens(Reconocidos,Tokens,diccSets);\n ";
+            LecturaFinal += "Console.WriteLine(\"aceptada \");\n  ";
 
             LecturaFinal += " foreach (var item in Mostrar)\n {\n";
 
-            LecturaFinal += "Console.WriteLine(item);\n }\n} \n Console.ReadKey();\n} ";
+            LecturaFinal += "Console.WriteLine(item);\n } \n }\n ";
+            LecturaFinal += "else \n { \n Console.WriteLine(\"No aceptada \");\n} \n ";
+
+
+ 
+            LecturaFinal += "}\n";
 
 
             #endregion

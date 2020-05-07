@@ -139,7 +139,7 @@ namespace Proyecto_Lenguajes.FirstLastsFollows
             }
 
             return TablaEstados;
-             
+
         }
 
     }
